@@ -29,8 +29,6 @@ const selectedMobilePage =
   "rounded-md bg-gray-900 block px-3 py-2 text-base font-medium text-white";
 const unselectedMobilePage =
   "rounded-md block px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white";
-const disabledMobilePage =
-  "rounded-md block px-3 py-2 text-base font-medium text-gray-300 cursor-not-allowed";
 
 const pages = [
   {
@@ -226,9 +224,7 @@ export default function Navbar() {
                   key={page.name}
                   href={page.href}
                   className={
-                    page.disabled
-                      ? disabledMobilePage
-                      : pathname === page.href
+                      pathname === page.href
                       ? selectedMobilePage
                       : unselectedMobilePage
                   }
