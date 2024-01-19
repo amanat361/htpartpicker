@@ -37,7 +37,7 @@ const badgeColors = {
 
 type Item = {
   name: string;
-  quantity: "single" | "pair";
+  quantity: "single" | "pair" | "multiple";
   type: "device" | "speaker" | "accessory";
   description: string;
 };
@@ -115,14 +115,14 @@ const items = [
   },
   {
     name: "HDMI Cable",
-    quantity: "pair",
+    quantity: "multiple",
     type: "accessory",
     description:
       "The HDMI cable is used to connect the display to the AV receiver.",
   },
   {
     name: "Speaker Wire",
-    quantity: "pair",
+    quantity: "multiple",
     type: "accessory",
     description:
       "The speaker wire is used to connect the speakers to the AV receiver.",
@@ -232,7 +232,7 @@ function BuildTable() {
             <TableCell>
               <Button color="dark/white">
                 <PlusIcon />
-                Add {item.name} {item.quantity === "pair" ? "pair" : ""}
+                Add {item.name}{item.quantity === "pair" ? " pair" : ""}{item.quantity === "multiple" ? "s" : ""}
               </Button>
             </TableCell>
             <TableCell className="space-x-2">
