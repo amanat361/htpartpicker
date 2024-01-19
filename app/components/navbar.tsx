@@ -6,7 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "../../public/home-theater.png"
+import logo from "@/public/home-theater.png"
 import Link from "next/link";
 
 function classNames(...classes: string[]) {
