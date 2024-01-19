@@ -1,24 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "@/public/home-theater.png"
+import logo from "@/public/home-theater.png";
 import Link from "next/link";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownDescription,
+  DropdownItem,
+  DropdownLabel,
+  DropdownMenu,
+} from "@components/dropdown";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { categories } from "@/app/lib/products";
+import { Button } from "@components/button";
+import { Input } from "./input";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-
-const selectedPage =
-  "rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white";
-const unselectedPage =
-  "rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white";
-const disabledPage =
-  "rounded-md px-3 py-2 text-sm font-medium text-gray-300 cursor-not-allowed";
 
 const selectedMobilePage =
   "rounded-md bg-gray-900 block px-3 py-2 text-base font-medium text-white";
@@ -39,18 +44,37 @@ const pages = [
   {
     name: "Guides",
     href: "/guides",
-  },
-  {
-    name: "Coming Soon",
-    href: "",
-    disabled: true,
-  },
+  }
 ];
+
+function ProductDropdown() {
+  return (
+    <Dropdown>
+      <DropdownButton>
+        Products
+        <ChevronDownIcon />
+      </DropdownButton>
+      <DropdownMenu>
+        {categories.map((category) => (
+          <DropdownItem key={category.name} href={category.link}>
+            <DropdownLabel>{category.name}</DropdownLabel>
+            <DropdownDescription>
+              {category.shortDescription}
+            </DropdownDescription>
+          </DropdownItem>
+        ))}
+      </DropdownMenu>
+    </Dropdown>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure
+      as="nav"
+      className="bg-white dark:bg-black border-b-[1px] border-slate-300 dark:border-slate-700"
+    >
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
@@ -66,21 +90,25 @@ export default function Navbar() {
                 <div className="hidden lg:ml-6 lg:block">
                   <div className="flex space-x-4">
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                    {pages.map((page) => (
-                      <Link
-                        key={page.name}
-                        href={page.href}
-                        className={
-                          page.disabled
-                            ? disabledPage
-                            : pathname === page.href
-                            ? selectedPage
-                            : unselectedPage
-                        }
-                      >
-                        {page.name}
-                      </Link>
-                    ))}
+                    {pages.map((page) =>
+                      pathname === page.href ? (
+                        <Button
+                          key={page.name}
+                          href={page.href}
+                        >
+                          {page.name}
+                        </Button>
+                      ) : (
+                        <Button
+                          key={page.name}
+                          href={page.href}
+                          outline
+                        >
+                          {page.name}
+                        </Button>
+                      )
+                    )}
+                    <ProductDropdown />
                   </div>
                 </div>
               </div>
@@ -89,21 +117,12 @@ export default function Navbar() {
                   <label htmlFor="search" className="sr-only">
                     Search
                   </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon
-                        className="h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <input
-                      id="search"
-                      name="search"
-                      className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="Search"
-                      type="search"
-                    />
-                  </div>
+                  <Input
+                    id="search"
+                    name="search"
+                    placeholder="Search"
+                    type="search"
+                  />
                 </div>
               </div>
               <div className="flex lg:hidden">
@@ -217,6 +236,7 @@ export default function Navbar() {
                   {page.name}
                 </Link>
               ))}
+              <ProductDropdown />
             </div>
             <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5">
