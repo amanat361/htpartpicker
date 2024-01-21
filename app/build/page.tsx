@@ -18,11 +18,10 @@ import {
 import { useState } from "react";
 import { Button } from "@components/button";
 import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
-import { Checkbox, CheckboxField } from "@components/checkbox";
-import { Description, Label } from "@components/fieldset";
 import { Badge } from "@components/badge";
 import { Strong, Text, TextLink } from "@components/text";
 import { Item, items } from "@/app/lib/products";
+import Configurations from "./configurations";
 
 type BadgeColor =
   | "teal"
@@ -48,11 +47,11 @@ const badgeColors = {
   pair: "purple",
 } as BadgeColors;
 
-function SectionHeading({ title }: { title: string }) {
+function SectionHeading() {
   return (
-    <div className="border-b border-gray-200 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
-      <h1 className="text-2xl font-semibold leading-6 text-gray-900 dark:text-gray-100">
-        {title}
+    <div className="border-b-[1px] border-gray-400 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
+      <h1 className="text-lg sm:text-4xl font-semibold leading-6 text-gray-900 dark:text-gray-100">
+        Build your <span className="text-rose-600">Home Theater</span>
       </h1>
       <div className="mt-3 flex sm:ml-4 sm:mt-0 gap-4">
         <Button outline>
@@ -64,66 +63,6 @@ function SectionHeading({ title }: { title: string }) {
           Create
         </Button>
       </div>
-    </div>
-  );
-}
-
-function Configurations() {
-  return (
-    <div className="grid sm:grid-cols-3 gap-4 items-start">
-      <CheckboxField>
-        <Checkbox name="small" />
-        <Label>2.1 Configuration</Label>
-        <Description>
-          2.1 is the simplest configuration for a home theater. It consists of a
-          left and right channel, and a subwoofer. Good for music, shows, and
-          small rooms.
-        </Description>
-      </CheckboxField>
-      <CheckboxField>
-        <Checkbox name="medium" />
-        <Label>5.1 Configuration</Label>
-        <Description>
-          5.1 is the most common configuration for a home theater. It consists
-          of a center channel, left and right channels, two surround channels,
-          and a subwoofer.
-        </Description>
-      </CheckboxField>
-      <CheckboxField>
-        <Checkbox name="large" />
-        <Label>7.1 Configuration</Label>
-        <Description>
-          7.1 adds two additional surround channels to the 5.1 configuration.
-          Good for larger rooms where the listener is far from the surround
-          speakers.
-        </Description>
-      </CheckboxField>
-      <CheckboxField>
-        <Checkbox name="atmos_small" />
-        <Label>7.1.2 Configuration</Label>
-        <Description>
-          7.1.2 adds two additional Atmos channels to the 7.1 configuration.
-          These are typically placed in the ceiling above the listener for a
-          more immersive experience.
-        </Description>
-      </CheckboxField>
-      <CheckboxField>
-        <Checkbox name="atmos_medium" />
-        <Label>7.1.4 Configuration</Label>
-        <Description>
-          7.1.4 adds four additional Atmos channels to the 7.1 configuration.
-          The extra two Atmos channels are placed in the rear of the room.
-        </Description>
-      </CheckboxField>
-      <CheckboxField>
-        <Checkbox name="atmos_large" />
-        <Label>9.1.4 Configuration</Label>
-        <Description>
-          9.1.4 adds two additional surround channels to the 7.1.4
-          configuration. This setup is for the true audiophile who wants the
-          best possible experience.
-        </Description>
-      </CheckboxField>
     </div>
   );
 }
@@ -222,8 +161,9 @@ function BuildTable() {
 export default function BuildPage() {
   return (
     <div className="max-w-6xl w-full space-y-12">
-      <SectionHeading title="Build your Home Theater" />
-      <Configurations />
+      <SectionHeading />
+      {/* for now we will dynamically change config based on components */}
+      {/* <Configurations />  */}
       <BuildTable />
     </div>
   );
