@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Description,
   Field,
@@ -7,16 +9,35 @@ import {
   Legend,
 } from "@components/fieldset";
 import { Input } from "@components/input";
-import { Select } from "@components/select";
 import { Text } from "@components/text";
-import { Textarea } from "@components/textarea";
 import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
 import { Checkbox, CheckboxField, CheckboxGroup } from "@components/checkbox";
+import { useFormState, useFormStatus } from "react-dom";
+import { addProduct } from "@utils/supabaseServer";
+4;
+import { Button } from "@components/button";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" disabled={pending}>
+      Add Product
+    </Button>
+  );
+}
+
+const initialState = {
+  message: "",
+  hasError: false,
+};
 
 export default function AddPage() {
+  const [state, formAction] = useFormState(addProduct, initialState);
+
   return (
     <div className="max-w-6xl w-full space-y-12">
-      <form action="/orders" method="POST">
+      <form action={formAction}>
         <Fieldset>
           <Legend>Product Details</Legend>
           <Text>
@@ -71,9 +92,9 @@ export default function AddPage() {
               </Field>
             </div>
           </FieldGroup>
-          <Legend className="mt-8">Product Specs</Legend>
-          <Text>Select all tags that apply to this product.</Text>
-          <CheckboxGroup className="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+          {/* <Legend className="mt-8">Product Specs</Legend>
+          <Text>Select all tags that apply to this product.</Text> */}
+          {/* <CheckboxGroup className="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
             <CheckboxField>
               <Checkbox name="4k" />
               <Label>4K Ready</Label>
@@ -116,7 +137,19 @@ export default function AddPage() {
                 This product is capable of playing DTS:X content.
               </Description>
             </CheckboxField>
-          </CheckboxGroup>
+          </CheckboxGroup> */}
+          <div className="mt-8">
+            <SubmitButton />
+            {state.message && (
+              <div className="mt-4">
+                <p
+                  className={`font-normal ${state.hasError ? "text-red-600" : "text-green-600"}`}
+                >
+                  {state.message}
+                </p>
+              </div>
+            )}
+          </div>
         </Fieldset>
       </form>
     </div>
