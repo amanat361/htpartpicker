@@ -9,6 +9,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
+type ProductSource = Database["public"]["Tables"]["product_sources"]["Row"];
 type Product = Database["public"]["Tables"]["products"]["Row"];
 type Source = Database["public"]["Tables"]["sources"]["Row"];
 type Category = Database["public"]["Tables"]["categories"]["Row"];
@@ -144,5 +145,5 @@ function validateImageURL(url: string) {
   return url.match(/^(https:\/\/).*(jpeg|jpg|gif|png)$/) != null;
 }
 
-export type { Product, Source, Category, Tag };
+export type { ProductSource, Product, Source, Category, Tag };
 export { getTags, getCategories, getSources, addTag, addProduct };

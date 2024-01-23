@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
@@ -31,7 +32,15 @@ import { getTags, addTag, addProduct } from "@utils/supabaseServer";
 import { Button } from "@components/button";
 import { useEffect, useState } from "react";
 
-import type { Tag, Source, Category } from "@utils/supabaseServer";
+import { EyeIcon, PlusCircleIcon, PlusIcon, XCircleIcon } from "@heroicons/react/16/solid";
+
+import type {
+  ProductSource,
+  Product,
+  Tag,
+  Source,
+  Category,
+} from "@utils/supabaseServer";
 
 function CreateTagButton({
   category,
@@ -54,6 +63,7 @@ function CreateTagButton({
         disabled={pending}
         outline
       >
+        <PlusIcon/>
         Create Tag
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
@@ -98,6 +108,57 @@ function CreateTagButton({
   );
 }
 
+function PreviewProduct({
+  product,
+  product_source,
+}: {
+  product: Product;
+  product_source: ProductSource;
+}) {
+  const { pending } = useFormStatus();
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button
+        type="button"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+        disabled={pending}
+        outline
+      >
+        <EyeIcon/>
+        Preview Product
+      </Button>
+      <Dialog open={isOpen} onClose={setIsOpen}>
+        <DialogTitle>{product.name}</DialogTitle>
+        <DialogDescription>
+          You are adding the product &quot;{product.name}&quot; from {product.brand} for $
+          {product_source.price}.
+        </DialogDescription>
+        <DialogBody>
+          <Text className="my-4">Preview of the product image:</Text>
+          <img
+            className="rounded-lg aspect-2 object-cover"
+            alt={product.name}
+            src={product.image_url}
+          />
+          <Text className="mt-4">Preview of the product page:</Text>
+          <a href={product_source.url} target="_blank">
+            {product.name}
+          </a>
+        </DialogBody>
+        <DialogActions>
+          <Button plain onClick={() => setIsOpen(false)}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
+
 function clearForm() {
   const form = document.querySelector("form");
   if (form) {
@@ -114,6 +175,7 @@ function SubmitButton() {
 
   return (
     <Button color="blue" type="submit" disabled={pending}>
+      <PlusCircleIcon/>
       Add Product
     </Button>
   );
@@ -132,8 +194,13 @@ export default function ProductForm({
   categories: Category[];
 }) {
   const [state, formAction] = useFormState(addProduct, initialState);
+  const [name, setName] = useState<string>("");
+  const [brand, setBrand] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
   const [category, setCategory] = useState(categories[0].name);
   const [source, setSource] = useState(sources[0].name);
+  const [image_url, setImageURL] = useState<string>("");
+  const [productURL, setProductURL] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [addedTag, setAddedTag] = useState<Tag | null>(null);
 
@@ -157,21 +224,32 @@ export default function ProductForm({
               </Description>
               <Input
                 name="product_name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Q350 Bookshelf Speakers&hellip;"
               />
             </Field>
             <Field className="col-span-2">
               <Label>Brand</Label>
               <Description>Who manufactures this product?</Description>
-              <Input name="product_brand" placeholder="KEF&hellip;" />
+              <Input
+                name="product_brand"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+                placeholder="KEF&hellip;"
+              />
             </Field>
             <Field className="col-span-2">
               <Label>Price</Label>
               <Description>How much does this product cost?</Description>
               <Input
                 name="product_price"
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
                 type="number"
-                placeholder="1000&hellip;"
+                step="0.01"
+                min="0.00"
+                placeholder="100.00&hellip;"
               />
             </Field>
             <Field className="col-span-3">
@@ -215,6 +293,8 @@ export default function ProductForm({
               <Description>Link to an image of this product.</Description>
               <Input
                 name="image_url"
+                value={image_url}
+                onChange={(e) => setImageURL(e.target.value)}
                 placeholder="https://example.com/image.jpg&hellip;"
               />
             </Field>
@@ -225,6 +305,8 @@ export default function ProductForm({
               </Description>
               <Input
                 name="product_url"
+                value={productURL}
+                onChange={(e) => setProductURL(e.target.value)}
                 placeholder="https://example.com/product&hellip;"
               />
             </Field>
@@ -256,8 +338,26 @@ export default function ProductForm({
             </Field>
             <div className="flex gap-4 h-min items-center justify-center col-span-full mt-8">
               <CreateTagButton category={category} setAddedTag={setAddedTag} />
+              <PreviewProduct
+                product={{
+                  name,
+                  brand,
+                  image_url,
+                  category,
+                  id: "New Product",
+                  created_at: "Today",
+                }}
+                product_source={{
+                  product_id: "New Product",
+                  last_updated: "Today",
+                  source_id: 0,
+                  price,
+                  url: productURL,
+                }}
+              />
               <SubmitButton />
               <Button type="button" color="red" onClick={clearForm}>
+                <XCircleIcon/>
                 Clear Form
               </Button>
               {state.message && (
