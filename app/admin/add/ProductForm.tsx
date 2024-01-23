@@ -18,24 +18,20 @@ import {
 import { Input } from "@components/input";
 import { Text } from "@components/text";
 import { Badge } from "@components/badge";
-import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
+import {
+  Listbox,
+  ListboxDescription,
+  ListboxLabel,
+  ListboxOption,
+} from "@components/listbox";
 import { Checkbox, CheckboxField, CheckboxGroup } from "@components/checkbox";
 import { useFormState, useFormStatus } from "react-dom";
 import { getTags, addTag, addProduct } from "@utils/supabaseServer";
 4;
 import { Button } from "@components/button";
 import { useEffect, useState } from "react";
-import { revalidatePath } from "next/cache";
 
-type Tag = {
-  id: string;
-  name: string | null;
-};
-
-type Category = {
-  name: string;
-  description: string | null;
-};
+import type { Tag, Source, Category } from "@utils/supabaseServer";
 
 function CreateTagButton({
   category,
@@ -77,8 +73,10 @@ function CreateTagButton({
               autoFocus
             />
           </Field>
-          <Text className="mt-4">You are currently adding a tag to the{" "}
-          <Badge color="red">{category}</Badge> category.</Text>
+          <Text className="mt-4">
+            You are currently adding a tag to the{" "}
+            <Badge color="red">{category}</Badge> category.
+          </Text>
         </DialogBody>
         <DialogActions>
           <Button plain onClick={() => setIsOpen(false)}>
@@ -87,7 +85,7 @@ function CreateTagButton({
           <Button
             onClick={() => {
               addTag(tagName, category);
-              setAddedTag({ id: "new", name: tagName });
+              setAddedTag({ id: "new", category: category, name: tagName });
               setTagName("");
               setIsOpen(false);
             }}
@@ -127,12 +125,15 @@ const initialState = {
 };
 
 export default function ProductForm({
+  sources,
   categories,
 }: {
+  sources: Source[];
   categories: Category[];
 }) {
   const [state, formAction] = useFormState(addProduct, initialState);
-  const [category, setCategory] = useState("Testing");
+  const [category, setCategory] = useState(categories[0].name);
+  const [source, setSource] = useState(sources[0].name);
   const [tags, setTags] = useState<Tag[]>([]);
   const [addedTag, setAddedTag] = useState<Tag | null>(null);
 
@@ -145,24 +146,11 @@ export default function ProductForm({
   }, [addedTag, category]);
 
   return (
-    <form action={formAction}>
+    <form action={formAction} autoComplete="off">
       <Fieldset>
         <FieldGroup>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4">
-            <Field className="col-span-full">
-              <Label>Admin Code</Label>
-              <Description>
-                You are required to use an admin password to submit to the
-                database
-              </Description>
-              <Input
-                id="admin_code"
-                name="admin_code"
-                type="password"
-                placeholder="Super secret code&hellip;"
-              />
-            </Field>
-            <Field>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-6 sm:gap-4">
+            <Field className="col-span-2">
               <Label>Name</Label>
               <Description>
                 Official name for this product without branding.
@@ -172,12 +160,21 @@ export default function ProductForm({
                 placeholder="Q350 Bookshelf Speakers&hellip;"
               />
             </Field>
-            <Field>
+            <Field className="col-span-2">
               <Label>Brand</Label>
               <Description>Who manufactures this product?</Description>
               <Input name="product_brand" placeholder="KEF&hellip;" />
             </Field>
-            <Field>
+            <Field className="col-span-2">
+              <Label>Price</Label>
+              <Description>How much does this product cost?</Description>
+              <Input
+                name="product_price"
+                type="number"
+                placeholder="1000&hellip;"
+              />
+            </Field>
+            <Field className="col-span-3">
               <Label>Category</Label>
               <Description>What best describes this product?</Description>
               <Listbox
@@ -189,11 +186,31 @@ export default function ProductForm({
                 {categories.map((category) => (
                   <ListboxOption value={category.name} key={category.name}>
                     <ListboxLabel>{category.name}</ListboxLabel>
+                    <ListboxDescription>
+                      {category.description}
+                    </ListboxDescription>
                   </ListboxOption>
                 ))}
               </Listbox>
             </Field>
-            <Field>
+            <Field className="col-span-3">
+              <Label>Source</Label>
+              <Description>Where did you find this product?</Description>
+              <Listbox
+                name="product_source"
+                value={source}
+                onChange={setSource}
+                placeholder="Select source&hellip;"
+              >
+                {sources.map((source) => (
+                  <ListboxOption value={source.name} key={source.name}>
+                    <ListboxLabel>{source.name}</ListboxLabel>
+                    <ListboxDescription>{source.link}</ListboxDescription>
+                  </ListboxOption>
+                ))}
+              </Listbox>
+            </Field>
+            <Field className="col-span-3">
               <Label>Image URL</Label>
               <Description>Link to an image of this product.</Description>
               <Input
@@ -201,38 +218,62 @@ export default function ProductForm({
                 placeholder="https://example.com/image.jpg&hellip;"
               />
             </Field>
+            <Field className="col-span-3">
+              <Label>Product URL</Label>
+              <Description>
+                Link to the product page for this product.
+              </Description>
+              <Input
+                name="product_url"
+                placeholder="https://example.com/product&hellip;"
+              />
+            </Field>
+            <div className="col-span-3">
+              <Legend>Product Specs</Legend>
+              <Text>Select all tags that apply to this product.</Text>
+              <CheckboxGroup className="flex flex-wrap gap-4 items-end">
+                {tags.map((tag) => (
+                  <CheckboxField key={tag.id}>
+                    <Checkbox name={tag.id} />
+                    <Label>
+                      <Badge color="blue">{tag.name}</Badge>
+                    </Label>
+                  </CheckboxField>
+                ))}
+              </CheckboxGroup>
+            </div>
+            <Field className="col-span-3">
+              <Label>Admin Code</Label>
+              <Description>
+                You are required to use an admin password to submit to the
+                database
+              </Description>
+              <Input
+                id="admin_code"
+                name="admin_code"
+                placeholder="Super secret code&hellip;"
+              />
+            </Field>
+            <div className="flex gap-4 h-min items-center justify-center col-span-full mt-8">
+              <CreateTagButton category={category} setAddedTag={setAddedTag} />
+              <SubmitButton />
+              <Button type="button" color="red" onClick={clearForm}>
+                Clear Form
+              </Button>
+              {state.message && (
+                <div className="mt-4">
+                  <p
+                    className={`font-normal ${
+                      state.hasError ? "text-red-600" : "text-green-600"
+                    }`}
+                  >
+                    {state.message}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </FieldGroup>
-        <Legend className="mt-8">Product Specs</Legend>
-        <Text>Select all tags that apply to this product.</Text>
-        <CheckboxGroup className="flex flex-wrap gap-4 items-end">
-          {tags.map((tag) => (
-            <CheckboxField key={tag.id}>
-              <Checkbox name={tag.id} />
-              <Label>
-                <Badge color="blue">{tag.name}</Badge>
-              </Label>
-            </CheckboxField>
-          ))}
-        </CheckboxGroup>
-        <div className="mt-8 flex gap-4">
-          <CreateTagButton category={category} setAddedTag={setAddedTag} />
-          <SubmitButton />
-          <Button type="button" color="red" onClick={clearForm}>
-            Clear Form
-          </Button>
-          {state.message && (
-            <div className="mt-4">
-              <p
-                className={`font-normal ${
-                  state.hasError ? "text-red-600" : "text-green-600"
-                }`}
-              >
-                {state.message}
-              </p>
-            </div>
-          )}
-        </div>
         <input type="hidden" name="product_category" value={category} />
       </Fieldset>
     </form>
