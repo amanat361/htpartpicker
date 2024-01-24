@@ -32,7 +32,15 @@ import { getTags, addTag, addProduct } from "@utils/supabaseServer";
 import { Button } from "@components/button";
 import { useEffect, useState } from "react";
 
-import { EyeIcon, PlusCircleIcon, PlusIcon, XCircleIcon } from "@heroicons/react/16/solid";
+import {
+  EyeIcon,
+  PlusCircleIcon,
+  PlusIcon,
+  XCircleIcon,
+} from "@heroicons/react/16/solid";
+
+import Failure from "./Failure";
+import Success from "./Success";
 
 import type {
   ProductSource,
@@ -63,7 +71,7 @@ function CreateTagButton({
         disabled={pending}
         outline
       >
-        <PlusIcon/>
+        <PlusIcon />
         Create Tag
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
@@ -128,14 +136,14 @@ function PreviewProduct({
         disabled={pending}
         outline
       >
-        <EyeIcon/>
+        <EyeIcon />
         Preview Product
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>{product.name}</DialogTitle>
         <DialogDescription>
-          You are adding the product &quot;{product.name}&quot; from {product.brand} for $
-          {product_source.price}.
+          You are adding the product &quot;{product.name}&quot; from{" "}
+          {product.brand} for ${product_source.price}.
         </DialogDescription>
         <DialogBody>
           <Text className="my-4">Preview of the product image:</Text>
@@ -159,23 +167,12 @@ function PreviewProduct({
   );
 }
 
-function clearForm() {
-  const form = document.querySelector("form");
-  if (form) {
-    form.reset();
-  }
-  const adminCode = document.querySelector("#admin_code") as HTMLInputElement;
-  if (adminCode) {
-    adminCode.focus();
-  }
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
     <Button color="blue" type="submit" disabled={pending}>
-      <PlusCircleIcon/>
+      <PlusCircleIcon />
       Add Product
     </Button>
   );
@@ -212,24 +209,47 @@ export default function ProductForm({
     loadTags();
   }, [addedTag, category]);
 
+  function clearForm() {
+    const form = document.querySelector("form");
+    if (form) {
+      form.reset();
+      setName("");
+      setBrand("");
+      setPrice(0);
+      setCategory(categories[0].name);
+      setSource(sources[0].name);
+      setImageURL("");
+      setProductURL("");
+      setTags([]);
+      setAddedTag(null);
+    }
+    const adminCode = document.querySelector(
+      "#product_name"
+    ) as HTMLInputElement;
+    if (adminCode) {
+      adminCode.focus();
+    }
+  }
+
   return (
     <form action={formAction} autoComplete="off">
       <Fieldset>
         <FieldGroup>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-6 sm:gap-4">
-            <Field className="col-span-2">
+            <Field className="sm:col-span-2">
               <Label>Name</Label>
               <Description>
                 Official name for this product without branding.
               </Description>
               <Input
                 name="product_name"
+                id="product_name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Q350 Bookshelf Speakers&hellip;"
               />
             </Field>
-            <Field className="col-span-2">
+            <Field className="sm:col-span-2">
               <Label>Brand</Label>
               <Description>Who manufactures this product?</Description>
               <Input
@@ -239,7 +259,7 @@ export default function ProductForm({
                 placeholder="KEF&hellip;"
               />
             </Field>
-            <Field className="col-span-2">
+            <Field className="sm:col-span-2">
               <Label>Price</Label>
               <Description>How much does this product cost?</Description>
               <Input
@@ -252,7 +272,7 @@ export default function ProductForm({
                 placeholder="100.00&hellip;"
               />
             </Field>
-            <Field className="col-span-3">
+            <Field className="sm:col-span-3">
               <Label>Category</Label>
               <Description>What best describes this product?</Description>
               <Listbox
@@ -264,14 +284,14 @@ export default function ProductForm({
                 {categories.map((category) => (
                   <ListboxOption value={category.name} key={category.name}>
                     <ListboxLabel>{category.name}</ListboxLabel>
-                    <ListboxDescription>
+                    <ListboxDescription className="hidden sm:flex">
                       {category.description}
                     </ListboxDescription>
                   </ListboxOption>
                 ))}
               </Listbox>
             </Field>
-            <Field className="col-span-3">
+            <Field className="sm:col-span-3">
               <Label>Source</Label>
               <Description>Where did you find this product?</Description>
               <Listbox
@@ -283,12 +303,14 @@ export default function ProductForm({
                 {sources.map((source) => (
                   <ListboxOption value={source.name} key={source.name}>
                     <ListboxLabel>{source.name}</ListboxLabel>
-                    <ListboxDescription>{source.link}</ListboxDescription>
+                    <ListboxDescription className="hidden sm:flex">
+                      {source.link}
+                    </ListboxDescription>
                   </ListboxOption>
                 ))}
               </Listbox>
             </Field>
-            <Field className="col-span-3">
+            <Field className="sm:col-span-3">
               <Label>Image URL</Label>
               <Description>Link to an image of this product.</Description>
               <Input
@@ -298,7 +320,7 @@ export default function ProductForm({
                 placeholder="https://example.com/image.jpg&hellip;"
               />
             </Field>
-            <Field className="col-span-3">
+            <Field className="sm:col-span-3">
               <Label>Product URL</Label>
               <Description>
                 Link to the product page for this product.
@@ -310,7 +332,7 @@ export default function ProductForm({
                 placeholder="https://example.com/product&hellip;"
               />
             </Field>
-            <div className="col-span-3">
+            <div className="sm:col-span-3">
               <Legend>Product Specs</Legend>
               <Text>Select all tags that apply to this product.</Text>
               <CheckboxGroup className="flex flex-wrap gap-4 items-end">
@@ -324,7 +346,7 @@ export default function ProductForm({
                 ))}
               </CheckboxGroup>
             </div>
-            <Field className="col-span-3">
+            <Field className="sm:col-span-3">
               <Label>Admin Code</Label>
               <Description>
                 You are required to use an admin password to submit to the
@@ -336,7 +358,7 @@ export default function ProductForm({
                 placeholder="Super secret code&hellip;"
               />
             </Field>
-            <div className="flex gap-4 h-min items-center justify-center col-span-full mt-8">
+            <div className="flex sm:flex-row flex-col gap-4 sm:items-center justify-center sm:col-span-full mt-8">
               <CreateTagButton category={category} setAddedTag={setAddedTag} />
               <PreviewProduct
                 product={{
@@ -357,21 +379,20 @@ export default function ProductForm({
               />
               <SubmitButton />
               <Button type="button" color="red" onClick={clearForm}>
-                <XCircleIcon/>
+                <XCircleIcon />
                 Clear Form
               </Button>
-              {state.message && (
-                <div className="mt-4">
-                  <p
-                    className={`font-normal ${
-                      state.hasError ? "text-red-600" : "text-green-600"
-                    }`}
-                  >
-                    {state.message}
-                  </p>
-                </div>
-              )}
             </div>
+            {
+              <div className="mt-4 sm:col-start-3 sm:col-end-5">
+                {state.message &&
+                  (state.hasError ? (
+                    <Failure errorMessage={state.message} />
+                  ) : (
+                    <Success />
+                  ))}
+              </div>
+            }
           </div>
         </FieldGroup>
         <input type="hidden" name="product_category" value={category} />

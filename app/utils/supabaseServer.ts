@@ -54,6 +54,22 @@ async function addTag(name: string, category: string) {
   return tags;
 }
 
+function DebugFormData(formData: FormData) {
+  // console log all the form data in a readable format
+  console.log("Form data:");
+  formData.forEach((value, key) => {
+    console.log(`${key}: ${value}`);
+  });
+}
+
+function DebugProduct(product: Product) {
+  // consolel log all the product details in a readable format
+  console.log("Product details:");
+  for (const key in product) {
+    console.log(`${key}: ${product[key as keyof Product]}`);
+  }
+}
+
 async function addProduct(
   prevState: { message: string; hasError: boolean },
   formData: FormData
@@ -83,6 +99,49 @@ async function addProduct(
     }
   }
 
+  // if the source field is empty, return an error
+  if (!rawFormData.product_source) {
+    return {
+      message: "Product must contain a source",
+      hasError: true,
+    };
+  }
+
+  // get the source id from the sources table based on the source name
+  const { data: sources, error: sourceError } = await supabase
+    .from("sources")
+    .select("*")
+    .eq("name", rawFormData.product_source);
+
+  // if there was an error with supabase, return an error
+  if (sourceError) {
+    return {
+      message: `Error adding product. Supabase says: ${sourceError.message}`,
+      hasError: true,
+    };
+  }
+
+  // if the source was not found, return an error
+  if (!sources?.length) {
+    return {
+      message: `Error adding product. Supabase says: Source not found`,
+      hasError: true,
+    };
+  }
+
+  // get the price, source id, and url from the form
+  const price = parseFloat(rawFormData.product_price as string);
+  const source_id = sources[0].id;
+  const url = rawFormData.product_url;
+
+  // if any of the source fields are empty, return an error
+  if (!price || !source_id || !url) {
+    return {
+      message: "Product must contain a price, source, and url",
+      hasError: true,
+    };
+  }
+
   // validate the image URL
   if (!validateImageURL(product.image_url as string)) {
     return {
@@ -97,7 +156,7 @@ async function addProduct(
   // if there was an error with supabase, return an error
   if (error)
     return {
-      message: `Error adding product. Supabase says: ${error.message}`,
+      message: `Error adding product.+Supabase says: ${error.message}`,
       hasError: true,
     };
 
@@ -110,7 +169,7 @@ async function addProduct(
   // if there was an error with supabase, return an error
   if (productError) {
     return {
-      message: `Error adding product. Supabase says: ${productError.message}`,
+      message: `Error finding added product.+Supabase says: ${productError.message}`,
       hasError: true,
     };
   }
@@ -131,7 +190,28 @@ async function addProduct(
   // if there was an error with supabase, return an error
   if (tagError) {
     return {
-      message: `Error adding tags. Supabase says: ${tagError.message}`,
+      message: `Product was added however there was an error adding tags.+Supabase says: ${tagError.message}`,
+      hasError: true,
+    };
+  }
+
+  // create the product source object
+  const source = {
+    price,
+    product_id,
+    source_id,
+    url,
+  } as ProductSource;
+
+  // insert the product source into the product_sources table
+  const { error: sourceInsertError } = await supabase
+    .from("product_sources")
+    .insert(source);
+
+  // if there was an error with supabase, return an error
+  if (sourceInsertError) {
+    return {
+      message: `Product and tags were added however there was an error adding the source.+Supabase says: ${sourceInsertError.message}`,
       hasError: true,
     };
   }
