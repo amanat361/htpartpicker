@@ -35,12 +35,12 @@ import { useEffect, useState } from "react";
 import {
   EyeIcon,
   PlusCircleIcon,
-  PlusIcon,
   XCircleIcon,
+  ArrowUturnLeftIcon,
 } from "@heroicons/react/16/solid";
 
-import Failure from "./Failure";
-import Success from "./Success";
+import Failure from "./components/Failure";
+import Success from "./components/Success";
 
 import type {
   ProductSource,
@@ -49,6 +49,7 @@ import type {
   Source,
   Category,
 } from "@utils/supabaseServer";
+import ImagePreview from "./components/ImagePreview";
 
 function CreateTagButton({
   category,
@@ -65,14 +66,14 @@ function CreateTagButton({
     <>
       <Button
         type="button"
+        color="sky"
         onClick={() => {
           setIsOpen(true);
         }}
         disabled={pending}
-        outline
       >
-        <PlusIcon />
-        Create Tag
+        <PlusCircleIcon />
+        Add Tag
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>Add a tag</DialogTitle>
@@ -235,7 +236,20 @@ export default function ProductForm({
     <form action={formAction} autoComplete="off">
       <Fieldset>
         <FieldGroup>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-6 sm:gap-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-6 sm:gap-4 items-start">
+            {/* admin code field */}
+            <Field className="sm:col-span-2">
+              <Label>Admin Code</Label>
+              <Description>
+                You are required to use an admin password
+              </Description>
+              <Input
+                id="admin_code"
+                name="admin_code"
+                placeholder="Super secret code&hellip;"
+              />
+            </Field>
+            {/* name field */}
             <Field className="sm:col-span-2">
               <Label>Name</Label>
               <Description>
@@ -249,6 +263,7 @@ export default function ProductForm({
                 placeholder="Q350 Bookshelf Speakers&hellip;"
               />
             </Field>
+            {/* brand field */}
             <Field className="sm:col-span-2">
               <Label>Brand</Label>
               <Description>Who manufactures this product?</Description>
@@ -259,58 +274,8 @@ export default function ProductForm({
                 placeholder="KEF&hellip;"
               />
             </Field>
+            {/* image field */}
             <Field className="sm:col-span-2">
-              <Label>Price</Label>
-              <Description>How much does this product cost?</Description>
-              <Input
-                name="product_price"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                type="number"
-                step="0.01"
-                min="0.00"
-                placeholder="100.00&hellip;"
-              />
-            </Field>
-            <Field className="sm:col-span-3">
-              <Label>Category</Label>
-              <Description>What best describes this product?</Description>
-              <Listbox
-                name="product_category"
-                value={category}
-                onChange={setCategory}
-                placeholder="Select category&hellip;"
-              >
-                {categories.map((category) => (
-                  <ListboxOption value={category.name} key={category.name}>
-                    <ListboxLabel>{category.name}</ListboxLabel>
-                    <ListboxDescription className="hidden sm:flex">
-                      {category.description}
-                    </ListboxDescription>
-                  </ListboxOption>
-                ))}
-              </Listbox>
-            </Field>
-            <Field className="sm:col-span-3">
-              <Label>Source</Label>
-              <Description>Where did you find this product?</Description>
-              <Listbox
-                name="product_source"
-                value={source}
-                onChange={setSource}
-                placeholder="Select source&hellip;"
-              >
-                {sources.map((source) => (
-                  <ListboxOption value={source.name} key={source.name}>
-                    <ListboxLabel>{source.name}</ListboxLabel>
-                    <ListboxDescription className="hidden sm:flex">
-                      {source.link}
-                    </ListboxDescription>
-                  </ListboxOption>
-                ))}
-              </Listbox>
-            </Field>
-            <Field className="sm:col-span-3">
               <Label>Image URL</Label>
               <Description>Link to an image of this product.</Description>
               <Input
@@ -320,7 +285,8 @@ export default function ProductForm({
                 placeholder="https://example.com/image.jpg&hellip;"
               />
             </Field>
-            <Field className="sm:col-span-3">
+            {/* product url field */}
+            <Field className="sm:col-span-2">
               <Label>Product URL</Label>
               <Description>
                 Link to the product page for this product.
@@ -332,68 +298,112 @@ export default function ProductForm({
                 placeholder="https://example.com/product&hellip;"
               />
             </Field>
-            <div className="sm:col-span-3">
-              <Legend>Product Specs</Legend>
-              <Text>Select all tags that apply to this product.</Text>
-              <CheckboxGroup className="flex flex-wrap gap-4 items-end">
-                {tags.map((tag) => (
-                  <CheckboxField key={tag.id}>
-                    <Checkbox name={tag.id} />
-                    <Label>
-                      <Badge color="blue">{tag.name}</Badge>
-                    </Label>
-                  </CheckboxField>
-                ))}
-              </CheckboxGroup>
-            </div>
-            <Field className="sm:col-span-3">
-              <Label>Admin Code</Label>
-              <Description>
-                You are required to use an admin password to submit to the
-                database
-              </Description>
+            {/* price field */}
+            <Field className="sm:col-span-2">
+              <Label>Price</Label>
+              <Description>How much is this?</Description>
               <Input
-                id="admin_code"
-                name="admin_code"
-                placeholder="Super secret code&hellip;"
+                name="product_price"
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
+                type="number"
+                step="0.01"
+                min="0.00"
+                placeholder="100.00&hellip;"
               />
             </Field>
-            <div className="flex sm:flex-row flex-col gap-4 sm:items-center justify-center sm:col-span-full mt-8">
-              <CreateTagButton category={category} setAddedTag={setAddedTag} />
-              <PreviewProduct
-                product={{
-                  name,
-                  brand,
-                  image_url,
-                  category,
-                  id: "New Product",
-                  created_at: "Today",
-                }}
-                product_source={{
-                  product_id: "New Product",
-                  last_updated: "Today",
-                  source_id: 0,
-                  price,
-                  url: productURL,
-                }}
-              />
-              <SubmitButton />
-              <Button type="button" color="red" onClick={clearForm}>
-                <XCircleIcon />
-                Clear Form
-              </Button>
-            </div>
-            {
-              <div className="mt-4 sm:col-start-3 sm:col-end-5">
-                {state.message &&
-                  (state.hasError ? (
-                    <Failure errorMessage={state.message} />
-                  ) : (
-                    <Success />
+            {/* image preview */}
+            <ImagePreview image_url={image_url} span="sm:col-span-2" />
+            <div className="sm:col-span-4 sm:grid sm:grid-cols-2 flex flex-col gap-4">
+              {/* category field */}
+              <Field>
+                <Label>Category</Label>
+                <Description>What best describes this product?</Description>
+                <Listbox
+                  name="product_category"
+                  value={category}
+                  onChange={setCategory}
+                  placeholder="Select category&hellip;"
+                >
+                  {categories.map((category) => (
+                    <ListboxOption value={category.name} key={category.name}>
+                      <ListboxLabel>{category.name}</ListboxLabel>
+                      <ListboxDescription className="hidden sm:flex">
+                        {category.description}
+                      </ListboxDescription>
+                    </ListboxOption>
                   ))}
+                </Listbox>
+              </Field>
+              {/* source field */}
+              <Field>
+                <Label>Source</Label>
+                <Description>Where did you find this product?</Description>
+                <Listbox
+                  name="product_source"
+                  value={source}
+                  onChange={setSource}
+                  placeholder="Select source&hellip;"
+                >
+                  {sources.map((source) => (
+                    <ListboxOption value={source.name} key={source.name}>
+                      <ListboxLabel>{source.name}</ListboxLabel>
+                      <ListboxDescription className="hidden sm:flex">
+                        {source.link}
+                      </ListboxDescription>
+                    </ListboxOption>
+                  ))}
+                </Listbox>
+              </Field>
+              {/* product tags */}
+              <div>
+                <Legend>Product Specs</Legend>
+                <Text>Select all tags that apply to this product.</Text>
+                <CheckboxGroup className="flex flex-wrap gap-4 items-end">
+                  {tags.map((tag) => (
+                    <CheckboxField key={tag.id}>
+                      <Checkbox name={tag.id} />
+                      <Label>
+                        <Badge color="blue">{tag.name}</Badge>
+                      </Label>
+                    </CheckboxField>
+                  ))}
+                </CheckboxGroup>
               </div>
-            }
+              {/* button field */}
+              <div className="flex flex-col gap-4 sm:items-center justify-center [&>*]:w-full">
+                <CreateTagButton
+                  category={category}
+                  setAddedTag={setAddedTag}
+                />
+                {/* add source */}
+                <Button type="button" color="indigo" onClick={() => {}}>
+                  <PlusCircleIcon />
+                  Add Source
+                </Button>
+                <SubmitButton />
+                <Button type="button" color="yellow" onClick={() => {}}>
+                  <ArrowUturnLeftIcon />
+                  Undo Changes
+                </Button>
+                <Button type="button" color="red" onClick={clearForm}>
+                  <XCircleIcon />
+                  Clear Form
+                </Button>
+              </div>
+            </div>
           </div>
+
+          {
+            <div className="mt-4 sm:col-start-3 sm:col-end-5">
+              {state.message &&
+                (state.hasError ? (
+                  <Failure errorMessage={state.message} />
+                ) : (
+                  <Success />
+                ))}
+            </div>
+          }
         </FieldGroup>
         <input type="hidden" name="product_category" value={category} />
       </Fieldset>

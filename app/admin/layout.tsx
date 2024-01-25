@@ -40,7 +40,7 @@ export default async function DashboardLayout({
 }) {
   return (
     <>
-      <AdminAlert />
+      {/* <AdminAlert /> */}
       {children}
     </>
   );
