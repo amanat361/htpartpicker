@@ -239,18 +239,6 @@ export default function ProductForm({
       <Fieldset>
         <FieldGroup>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-6 sm:gap-4 items-start">
-            {/* admin code field */}
-            <Field className="sm:col-span-2">
-              <Label>Admin Code</Label>
-              <Description>
-                You are required to use an admin password
-              </Description>
-              <Input
-                id="admin_code"
-                name="admin_code"
-                placeholder="Super secret code&hellip;"
-              />
-            </Field>
             {/* name field */}
             <Field className="sm:col-span-2">
               <Label>Name</Label>
@@ -265,15 +253,15 @@ export default function ProductForm({
                 placeholder="Q350 Bookshelf Speakers&hellip;"
               />
             </Field>
-            {/* brand field */}
-            <Field className="sm:col-span-2">
-              <Label>Brand</Label>
-              <Description>Who manufactures this product?</Description>
+            {/* image field */}
+            <Field className="sm:col-span-4">
+              <Label>Image URL</Label>
+              <Description>Link to an image of this product.</Description>
               <Input
-                name="product_brand"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="KEF&hellip;"
+                name="image_url"
+                value={image_url}
+                onChange={(e) => setImageURL(e.target.value)}
+                placeholder="https://example.com/image.jpg&hellip;"
               />
             </Field>
             <div className="sm:col-span-4 sm:grid sm:grid-cols-2 flex flex-col gap-4">
@@ -294,19 +282,19 @@ export default function ProductForm({
                   ))}
                 </Listbox>
               </Field>
-              {/* image field */}
+              {/* brand field */}
               <Field>
-                <Label>Image URL</Label>
-                <Description>Link to an image of this product.</Description>
+                <Label>Brand</Label>
+                <Description>Who manufactures this product?</Description>
                 <Input
-                  name="image_url"
-                  value={image_url}
-                  onChange={(e) => setImageURL(e.target.value)}
-                  placeholder="https://example.com/image.jpg&hellip;"
+                  name="product_brand"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  placeholder="KEF&hellip;"
                 />
               </Field>
               {/* product tags */}
-              <div className="h-full flex flex-col">
+              <div className="flex flex-col">
                 <Legend>Product Specs</Legend>
                 <Text>Select all tags that apply to this product.</Text>
                 {!tags.length && (
@@ -325,8 +313,20 @@ export default function ProductForm({
                   ))}
                 </CheckboxGroup>
               </div>
+              {/* admin code field */}
+              <Field>
+                <Label>Admin Code</Label>
+                <Description>
+                  You are required to use an admin password
+                </Description>
+                <Input
+                  id="admin_code"
+                  name="admin_code"
+                  placeholder="Super secret code&hellip;"
+                />
+              </Field>
               {/* button field */}
-              <div className="flex flex-col gap-4 sm:items-center justify-center [&>*]:w-full">
+              <div className="flex gap-4 sm:items-center justify-center [&>*]:w-full col-span-full">
                 {/* create tag button */}
                 <CreateTagButton
                   category={category}
