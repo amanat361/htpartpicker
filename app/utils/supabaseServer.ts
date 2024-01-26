@@ -271,6 +271,18 @@ async function getProductsWithTags() {
   return productsWithTags;
 }
 
+async function deleteProduct(product_id: string) {
+  const { error: deletionError } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", product_id);
+  if (deletionError) {
+    console.log(deletionError);
+    return;
+  }
+  revalidatePath("/");
+}
+
 function validateImageURL(url: string) {
   return url.match(/^(https:\/\/).*(jpeg|jpg|gif|png)$/) != null;
 }
@@ -283,4 +295,5 @@ export {
   getSources,
   addTag,
   addProduct,
+  deleteProduct,
 };

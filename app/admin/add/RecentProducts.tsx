@@ -10,6 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
+import { deleteProduct } from "@utils/supabaseServer";
+import DeleteProductComponent from "./components/DeleteProduct";
 
 function formatTime(time: string) {
   const date = new Date(time);
@@ -74,7 +76,7 @@ export default function RecentProducts({ products }: { products: ProductWithTags
               <Button color="indigo">Add Source</Button>
             </TableCell>
             <TableCell>
-              <Button color="red">Delete Product</Button>
+              <DeleteProductComponent product_id={product.id} />
             </TableCell>
             <TableCell className="text-zinc-500">{formatTime(product.created_at)}</TableCell>
           </TableRow>
