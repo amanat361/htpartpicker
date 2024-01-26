@@ -21,7 +21,6 @@ import { Text } from "@components/text";
 import { Badge } from "@components/badge";
 import {
   Listbox,
-  ListboxDescription,
   ListboxLabel,
   ListboxOption,
 } from "@components/listbox";
@@ -33,10 +32,8 @@ import { Button } from "@components/button";
 import { useEffect, useState } from "react";
 
 import {
-  EyeIcon,
   PlusCircleIcon,
   XCircleIcon,
-  ArrowUturnLeftIcon,
 } from "@heroicons/react/16/solid";
 
 import Failure from "./components/Failure";
@@ -50,7 +47,6 @@ import type {
   Category,
 } from "@utils/supabaseServer";
 import ImagePreview from "./components/ImagePreview";
-import Image from "next/image";
 
 function CreateTagButton({
   category,
@@ -66,16 +62,15 @@ function CreateTagButton({
   return (
     <>
       <Button
-        className="mt-auto"
         type="button"
-        color="sky"
+        outline
         onClick={() => {
           setIsOpen(true);
         }}
         disabled={pending}
       >
         <PlusCircleIcon />
-        Add Tag
+        <span className="hidden sm:block">Add Tag</span>
       </Button>
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>Add a tag</DialogTitle>
@@ -119,64 +114,13 @@ function CreateTagButton({
   );
 }
 
-function PreviewProduct({
-  product,
-  product_source,
-}: {
-  product: Product;
-  product_source: ProductSource;
-}) {
-  const { pending } = useFormStatus();
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <>
-      <Button
-        type="button"
-        onClick={() => {
-          setIsOpen(true);
-        }}
-        disabled={pending}
-        outline
-      >
-        <EyeIcon />
-        Preview Product
-      </Button>
-      <Dialog open={isOpen} onClose={setIsOpen}>
-        <DialogTitle>{product.name}</DialogTitle>
-        <DialogDescription>
-          You are adding the product &quot;{product.name}&quot; from{" "}
-          {product.brand} for ${product_source.price}.
-        </DialogDescription>
-        <DialogBody>
-          <Text className="my-4">Preview of the product image:</Text>
-          <img
-            className="rounded-lg aspect-2 object-cover"
-            alt={product.name}
-            src={product.image_url}
-          />
-          <Text className="mt-4">Preview of the product page:</Text>
-          <a href={product_source.url} target="_blank">
-            {product.name}
-          </a>
-        </DialogBody>
-        <DialogActions>
-          <Button plain onClick={() => setIsOpen(false)}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
     <Button color="blue" type="submit" disabled={pending}>
       <PlusCircleIcon />
-      Add Product
+      <span className="hidden sm:block">Create Product</span>
     </Button>
   );
 }
@@ -187,20 +131,15 @@ const initialState = {
 };
 
 export default function ProductForm({
-  sources,
   categories,
 }: {
-  sources: Source[];
   categories: Category[];
 }) {
   const [state, formAction] = useFormState(addProduct, initialState);
   const [name, setName] = useState<string>("");
   const [brand, setBrand] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
   const [category, setCategory] = useState(categories[0].name);
-  const [source, setSource] = useState(sources[0].name);
   const [image_url, setImageURL] = useState<string>("");
-  const [productURL, setProductURL] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [addedTag, setAddedTag] = useState<Tag | null>(null);
 
@@ -218,11 +157,8 @@ export default function ProductForm({
       form.reset();
       setName("");
       setBrand("");
-      setPrice(0);
       setCategory(categories[0].name);
-      setSource(sources[0].name);
       setImageURL("");
-      setProductURL("");
       setTags([]);
       setAddedTag(null);
     }
@@ -311,6 +247,11 @@ export default function ProductForm({
                       </Label>
                     </CheckboxField>
                   ))}
+                  {/* create tag button */}
+                  <CreateTagButton
+                    category={category}
+                    setAddedTag={setAddedTag}
+                  />
                 </CheckboxGroup>
               </div>
               {/* admin code field */}
@@ -327,17 +268,12 @@ export default function ProductForm({
               </Field>
               {/* button field */}
               <div className="flex gap-4 sm:items-center justify-center [&>*]:w-full col-span-full">
-                {/* create tag button */}
-                <CreateTagButton
-                  category={category}
-                  setAddedTag={setAddedTag}
-                />
                 {/* submit product button */}
                 <SubmitButton />
                 {/* clear form button */}
-                <Button type="button" color="red" onClick={clearForm}>
+                <Button type="button" color="yellow" onClick={clearForm}>
                   <XCircleIcon />
-                  Clear Form
+                  <span className="hidden sm:block">Clear Form</span>
                 </Button>
               </div>
             </div>

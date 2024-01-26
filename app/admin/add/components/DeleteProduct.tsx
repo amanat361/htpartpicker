@@ -9,7 +9,7 @@ import {
   AlertTitle,
 } from "@components/alert";
 import { Button } from "@components/button";
-import { TrashIcon } from "@heroicons/react/16/solid";
+import { TrashIcon, CheckCircleIcon } from "@heroicons/react/16/solid";
 
 export default function DeleteProductComponent({
   product_id,
@@ -20,7 +20,8 @@ export default function DeleteProductComponent({
   return (
     <>
       <Button type="button" color="red" onClick={() => setIsOpen(true)}>
-        Delete Product
+        <TrashIcon />
+        Delete
       </Button>
       <Alert open={isOpen} onClose={setIsOpen}>
         <AlertTitle>Are you sure you want to delete this product?</AlertTitle>
@@ -39,8 +40,8 @@ export default function DeleteProductComponent({
               setIsOpen(false);
             }}
           >
-            <TrashIcon />
-            Delete
+            <CheckCircleIcon />
+            Permanently Delete Product
           </Button>
         </AlertActions>
       </Alert>

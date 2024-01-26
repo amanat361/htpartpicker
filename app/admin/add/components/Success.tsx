@@ -12,7 +12,7 @@ export default function Success() {
         </div>
         <div className="ml-3">
           <p className="text-sm font-medium text-green-800 dark:text-green-50">
-            Successfully uploaded product to database
+            Action completed successfully {":)"}
           </p>
         </div>
       </div>
