@@ -14,9 +14,24 @@ type Product = Database["public"]["Tables"]["products"]["Row"];
 type Source = Database["public"]["Tables"]["sources"]["Row"];
 type Category = Database["public"]["Tables"]["categories"]["Row"];
 type Tag = Database["public"]["Tables"]["tags"]["Row"];
+type ProductWithTags = Product & { tags: string[] };
+
+async function getProducts() {
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(10);
+  if (error) return [];
+  return products;
+}
 
 async function getSources() {
-  const { data: sources, error } = await supabase.from("sources").select("*");
+  // in alphabetical order by name
+  const { data: sources, error } = await supabase
+    .from("sources")
+    .select("*")
+    .order("id");
   if (error) return [];
   return sources;
 }
@@ -221,9 +236,51 @@ async function addProduct(
   return { message: "Product added successfully", hasError: false };
 }
 
+async function getProductTags(product_id: string) {
+  const { data: tags, error } = await supabase
+    .from("product_tags")
+    .select("*")
+    .eq("product_id", product_id);
+  if (error) return [];
+  return tags;
+}
+
+async function getTagName(tag_id: string) {
+  const { data: tags, error } = await supabase
+    .from("tags")
+    .select("*")
+    .eq("id", tag_id);
+  if (error) return "";
+  return tags?.[0].name ?? "";
+}
+
+async function getProductsWithTags() {
+  const products = (await getProducts()) as ProductWithTags[];
+  const productsWithTags = await Promise.all(
+    products.map(async (product) => {
+      const tags = await getProductTags(product.id);
+      product.tags = await Promise.all(
+        tags.map(async (tag) => {
+          const name = await getTagName(tag.tag_id);
+          return name;
+        })
+      );
+      return product;
+    })
+  );
+  return productsWithTags;
+}
+
 function validateImageURL(url: string) {
   return url.match(/^(https:\/\/).*(jpeg|jpg|gif|png)$/) != null;
 }
 
-export type { ProductSource, Product, Source, Category, Tag };
-export { getTags, getCategories, getSources, addTag, addProduct };
+export type { ProductSource, Product, Source, Category, Tag, ProductWithTags };
+export {
+  getTags,
+  getProductsWithTags,
+  getCategories,
+  getSources,
+  addTag,
+  addProduct,
+};

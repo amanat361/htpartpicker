@@ -50,6 +50,7 @@ import type {
   Category,
 } from "@utils/supabaseServer";
 import ImagePreview from "./components/ImagePreview";
+import Image from "next/image";
 
 function CreateTagButton({
   category,
@@ -65,6 +66,7 @@ function CreateTagButton({
   return (
     <>
       <Button
+        className="mt-auto"
         type="button"
         color="sky"
         onClick={() => {
@@ -274,46 +276,6 @@ export default function ProductForm({
                 placeholder="KEF&hellip;"
               />
             </Field>
-            {/* image field */}
-            <Field className="sm:col-span-2">
-              <Label>Image URL</Label>
-              <Description>Link to an image of this product.</Description>
-              <Input
-                name="image_url"
-                value={image_url}
-                onChange={(e) => setImageURL(e.target.value)}
-                placeholder="https://example.com/image.jpg&hellip;"
-              />
-            </Field>
-            {/* product url field */}
-            <Field className="sm:col-span-2">
-              <Label>Product URL</Label>
-              <Description>
-                Link to the product page for this product.
-              </Description>
-              <Input
-                name="product_url"
-                value={productURL}
-                onChange={(e) => setProductURL(e.target.value)}
-                placeholder="https://example.com/product&hellip;"
-              />
-            </Field>
-            {/* price field */}
-            <Field className="sm:col-span-2">
-              <Label>Price</Label>
-              <Description>How much is this?</Description>
-              <Input
-                name="product_price"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                type="number"
-                step="0.01"
-                min="0.00"
-                placeholder="100.00&hellip;"
-              />
-            </Field>
-            {/* image preview */}
-            <ImagePreview image_url={image_url} span="sm:col-span-2" />
             <div className="sm:col-span-4 sm:grid sm:grid-cols-2 flex flex-col gap-4">
               {/* category field */}
               <Field>
@@ -328,38 +290,31 @@ export default function ProductForm({
                   {categories.map((category) => (
                     <ListboxOption value={category.name} key={category.name}>
                       <ListboxLabel>{category.name}</ListboxLabel>
-                      <ListboxDescription className="hidden sm:flex">
-                        {category.description}
-                      </ListboxDescription>
                     </ListboxOption>
                   ))}
                 </Listbox>
               </Field>
-              {/* source field */}
+              {/* image field */}
               <Field>
-                <Label>Source</Label>
-                <Description>Where did you find this product?</Description>
-                <Listbox
-                  name="product_source"
-                  value={source}
-                  onChange={setSource}
-                  placeholder="Select source&hellip;"
-                >
-                  {sources.map((source) => (
-                    <ListboxOption value={source.name} key={source.name}>
-                      <ListboxLabel>{source.name}</ListboxLabel>
-                      <ListboxDescription className="hidden sm:flex">
-                        {source.link}
-                      </ListboxDescription>
-                    </ListboxOption>
-                  ))}
-                </Listbox>
+                <Label>Image URL</Label>
+                <Description>Link to an image of this product.</Description>
+                <Input
+                  name="image_url"
+                  value={image_url}
+                  onChange={(e) => setImageURL(e.target.value)}
+                  placeholder="https://example.com/image.jpg&hellip;"
+                />
               </Field>
               {/* product tags */}
-              <div>
+              <div className="h-full flex flex-col">
                 <Legend>Product Specs</Legend>
                 <Text>Select all tags that apply to this product.</Text>
-                <CheckboxGroup className="flex flex-wrap gap-4 items-end">
+                {!tags.length && (
+                  <p className="text-red-500">
+                    No tags found for this category. Please add a tag.
+                  </p>
+                )}
+                <CheckboxGroup className="flex flex-wrap gap-4 items-end mt-4">
                   {tags.map((tag) => (
                     <CheckboxField key={tag.id}>
                       <Checkbox name={tag.id} />
@@ -372,26 +327,22 @@ export default function ProductForm({
               </div>
               {/* button field */}
               <div className="flex flex-col gap-4 sm:items-center justify-center [&>*]:w-full">
+                {/* create tag button */}
                 <CreateTagButton
                   category={category}
                   setAddedTag={setAddedTag}
                 />
-                {/* add source */}
-                <Button type="button" color="indigo" onClick={() => {}}>
-                  <PlusCircleIcon />
-                  Add Source
-                </Button>
+                {/* submit product button */}
                 <SubmitButton />
-                <Button type="button" color="yellow" onClick={() => {}}>
-                  <ArrowUturnLeftIcon />
-                  Undo Changes
-                </Button>
+                {/* clear form button */}
                 <Button type="button" color="red" onClick={clearForm}>
                   <XCircleIcon />
                   Clear Form
                 </Button>
               </div>
             </div>
+            {/* image preview */}
+            <ImagePreview image_url={image_url} span="sm:col-span-2" />
           </div>
 
           {
