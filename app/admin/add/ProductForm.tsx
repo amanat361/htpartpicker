@@ -40,10 +40,7 @@ import Failure from "./components/Failure";
 import Success from "./components/Success";
 
 import type {
-  ProductSource,
-  Product,
   Tag,
-  Source,
   Category,
 } from "@utils/supabaseServer";
 import ImagePreview from "./components/ImagePreview";
