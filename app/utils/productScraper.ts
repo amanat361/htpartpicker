@@ -2,82 +2,71 @@
 
 import puppeteer from "puppeteer";
 
-async function scrapeSpecificProduct(url: string) {
-  const browser = await puppeteer.launch({
-    headless: "new", // Opting into the new Headless mode
-  });
-  const page = await browser.newPage();
-  await page.goto(url);
-
-  const product = await page.evaluate(() => {
-    const name = document.querySelector(
-      ".product-single-title"
-    )?.textContent as string;
-
-    const image_url = document.querySelector(
-      ".product__photo-wrapper-product-template img"
-    )?.getAttribute("src") as string;
-
-    const price = document.querySelector(
-      ".product__price span"
-    )?.textContent as string;
-
-    const description = document.querySelector(
-      ".product-single__description rte"
-    )?.textContent as string;
-
-    const specs = Array.from(
-      document.querySelectorAll(".product-single__description .rte ul li"),
-      (element) => element.textContent
-    );
-
-    const tags = Array.from(
-      document.querySelectorAll(".product-single__description .rte p a"),
-      (element) => element.textContent
-    );
-
-    return {
-      name,
-      image_url,
-      price,
-      description,
-      specs,
-      tags,
-    };
-  });
-
-  await browser.close();
-
-  return product;
+export interface Product {
+  url: string;
+  prodImage: string;
+  title: string;
+  price: string;
+  highlights: string[];
 }
 
 async function findAllProductsOnPage(url: string) {
+  console.log("Now scraping: " + url)
   const browser = await puppeteer.launch({
     headless: "new", // Opting into the new Headless mode
   });
   const page = await browser.newPage();
   await page.goto(url);
+  // await page.waitForNetworkIdle({idleTime: 1000});
 
-  const productLinks: string[] = await page.evaluate(() => {
-    const links = Array.from(
-      document.querySelectorAll(".product-related-card a[href]"),
-      (element) => (element as HTMLAnchorElement).href
-    );
-    return links;
+  const products = await page.evaluate(() => {
+    const productBlocks = document.querySelectorAll(".product-block");
+    const products: Product[] = [];
+    productBlocks.forEach((productBlock) => {
+      const product: Product = {
+        url: "",
+        prodImage: "",
+        title: "",
+        price: "",
+        highlights: [],
+      };
+      const a = productBlock.querySelector("a");
+      if (a) {
+        product.url = a.href;
+      }
+      // page.waitForSelector("img.prodImage", { visible: true });
+      const img = productBlock.querySelector("img.prodImage");
+      if (img) {
+        product.prodImage = img.getAttribute("src") || "";
+      }
+      const h4 = productBlock.querySelector("h4.product-list-items-title");
+      if (h4) {
+        product.title = h4.textContent || "";
+      }
+      const span = productBlock.querySelector("span.price");
+      if (span) {
+        product.price = span.textContent || "";
+      }
+      const ul = productBlock.querySelector("ul.product-list-items-highlights");
+      if (ul) {
+        const lis = ul.querySelectorAll("li");
+        lis.forEach((li) => {
+          product.highlights.push(li.textContent || "");
+        });
+      }
+      products.push(product);
+    });
+    return products;
   });
 
   await browser.close();
-
-  return productLinks;
+  return products;
 }
 
 export async function startScraping(formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
   const url = rawFormData.url as string;
-  const productLinks = await findAllProductsOnPage(url);
-  const products = await Promise.all(
-    productLinks.map((link) => scrapeSpecificProduct(link))
-  );
-  console.log(products);
-  return productLinks;
+  const products = await findAllProductsOnPage(url);
+  console.log(products)
+  return products;
 }
