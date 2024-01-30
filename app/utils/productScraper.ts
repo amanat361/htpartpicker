@@ -2,6 +2,7 @@
 
 import puppeteer from "puppeteer";
 import type { Page } from "puppeteer";
+import { mockProducts } from "@lib/products";
 
 export interface Product {
   url: string;
@@ -14,6 +15,7 @@ export interface Product {
 }
 
 export interface FormState {
+  urls: string[];
   products: Product[];
   message: string;
   hasError: boolean;
@@ -115,8 +117,27 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
 }
 
 export async function startScraping(state: FormState, formData: FormData) {
+
+  
   const rawFormData = Object.fromEntries(formData.entries());
   const url = rawFormData.url as string;
+  
+  // return {
+  //   urls: [...state.urls, url],
+  //   hasError: false,
+  //   message: "Scraping complete!",
+  //   products: [...state.products, ...mockProducts]
+  // };
+
+  if (state.urls.includes(url)) {
+    return {
+      urls: state.urls,
+      hasError: true,
+      message: "URL has already been scraped!",
+      products: state.products,
+    };
+  }
+
   console.clear();
   console.log("Scraping started...");
   const brands = await getBrandList(url);
@@ -129,15 +150,17 @@ export async function startScraping(state: FormState, formData: FormData) {
 
   if (products.length === 0) {
     return {
+      urls: state.urls,
       hasError: true,
-      message: "No products found!",
-      products: [],
+      message: "No new products found!",
+      products: state.products,
     };
   }
 
   return {
+    urls: [...state.urls, url],
     hasError: false,
     message: "Scraping complete!",
-    products,
+    products: [...state.products, ...products]
   };
 }

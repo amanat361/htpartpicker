@@ -96,7 +96,7 @@ type Category = {
   name: string;
   link: string;
   shortDescription: string;
-}
+};
 
 const categories = [
   {
@@ -131,5 +131,98 @@ const categories = [
   },
 ] as Category[];
 
+interface Product {
+  url: string;
+  image: string;
+  title: string;
+  price: string;
+  brand: string;
+  description: string;
+  highlights: string[];
+}
 
-export { type Item, items, type Category, categories };
+const mockProducts = [
+  {
+    url: "https://example.com/product1",
+    image:
+      "https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg",
+    title: "FIRST PRODUCT",
+    price: "$999",
+    brand: "TESTING",
+    description:
+      "An immersive audio experience with state-of-the-art surround sound.",
+    highlights: [
+      "5.1 Channel Surround Sound",
+      "Bluetooth Connectivity",
+      "Easy Installation",
+    ],
+  },
+  {
+    url: "https://example.com/product2",
+    image:
+      "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
+    title: "CinemaPro HD Projector",
+    price: "$1,299",
+    brand: "CinemaPro",
+    description:
+      "High-definition visuals that transform your living room into a movie theater.",
+    highlights: [
+      "4K Resolution",
+      "3D Support",
+      "Eco-Friendly Power Consumption",
+    ],
+  },
+  {
+    url: "https://example.com/product3",
+    image:
+      "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
+    title: "AudioWave Soundbar 300",
+    price: "$499",
+    brand: "AudioWave",
+    description: "Sleek design with powerful sound, perfect for any TV setup.",
+    highlights: [
+      "Wireless Subwoofer",
+      "Integrated Voice Control",
+      "Wall-Mountable",
+    ],
+  },
+  {
+    url: "https://example.com/product4",
+    image:
+      "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
+    title: "BassKing 800 Subwoofer",
+    price: "$350",
+    brand: "BassKing",
+    description:
+      "Deep and resonating bass that elevates your audio experience.",
+    highlights: [
+      "Deep Bass Technology",
+      "Compact Design",
+      "Low Frequency Response",
+    ],
+  },
+  {
+    url: "https://example.com/product5",
+    image:
+      "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
+    title: "ClearView 4K HDMI Cable",
+    price: "$25",
+    brand: "ClearView",
+    description:
+      "High-speed HDMI cable ensuring optimal picture quality and sound.",
+    highlights: ["4K Resolution Support", "High Bandwidth", "Durable Build"],
+  },
+  {
+    url: "https://example.com/product6",
+    image:
+      "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
+    title: "EchoDome Wireless Speakers",
+    price: "$450",
+    brand: "EchoDome",
+    description:
+      "Immersive sound with stylish, room-filling audio performance.",
+    highlights: ["360-Degree Sound", "Multi-Room Audio", "Elegant Design"],
+  },
+] as Product[];
+
+export { type Item, items, type Category, categories, mockProducts };

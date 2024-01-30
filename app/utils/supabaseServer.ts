@@ -3,6 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/database.types";
 import { revalidatePath } from "next/cache";
+import type { Product as ScrapedProduct } from "./productScraper";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
@@ -254,6 +255,14 @@ async function deleteProduct(product_id: string) {
   revalidatePath("/");
 }
 
+async function bulkProductInsert(products: ScrapedProduct[]) {
+  console.clear();
+  console.log("Bulk product insert started...");
+  // for now just log the products
+  console.log(products);
+  return false;
+}
+
 function validateImageURL(url: string) {
   return url.match(/^(https:\/\/).*(jpeg|jpg|gif|png)$/) != null;
 }
@@ -268,4 +277,5 @@ export {
   addTag,
   addProduct,
   deleteProduct,
+  bulkProductInsert,
 };
