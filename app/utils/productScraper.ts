@@ -3,7 +3,7 @@
 import Chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
 
-import type { Page } from "puppeteer";
+import type { Page } from "puppeteer-core";
 import { mockProducts } from "@lib/products";
 
 export interface Product {
