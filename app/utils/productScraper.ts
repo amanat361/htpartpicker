@@ -1,6 +1,8 @@
 "use server";
 
-import puppeteer from "puppeteer";
+import Chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
+
 import type { Page } from "puppeteer";
 import { mockProducts } from "@lib/products";
 
@@ -21,9 +23,15 @@ export interface FormState {
   hasError: boolean;
 }
 
+const LOCAL_CHROME_EXECUTABLE =
+  "C:/Program Files/Google/Chrome/Application/chrome.exe";
+
 async function getBrandList(url: string): Promise<string[]> {
+  const executablePath = await Chromium.executablePath || LOCAL_CHROME_EXECUTABLE;
   const browser = await puppeteer.launch({
-    headless: "new",
+    executablePath,
+    args: Chromium.args,
+    headless: false,
   });
   const page = await browser.newPage();
   await page.goto(url);
@@ -39,10 +47,12 @@ async function getBrandList(url: string): Promise<string[]> {
 }
 
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
+  const executablePath = await Chromium.executablePath || LOCAL_CHROME_EXECUTABLE;
   const browser = await puppeteer.launch({
-    headless: "new",
+    executablePath,
+    args: Chromium.args,
+    headless: false,
   });
-
   const page = await browser.newPage();
   await page.goto(url);
 
