@@ -24,7 +24,7 @@ export interface FormState {
 }
 
 const LOCAL_CHROME_EXECUTABLE =
-  "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
 async function getBrandList(url: string): Promise<string[]> {
   const executablePath = await Chromium.executablePath || LOCAL_CHROME_EXECUTABLE;
