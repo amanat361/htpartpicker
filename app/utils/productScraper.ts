@@ -6,6 +6,8 @@ import puppeteer from "puppeteer-core";
 import type { Page } from "puppeteer-core";
 import { mockProducts } from "@lib/products";
 
+let _page: Page | null = null;
+
 export interface Product {
   url: string;
   image: string;
@@ -40,12 +42,17 @@ async function getBrowser() {
   });
 }
 
-async function getBrandList(url: string): Promise<string[]> {
-  const browser = await getBrowser();
-  if (!browser) {
-    throw new Error("Could not start browser");
+async function getPage() {
+  if (_page) {
+    return _page;
   }
-  const page = await browser.newPage();
+  const browser = await getBrowser();
+  _page = await browser.newPage();
+  return _page;
+}
+
+async function getBrandList(url: string): Promise<string[]> {
+  const page = await getPage();
   await page.goto(url);
 
   // Scrape brand labels with 'for' attribute starting with 'Brand'
@@ -54,16 +61,11 @@ async function getBrandList(url: string): Promise<string[]> {
     return brandLabels.map(label => label.textContent?.trim() || '');
   });
 
-  await browser.close();
   return brands;
 }
 
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
-  const browser = await getBrowser();
-  if (!browser) {
-    throw new Error("Could not start browser");
-  }
-  const page = await browser.newPage();
+  const page = await getPage();
   await page.goto(url);
 
   // Function to scroll through the page
@@ -132,7 +134,6 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
     });
   });
 
-  await browser.close();
   return products;
 }
 
@@ -161,7 +162,9 @@ export async function startScraping(state: FormState, formData: FormData) {
   console.clear();
   console.log("Scraping started...");
   const brands = await getBrandList(url);
+  console.log("Brands found:", brands);
   const products = await findAllProductsOnPage(url);
+  console.log("Products found:", products.length);
   products.forEach((product) => {
     const brand = brands.find((brand) => product.title.includes(brand));
     product.brand = brand || "";
