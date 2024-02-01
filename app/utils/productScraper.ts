@@ -47,7 +47,9 @@ async function getPage() {
     return _page;
   }
   const browser = await getBrowser();
+  console.log("Successfully launched browser!");
   _page = await browser.newPage();
+  console.log("Successfully opened new page!");
   return _page;
 }
 
