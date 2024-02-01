@@ -47,7 +47,7 @@ async function getBrandList(url: string): Promise<string[]> {
 }
 
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
-  const executablePath = await chromium.executablePath || LOCAL_CHROME_EXECUTABLE;
+  const executablePath = await chromium.executablePath() || LOCAL_CHROME_EXECUTABLE;
   const browser = await puppeteer.launch({
     executablePath,
     args: chromium.args,
