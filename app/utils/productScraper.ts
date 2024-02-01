@@ -33,7 +33,7 @@ const LOCAL_CHROME_EXECUTABLE =
 async function getBrowser() {
   const executablePath = await chromium.executablePath(GITHUB_CHROME_EXECUTABLE) || LOCAL_CHROME_EXECUTABLE;
   console.log("Using Chrome executable at", executablePath);
-  return await puppeteer.launch({
+  return puppeteer.launch({
     executablePath,
     args: chromium.args,
     headless: chromium.headless,
