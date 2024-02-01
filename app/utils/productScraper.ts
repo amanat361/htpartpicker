@@ -1,6 +1,6 @@
 "use server";
 
-import chromium from "@sparticuz/chromium";
+import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 
 import type { Page } from "puppeteer-core";
@@ -23,17 +23,22 @@ export interface FormState {
   hasError: boolean;
 }
 
+const GITHUB_CHROME_EXECUTABLE =
+  "https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar";
 const LOCAL_CHROME_EXECUTABLE =
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
-async function getBrandList(url: string): Promise<string[]> {
-  const executablePath = await chromium.executablePath() || LOCAL_CHROME_EXECUTABLE;
-  console.log(executablePath);
-  const browser = await puppeteer.launch({
+async function getBrowser() {
+  const executablePath = await chromium.executablePath(GITHUB_CHROME_EXECUTABLE) || LOCAL_CHROME_EXECUTABLE;
+  return await puppeteer.launch({
     executablePath,
     args: chromium.args,
-    headless: false,
+    headless: "new",
   });
+}
+
+async function getBrandList(url: string): Promise<string[]> {
+  const browser = await getBrowser();
   const page = await browser.newPage();
   await page.goto(url);
 
@@ -48,13 +53,7 @@ async function getBrandList(url: string): Promise<string[]> {
 }
 
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
-  const executablePath = await chromium.executablePath() || LOCAL_CHROME_EXECUTABLE;
-  console.log(executablePath);
-  const browser = await puppeteer.launch({
-    executablePath,
-    args: chromium.args,
-    headless: false,
-  });
+  const browser = await getBrowser();
   const page = await browser.newPage();
   await page.goto(url);
 
