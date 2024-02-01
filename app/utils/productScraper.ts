@@ -30,6 +30,7 @@ const LOCAL_CHROME_EXECUTABLE =
 
 async function getBrowser() {
   const executablePath = await chromium.executablePath(GITHUB_CHROME_EXECUTABLE) || LOCAL_CHROME_EXECUTABLE;
+  console.log("Using Chrome executable at", executablePath);
   return await puppeteer.launch({
     executablePath,
     args: chromium.args,
@@ -39,6 +40,9 @@ async function getBrowser() {
 
 async function getBrandList(url: string): Promise<string[]> {
   const browser = await getBrowser();
+  if (!browser) {
+    throw new Error("Could not start browser");
+  }
   const page = await browser.newPage();
   await page.goto(url);
 
@@ -54,6 +58,9 @@ async function getBrandList(url: string): Promise<string[]> {
 
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
   const browser = await getBrowser();
+  if (!browser) {
+    throw new Error("Could not start browser");
+  }
   const page = await browser.newPage();
   await page.goto(url);
 
