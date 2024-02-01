@@ -31,10 +31,9 @@ const LOCAL_CHROME_EXECUTABLE =
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
 async function getBrowser() {
-  const executablePath = await chromium.executablePath(GITHUB_CHROME_EXECUTABLE) || LOCAL_CHROME_EXECUTABLE;
-  console.log("Using Chrome executable at", executablePath);
+  console.log("Attempting to launch browser...");
   return puppeteer.launch({
-    executablePath,
+    executablePath: await chromium.executablePath(GITHUB_CHROME_EXECUTABLE),
     args: chromium.args,
     headless: chromium.headless,
     defaultViewport: chromium.defaultViewport,
