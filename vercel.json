@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/utils/**/*": {
+      "maxDuration": 300
+    }
+  }
+}
