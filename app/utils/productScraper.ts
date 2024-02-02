@@ -6,8 +6,6 @@ import puppeteer from "puppeteer-core";
 import type { Page } from "puppeteer-core";
 import { mockProducts } from "@lib/products";
 
-export const maxDuration = 300; // 5 minutes
-
 let _page: Page | null = null;
 
 export interface Product {
