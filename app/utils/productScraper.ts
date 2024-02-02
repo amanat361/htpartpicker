@@ -26,7 +26,7 @@ export interface FormState {
 }
 
 const GITHUB_CHROME_EXECUTABLE =
-  "https://github.com/Sparticuz/chromium/releases/download/v110.0.0/chromium-v110.0.0-pack.tar";
+  "https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar";
 const LOCAL_CHROME_EXECUTABLE =
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
