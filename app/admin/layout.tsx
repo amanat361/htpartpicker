@@ -1,7 +1,7 @@
-export const maxDuration = 300; // 5 minutes
-
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+
+export const maxDuration = 300; // 5 minutes
 
 function AdminAlert() {
   return (
