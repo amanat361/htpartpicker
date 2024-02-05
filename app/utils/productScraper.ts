@@ -27,8 +27,6 @@ export interface FormState {
 
 const GITHUB_CHROME_EXECUTABLE =
   "https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar";
-const LOCAL_CHROME_EXECUTABLE =
-  "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 
 async function getBrowser() {
   console.log("Attempting to launch browser...");
@@ -138,11 +136,30 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
   return products;
 }
 
-export async function startScraping(state: FormState, formData: FormData) {
+function validateUrl(url: string) {
+  try {
+    const urlObj = new URL(url);
+    if (urlObj.hostname !== "www.crutchfield.com") return false;
+    if (!urlObj.pathname.startsWith("/g")) return false;
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
+export async function startScraping(state: FormState, formData: FormData) {
   
   const rawFormData = Object.fromEntries(formData.entries());
   const url = rawFormData.url as string;
+
+  if (!validateUrl(url)) {
+    return {
+      urls: state.urls,
+      hasError: true,
+      message: "Invalid URL!",
+      products: state.products,
+    };
+  }
   
   // return {
   //   urls: [...state.urls, url],
