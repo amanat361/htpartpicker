@@ -12,12 +12,13 @@ import {
 } from "@components/table";
 import { Button } from "@components/button";
 import { TextLink } from "@components/text";
+import { Badge } from "@components/badge";
 import { useState, useEffect, useRef } from "react";
 import { Input } from "@components/input";
 import { CheckBadgeIcon, StopCircleIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { bulkProductInsert } from "@utils/supabaseServer";
 
-export default function ScrapedProducts({ products }: { products: Product[] }) {
+export default function ScrapedProducts({ category, products }: { category: String, products: Product[] }) {
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState<Product[]>([]);
   const addedProductsCount = useRef(0);
@@ -39,6 +40,7 @@ export default function ScrapedProducts({ products }: { products: Product[] }) {
       >
         <TableHead>
           <TableRow>
+            <TableHeader>Category</TableHeader>
             <TableHeader>Image</TableHeader>
             <TableHeader>Title</TableHeader>
             <TableHeader>Brand</TableHeader>
@@ -51,6 +53,9 @@ export default function ScrapedProducts({ products }: { products: Product[] }) {
         <TableBody>
           {state.map((product, index) => (
             <TableRow key={product.url}>
+              <TableCell>
+                <Badge color="blue">{category}</Badge>
+              </TableCell>
               <TableCell>
                 <img
                   src={product.image}

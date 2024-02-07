@@ -161,12 +161,12 @@ export async function startScraping(state: FormState, formData: FormData) {
     };
   }
   
-  // return {
-  //   urls: [...state.urls, url],
-  //   hasError: false,
-  //   message: "Scraping complete!",
-  //   products: [...state.products, ...mockProducts]
-  // };
+  return {
+    urls: [...state.urls, url],
+    hasError: false,
+    message: "Scraping complete!",
+    products: [...state.products, ...mockProducts]
+  };
 
   if (state.urls.includes(url)) {
     return {
