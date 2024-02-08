@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
 import { PlusIcon } from "@heroicons/react/16/solid";
@@ -32,10 +32,11 @@ export default function LinkQueue() {
   const [links, setLinks] = useState<ScrapeLink[]>([]);
   const [newLink, setNewLink] = useState("");
   const [message, setMessage] = useState("");
+  const activeScrapesRef = useRef(new Set<string>());
 
   const addLink = () => {
-    if (links.some((link) => link.url === newLink)) {
-      setMessage("URL already in queue!");
+    if (links.some((link) => link.url === newLink) || !newLink.trim()) {
+      setMessage("URL already in queue or empty!");
       return;
     }
 
@@ -43,40 +44,56 @@ export default function LinkQueue() {
       url: newLink,
       scraping: true,
       hasError: false,
-      message: "Currently scraping...",
+      message: "Waiting to start scraping...",
       products: [],
     };
 
+    // Add the new link to the list
     setLinks((prevLinks) => [...prevLinks, newScrapeLink]);
 
-    scrapeLink(newLink)
-      .then(({ hasError, message, products }) => {
-        setLinks((prevLinks) =>
-          prevLinks.map((link) =>
-            link.url === newLink
-              ? { ...link, scraping: false, hasError, message, products }
-              : link
-          )
-        );
-      })
-      .catch((error) => {
-        setLinks((prevLinks) =>
-          prevLinks.map((link) =>
-            link.url === newLink
-              ? {
-                  ...link,
-                  scraping: false,
-                  hasError: true,
-                  message: "Error during scraping",
-                }
-              : link
-          )
-        );
-      });
-
+    // Reset input and message state
     setNewLink("");
     setMessage("");
   };
+
+  useEffect(() => {
+    links.forEach((link) => {
+      // Check if the link needs scraping and hasn't been processed yet
+      if (link.scraping && !activeScrapesRef.current.has(link.url)) {
+        activeScrapesRef.current.add(link.url); // Mark as in progress
+
+        scrapeLink(link.url)
+          .then(({ hasError, message, products }) => {
+            // Successful scraping, update the link with the results
+            setLinks((currentLinks) =>
+              currentLinks.map((l) =>
+                l.url === link.url
+                  ? { ...l, scraping: false, hasError, message, products }
+                  : l
+              )
+            );
+          })
+          .catch((error) => {
+            // Handle errors in scraping
+            setLinks((currentLinks) =>
+              currentLinks.map((l) =>
+                l.url === link.url
+                  ? {
+                      ...l,
+                      scraping: false,
+                      hasError: true,
+                      message: "Error during scraping",
+                    }
+                  : l
+              )
+            );
+          })
+          .finally(() => {
+            activeScrapesRef.current.delete(link.url); // Remove from in-progress tracking
+          });
+      }
+    });
+  }, [links]); // Dependency array includes 'links' to re-run when it changes
 
   return (
     <div className="max-w-6xl w-full space-y-8">
