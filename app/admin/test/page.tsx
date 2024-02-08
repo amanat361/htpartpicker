@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
-import { validateUrl } from "@utils/helperFunctions";
 import { useState } from "react";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
@@ -35,10 +34,6 @@ export default function LinkQueue() {
   const [message, setMessage] = useState("");
 
   const addLink = async () => {
-    if (!validateUrl(newLink)) {
-      setMessage("Invalid URL provided. Currently only supports Crutchfield product listing pages.");
-      return;
-    }
     if (links.some((link) => link.url === newLink)) {
       setMessage("URL already in queue!");
       return;
@@ -50,7 +45,7 @@ export default function LinkQueue() {
       message: "Waiting for data from server...",
       products: [],
     } as ScrapeLink;
-    setLinks([...links, newScrapeLink]);
+    setLinks((links) => [...links, newScrapeLink]);
     setNewLink("");
     setMessage("");
     const { hasError, message, products } = await scrapeLink(newLink);
@@ -58,7 +53,7 @@ export default function LinkQueue() {
     newScrapeLink.hasError = hasError;
     newScrapeLink.message = message;
     newScrapeLink.products = products;
-    setLinks([...links, newScrapeLink]);
+    setLinks((links) => [...links.filter((link) => link.url !== newLink), newScrapeLink]);
   };
 
   return (
@@ -94,9 +89,9 @@ export default function LinkQueue() {
                 </TableCell>
                 <TableCell>
                   {link.scraping ? (
-                    <Badge color="blue">Pending</Badge>
+                    <Badge color="blue">Loading...</Badge>
                   ) : (
-                    <Badge color="green">Scraped</Badge>
+                    <Badge color="violet">Finished</Badge>
                   )}
                 </TableCell>
                 <TableCell>
