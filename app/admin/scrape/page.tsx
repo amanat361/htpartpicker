@@ -8,16 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
-import { useEffect, useRef, useState } from "react";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { TextLink } from "@components/text";
-import Failure from "../add/components/Failure";
-
-import { scrapeLink, Product } from "./productScraper";
 import { Badge } from "@/app/components/badge";
 
+import type { Product, ResponseJson } from "@/app/api/scrape/route";
+import { useRef, useState } from "react";
+
+import Failure from "../add/components/Failure";
 import ScrapedProducts from "./ScrapedProducts";
 
 type ScrapeLink = {
@@ -32,7 +32,6 @@ export default function LinkQueue() {
   const [links, setLinks] = useState<ScrapeLink[]>([]);
   const [newLink, setNewLink] = useState("");
   const [message, setMessage] = useState("");
-  const activeScrapesRef = useRef(new Set<string>());
 
   const addLink = () => {
     if (links.some((link) => link.url === newLink) || !newLink.trim()) {
@@ -51,49 +50,42 @@ export default function LinkQueue() {
     // Add the new link to the list
     setLinks((prevLinks) => [...prevLinks, newScrapeLink]);
 
+    // Fetch /api/scrape to start scraping the new link
+    fetch("/api/scrape", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: newLink }),
+    })
+      // check status
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error("Failed to scrape the URL!");
+      })
+      // update the link state with the response
+      .then((data: ResponseJson) => {
+        const link = links.find((link) => link.url === newScrapeLink.url);
+        setMessage(newScrapeLink.url);
+        if (link) {
+          link.scraping = false;
+          link.hasError = false;
+          link.message = data.message;
+          link.products = data.products;
+          setLinks((prevLinks) =>
+            prevLinks.map((l) => (l.url === newScrapeLink.url ? link : l))
+          );
+        }
+      })
+      // handle errors
+      .catch((error) => {
+        setMessage(error.message);
+      });
+
     // Reset input and message state
     setNewLink("");
     setMessage("");
   };
-
-  useEffect(() => {
-    links.forEach((link) => {
-      // Check if the link needs scraping and hasn't been processed yet
-      if (link.scraping && !activeScrapesRef.current.has(link.url)) {
-        activeScrapesRef.current.add(link.url); // Mark as in progress
-
-        scrapeLink(link.url)
-          .then(({ hasError, message, products }) => {
-            // Successful scraping, update the link with the results
-            setLinks((currentLinks) =>
-              currentLinks.map((l) =>
-                l.url === link.url
-                  ? { ...l, scraping: false, hasError, message, products }
-                  : l
-              )
-            );
-          })
-          .catch((error) => {
-            // Handle errors in scraping
-            setLinks((currentLinks) =>
-              currentLinks.map((l) =>
-                l.url === link.url
-                  ? {
-                      ...l,
-                      scraping: false,
-                      hasError: true,
-                      message: "Error during scraping",
-                    }
-                  : l
-              )
-            );
-          })
-          .finally(() => {
-            activeScrapesRef.current.delete(link.url); // Remove from in-progress tracking
-          });
-      }
-    });
-  }, [links]); // Dependency array includes 'links' to re-run when it changes
 
   return (
     <div className="max-w-6xl w-full space-y-8">
