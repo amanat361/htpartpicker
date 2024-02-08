@@ -3,7 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/database.types";
 import { revalidatePath } from "next/cache";
-import type { Product as ScrapedProduct } from "./productScraper";
+import type { Product as ScrapedProduct } from "../admin/scrape/productScraper";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
