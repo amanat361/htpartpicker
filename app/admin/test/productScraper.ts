@@ -178,6 +178,14 @@ export async function scrapeLink(url: string): Promise<ScrapeLinkResponse> {
     };
   }
 
+  // uncomment to use mock data
+  return {
+    hasError: false,
+    message: "Scraping complete!",
+    products: mockProducts
+  };
+
+
   const brands = await getBrandList(url);
   const products = await findAllProductsOnPage(url);
   products.forEach((product) => {

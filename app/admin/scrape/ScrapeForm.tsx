@@ -27,13 +27,18 @@ const initialState = {
 } as FormState;
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
+  const { pending, data } = useFormStatus();
   return (
     <>
       <Button type="submit" disabled={pending}>
         {pending ? "Loading..." : "Scrape"}
       </Button>
-      {pending && <Text>This process could take up to a minute.</Text>}
+      {pending && (
+        <Text>
+          Currently scraping for the provided url: {data?.get('url')?.toString() || ''}
+          This process could take up to a minute.
+        </Text>
+      )}
     </>
   );
 }
@@ -46,11 +51,6 @@ export default function ScrapeForm({ categories }: { categories: Category[] }) {
     <>
       <form action={formAction} className="space-y-4">
         <Fieldset>
-          <Legend>Scrape a URL</Legend>
-          <Text>
-            This form will allow you to scrape a URL and return the data. This
-            will be one of the places where this product is sold.
-          </Text>
           <FieldGroup>
             <Field>
               <Label>URL</Label>
@@ -77,18 +77,6 @@ export default function ScrapeForm({ categories }: { categories: Category[] }) {
         </Fieldset>
       </form>
       {state.hasError && <Text>{state.message}</Text>}
-      {state.urls.length > 0 && (
-        <div>
-          <Text>Scraped URLs</Text>
-          <ul>
-            {state.urls.map((url) => (
-              <li key={url}>
-                <TextLink href={url}>{url}</TextLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
       <ScrapedProducts category={category} products={state.products} />
     </>
   );
