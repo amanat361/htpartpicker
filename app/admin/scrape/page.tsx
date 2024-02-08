@@ -33,27 +33,49 @@ export default function LinkQueue() {
   const [newLink, setNewLink] = useState("");
   const [message, setMessage] = useState("");
 
-  const addLink = async () => {
+  const addLink = () => {
     if (links.some((link) => link.url === newLink)) {
       setMessage("URL already in queue!");
       return;
     }
-    let newScrapeLink = {
+
+    const newScrapeLink = {
       url: newLink,
       scraping: true,
       hasError: false,
-      message: "Waiting for data from server...",
+      message: "Currently scraping...",
       products: [],
-    } as ScrapeLink;
-    setLinks((links) => [...links, newScrapeLink]);
+    };
+
+    setLinks((prevLinks) => [...prevLinks, newScrapeLink]);
+
+    scrapeLink(newLink)
+      .then(({ hasError, message, products }) => {
+        setLinks((prevLinks) =>
+          prevLinks.map((link) =>
+            link.url === newLink
+              ? { ...link, scraping: false, hasError, message, products }
+              : link
+          )
+        );
+      })
+      .catch((error) => {
+        setLinks((prevLinks) =>
+          prevLinks.map((link) =>
+            link.url === newLink
+              ? {
+                  ...link,
+                  scraping: false,
+                  hasError: true,
+                  message: "Error during scraping",
+                }
+              : link
+          )
+        );
+      });
+
     setNewLink("");
     setMessage("");
-    const { hasError, message, products } = await scrapeLink(newLink);
-    newScrapeLink.scraping = false;
-    newScrapeLink.hasError = hasError;
-    newScrapeLink.message = message;
-    newScrapeLink.products = products;
-    setLinks((links) => [...links.filter((link) => link.url !== newLink), newScrapeLink]);
   };
 
   return (
@@ -106,7 +128,10 @@ export default function LinkQueue() {
         </TableBody>
       </Table>
       {links.length > 0 && (
-        <ScrapedProducts category="Testing" products={links.flatMap((link) => link.products)} />
+        <ScrapedProducts
+          category="Testing"
+          products={links.flatMap((link) => link.products)}
+        />
       )}
     </div>
   );
