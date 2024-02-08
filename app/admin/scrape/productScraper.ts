@@ -1,12 +1,9 @@
 "use server";
 
-import chromium from "@sparticuz/chromium-min";
-import puppeteer from "puppeteer-core";
-
-import type { Page } from "puppeteer-core";
+import { getPage } from "@utils/puppeteerServer";
 import { mockProducts } from "@lib/products";
 
-let _page: Page | null = null;
+import type { Page } from "puppeteer-core";
 
 export interface Product {
   url: string;
@@ -25,39 +22,34 @@ export interface FormState {
   hasError: boolean;
 }
 
-const GITHUB_CHROME_EXECUTABLE =
-  "https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar";
+async function autoScroll(page: Page) {
+  await page.evaluate(async () => {
+    await new Promise<void>((resolve, reject) => {
+      var totalHeight = 0;
+      var distance = 100;
+      var timer = setInterval(() => {
+        var scrollHeight = document.body.scrollHeight;
+        window.scrollBy(0, distance);
+        totalHeight += distance;
 
-async function getBrowser() {
-  console.log("Attempting to launch browser...");
-  return puppeteer.launch({
-    executablePath: await chromium.executablePath(GITHUB_CHROME_EXECUTABLE),
-    args: chromium.args,
-    headless: chromium.headless,
-    defaultViewport: chromium.defaultViewport,
-    ignoreHTTPSErrors: true,
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 100);
+    });
   });
-}
-
-async function getPage() {
-  if (_page) {
-    return _page;
-  }
-  const browser = await getBrowser();
-  console.log("Successfully launched browser!");
-  _page = await browser.newPage();
-  console.log("Successfully opened new page!");
-  return _page;
 }
 
 async function getBrandList(url: string): Promise<string[]> {
   const page = await getPage();
   await page.goto(url);
 
-  // Scrape brand labels with 'for' attribute starting with 'Brand'
   const brands = await page.evaluate(() => {
-    const brandLabels = Array.from(document.querySelectorAll('.form-check-label[for^="Brand"]')) as HTMLLabelElement[];
-    return brandLabels.map(label => label.textContent?.trim() || '');
+    const brandLabels = Array.from(
+      document.querySelectorAll('.form-check-label[for^="Brand"]')
+    ) as HTMLLabelElement[];
+    return brandLabels.map((label) => label.textContent?.trim() || "");
   });
 
   return brands;
@@ -66,26 +58,6 @@ async function getBrandList(url: string): Promise<string[]> {
 async function findAllProductsOnPage(url: string): Promise<Product[]> {
   const page = await getPage();
   await page.goto(url);
-
-  // Function to scroll through the page
-  async function autoScroll(page: Page) {
-    await page.evaluate(async () => {
-      await new Promise<void>((resolve, reject) => {
-        var totalHeight = 0;
-        var distance = 100;
-        var timer = setInterval(() => {
-          var scrollHeight = document.body.scrollHeight;
-          window.scrollBy(0, distance);
-          totalHeight += distance;
-
-          if (totalHeight >= scrollHeight) {
-            clearInterval(timer);
-            resolve();
-          }
-        }, 100);
-      });
-    });
-  }
 
   // Scroll through the page to trigger lazy loading
   await autoScroll(page);
@@ -148,7 +120,6 @@ function validateUrl(url: string) {
 }
 
 export async function startScraping(state: FormState, formData: FormData) {
-  
   const rawFormData = Object.fromEntries(formData.entries());
   const url = rawFormData.url as string;
 
@@ -160,7 +131,7 @@ export async function startScraping(state: FormState, formData: FormData) {
       products: state.products,
     };
   }
-  
+
   // uncomment to use mock data
   // return {
   //   urls: [...state.urls, url],
@@ -178,17 +149,12 @@ export async function startScraping(state: FormState, formData: FormData) {
     };
   }
 
-  console.clear();
-  console.log("Scraping started...");
   const brands = await getBrandList(url);
-  console.log("Brands found:", brands);
   const products = await findAllProductsOnPage(url);
-  console.log("Products found:", products.length);
   products.forEach((product) => {
     const brand = brands.find((brand) => product.title.includes(brand));
     product.brand = brand || "";
   });
-  console.log("Scraping complete!");
 
   if (products.length === 0) {
     return {
@@ -203,6 +169,6 @@ export async function startScraping(state: FormState, formData: FormData) {
     urls: [...state.urls, url],
     hasError: false,
     message: "Scraping complete!",
-    products: [...state.products, ...products]
+    products: [...state.products, ...products],
   };
 }

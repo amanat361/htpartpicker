@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import type { Product } from "@utils/productScraper";
+import type { Product } from "@/app/admin/scrape/productScraper";
 
 import {
   Table,
@@ -53,9 +53,11 @@ export default function ScrapedProducts({ category, products }: { category: Stri
         <TableBody>
           {state.map((product, index) => (
             <TableRow key={product.url}>
+              {/* category */}
               <TableCell>
                 <Badge color="blue">{category}</Badge>
               </TableCell>
+              {/* image */}
               <TableCell>
                 <img
                   src={product.image}
@@ -63,6 +65,7 @@ export default function ScrapedProducts({ category, products }: { category: Stri
                   className="w-12 h-12 rounded-xl object-cover"
                 />
               </TableCell>
+              {/* title */}
               <TableCell>
                 <Input
                   type="text"
@@ -75,6 +78,7 @@ export default function ScrapedProducts({ category, products }: { category: Stri
                   }}
                 />
               </TableCell>
+              {/* brand */}
               <TableCell>
                 <Input
                   type="text"
@@ -87,6 +91,7 @@ export default function ScrapedProducts({ category, products }: { category: Stri
                   }}
                 />
               </TableCell>
+              {/* price */}
               <TableCell>
                 <Input
                   type="text"
@@ -99,9 +104,11 @@ export default function ScrapedProducts({ category, products }: { category: Stri
                   }}
                 />
               </TableCell>
+              {/* link */}
               <TableCell>
                 <TextLink href={product.url}>View on Crutchfield</TextLink>
               </TableCell>
+              {/* description */}
               <TableCell>
                 <Input
                   type="text"
@@ -114,6 +121,7 @@ export default function ScrapedProducts({ category, products }: { category: Stri
                   }}
                 />
               </TableCell>
+              {/* delete */}
               <TableCell>
                 <Button
                   type="button"

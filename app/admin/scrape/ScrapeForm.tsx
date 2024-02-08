@@ -9,11 +9,10 @@ import {
 } from "@components/fieldset";
 import { Button } from "@components/button";
 import { Input } from "@components/input";
-import { startScraping } from "@utils/productScraper";
+import { startScraping, FormState } from "./productScraper";
 import { useFormStatus } from "react-dom";
 import { useFormState } from "react-dom";
 import { Text, TextLink } from "@components/text";
-import { FormState } from "@utils/productScraper";
 import type { Category } from "@utils/supabaseServer";
 
 import ScrapedProducts from "./ScrapedProducts";
