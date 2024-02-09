@@ -58,6 +58,18 @@ export default function LinkQueue() {
         setLinks((prevLinks) =>
           prevLinks.map((link) => (link.url === data.url ? data : link))
         );
+      })
+      .catch((error) => {
+        const newErrorLink = {
+          url: newLink,
+          scraping: false,
+          hasError: true,
+          message: "Server error :(",
+          products: [],
+        } as ScrapeLink;
+        setLinks((prevLinks) =>
+          prevLinks.map((link) => (link.url === newLink ? newErrorLink : link))
+        );
       });
 
     setNewLink("");

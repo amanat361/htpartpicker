@@ -113,7 +113,6 @@ const returnMockData = process.env.NODE_ENV === "development";
 export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
   const body = await req.json();
   const { url } = body;
-  console.log("URL: ", url);
 
   // Check if the URL is in the request body
   if (!url) {
