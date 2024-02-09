@@ -8,52 +8,72 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
-import { useState } from "react";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { TextLink } from "@components/text";
-import Failure from "../add/components/Failure";
-
-import { scrapeLink, Product } from "./productScraper";
 import { Badge } from "@/app/components/badge";
 
-import ScrapedProducts from "./ScrapedProducts";
+import type { ScrapeLink } from "@/app/api/scrape/route";
+import { useState } from "react";
 
-type ScrapeLink = {
-  url: string;
-  scraping: boolean;
-  hasError: boolean;
-  message: string;
-  products: Product[];
-};
+import Failure from "../add/components/Failure";
+import ScrapedProducts from "./ScrapedProducts";
 
 export default function LinkQueue() {
   const [links, setLinks] = useState<ScrapeLink[]>([]);
   const [newLink, setNewLink] = useState("");
   const [message, setMessage] = useState("");
 
-  const addLink = async () => {
+  const addLink = () => {
     if (links.some((link) => link.url === newLink)) {
-      setMessage("URL already in queue!");
+      setMessage("URL already in queue");
       return;
     }
-    let newScrapeLink = {
+
+    if (!newLink.trim()) {
+      setMessage("URL cannot be empty");
+      return;
+    }
+
+    const newScrapeLink = {
       url: newLink,
       scraping: true,
       hasError: false,
-      message: "Waiting for data from server...",
+      message: "Processing...",
       products: [],
     } as ScrapeLink;
-    setLinks((links) => [...links, newScrapeLink]);
+
+    setLinks((prevLinks) => [...prevLinks, newScrapeLink]);
+
+    fetch("/api/scrape", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newScrapeLink),
+    })
+      .then((res) => res.json() as Promise<ScrapeLink>)
+      .then((data) => {
+        setLinks((prevLinks) =>
+          prevLinks.map((link) => (link.url === data.url ? data : link))
+        );
+      })
+      .catch((error) => {
+        const newErrorLink = {
+          url: newLink,
+          scraping: false,
+          hasError: true,
+          message: "Server error :(",
+          products: [],
+        } as ScrapeLink;
+        setLinks((prevLinks) =>
+          prevLinks.map((link) => (link.url === newLink ? newErrorLink : link))
+        );
+      });
+
     setNewLink("");
     setMessage("");
-    const { hasError, message, products } = await scrapeLink(newLink);
-    newScrapeLink.scraping = false;
-    newScrapeLink.hasError = hasError;
-    newScrapeLink.message = message;
-    newScrapeLink.products = products;
-    setLinks((links) => [...links.filter((link) => link.url !== newLink), newScrapeLink]);
   };
 
   return (
@@ -65,8 +85,9 @@ export default function LinkQueue() {
           value={newLink}
           onChange={(e) => setNewLink(e.target.value)}
         />
-        <Button color="emerald" onClick={addLink}>
+        <Button color="lime" onClick={addLink}>
           <PlusIcon />
+          Scrape
         </Button>
       </div>
       {message && <Failure errorMessage={message} />}
@@ -106,7 +127,10 @@ export default function LinkQueue() {
         </TableBody>
       </Table>
       {links.length > 0 && (
-        <ScrapedProducts category="Testing" products={links.flatMap((link) => link.products)} />
+        <ScrapedProducts
+          category="Testing"
+          products={links.flatMap((link) => link.products)}
+        />
       )}
     </div>
   );
