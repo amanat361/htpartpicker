@@ -4,6 +4,8 @@ import { mockProducts } from "@lib/products";
 import type { Page } from "puppeteer-core";
 import { NextResponse } from "next/server";
 
+export const maxDuration = 300; // 5 minutes
+
 export interface Product {
   url: string;
   image: string;
