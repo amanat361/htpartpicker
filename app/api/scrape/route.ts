@@ -26,7 +26,7 @@ async function autoScroll(page: Page) {
   await page.evaluate(async () => {
     await new Promise<void>((resolve, reject) => {
       var totalHeight = 0;
-      var distance = 100; // You can adjust this value based on the average size of the elements
+      var distance = 150; // You can adjust this value based on the average size of the elements
       var previousHeight = -1;
 
       var checkScroll = () => {
@@ -38,7 +38,7 @@ async function autoScroll(page: Page) {
           previousHeight = scrollHeight; // Update the last known height
           window.scrollBy(0, distance);
           totalHeight += distance;
-          setTimeout(checkScroll, 100); // Adjust this value as needed for load times
+          setTimeout(checkScroll, 50); // Adjust this value as needed for load times
         }
       };
 
@@ -46,25 +46,6 @@ async function autoScroll(page: Page) {
     });
   });
 }
-
-// async function autoScroll(page: Page) {
-//   await page.evaluate(async () => {
-//     await new Promise<void>((resolve, reject) => {
-//       var totalHeight = 0;
-//       var distance = 300;
-//       var timer = setInterval(() => {
-//         var scrollHeight = document.body.scrollHeight;
-//         window.scrollBy(0, distance);
-//         totalHeight += distance;
-
-//         if (totalHeight >= scrollHeight) {
-//           clearInterval(timer);
-//           resolve();
-//         }
-//       }, 30);
-//     });
-//   });
-// }
 
 async function getBrandList(url: string): Promise<string[]> {
   const page = await getPage();
