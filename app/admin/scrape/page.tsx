@@ -85,8 +85,9 @@ export default function LinkQueue() {
           value={newLink}
           onChange={(e) => setNewLink(e.target.value)}
         />
-        <Button color="emerald" onClick={addLink}>
+        <Button color="lime" onClick={addLink}>
           <PlusIcon />
+          Scrape
         </Button>
       </div>
       {message && <Failure errorMessage={message} />}
