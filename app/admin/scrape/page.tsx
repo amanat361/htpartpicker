@@ -14,19 +14,11 @@ import { PlusIcon } from "@heroicons/react/16/solid";
 import { TextLink } from "@components/text";
 import { Badge } from "@/app/components/badge";
 
-import type { Product, ResponseJson } from "@/app/api/scrape/route";
-import { useRef, useState } from "react";
+import type { ScrapeLink } from "@/app/api/scrape/route";
+import { useState } from "react";
 
 import Failure from "../add/components/Failure";
 import ScrapedProducts from "./ScrapedProducts";
-
-type ScrapeLink = {
-  url: string;
-  scraping: boolean;
-  hasError: boolean;
-  message: string;
-  products: Product[];
-};
 
 export default function LinkQueue() {
   const [links, setLinks] = useState<ScrapeLink[]>([]);
@@ -34,8 +26,13 @@ export default function LinkQueue() {
   const [message, setMessage] = useState("");
 
   const addLink = () => {
-    if (links.some((link) => link.url === newLink) || !newLink.trim()) {
-      setMessage("URL already in queue or empty!");
+    if (links.some((link) => link.url === newLink)) {
+      setMessage("URL already in queue");
+      return;
+    }
+
+    if (!newLink.trim()) {
+      setMessage("URL cannot be empty");
       return;
     }
 
@@ -43,46 +40,26 @@ export default function LinkQueue() {
       url: newLink,
       scraping: true,
       hasError: false,
-      message: "Waiting to start scraping...",
+      message: "Processing...",
       products: [],
-    };
+    } as ScrapeLink;
 
-    // Add the new link to the list
     setLinks((prevLinks) => [...prevLinks, newScrapeLink]);
 
-    // Fetch /api/scrape to start scraping the new link
     fetch("/api/scrape", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ url: newLink }),
+      body: JSON.stringify(newScrapeLink),
     })
-      // check status
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Failed to scrape the URL!");
-      })
-      // update the link state with the response
-      .then((data: ResponseJson) => {
-        const link = links.find((link) => link.url === newScrapeLink.url);
-        setMessage(newScrapeLink.url);
-        if (link) {
-          link.scraping = false;
-          link.hasError = false;
-          link.message = data.message;
-          link.products = data.products;
-          setLinks((prevLinks) =>
-            prevLinks.map((l) => (l.url === newScrapeLink.url ? link : l))
-          );
-        }
-      })
-      // handle errors
-      .catch((error) => {
-        setMessage(error.message);
+      .then((res) => res.json() as Promise<ScrapeLink>)
+      .then((data) => {
+        setLinks((prevLinks) =>
+          prevLinks.map((link) => (link.url === data.url ? data : link))
+        );
       });
 
-    // Reset input and message state
     setNewLink("");
     setMessage("");
   };

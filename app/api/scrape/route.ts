@@ -14,11 +14,19 @@ export interface Product {
   highlights: string[];
 }
 
+export type ScrapeLink = {
+  url: string;
+  scraping: boolean;
+  hasError: boolean;
+  message: string;
+  products: Product[];
+};
+
 async function autoScroll(page: Page) {
   await page.evaluate(async () => {
     await new Promise<void>((resolve, reject) => {
       var totalHeight = 0;
-      var distance = 100;
+      var distance = 300;
       var timer = setInterval(() => {
         var scrollHeight = document.body.scrollHeight;
         window.scrollBy(0, distance);
@@ -28,7 +36,7 @@ async function autoScroll(page: Page) {
           clearInterval(timer);
           resolve();
         }
-      }, 100);
+      }, 30);
     });
   });
 }
@@ -100,54 +108,100 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
   return products;
 }
 
-export type ResponseJson = {
-  url: string;
-  message: string;
-  products: Product[];
-};
+const returnMockData = process.env.NODE_ENV === "development";
 
-type ScrapeResponse = NextResponse<ResponseJson>;
-
-const returnMockData = true;
-
-export async function POST(req: Request): Promise<ScrapeResponse> {
+export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
   const body = await req.json();
   const { url } = body;
-  console.log("URL: ", url)
+  console.log("URL: ", url);
+
+  // Check if the URL is in the request body
   if (!url) {
-    const resBody = {url: "", message: "URL is required", products: [] };
+    const resBody = {
+      url: "URL undefined",
+      scraping: false,
+      hasError: true,
+      message: "URL is required!",
+      products: [],
+    };
     return NextResponse.json(resBody, { status: 400 });
   }
 
+  // Check if the URL is valid
   if (!validateUrl(url)) {
-    const resBody = {url: url, message: "Invalid URL!", products: [] };
+    const resBody = {
+      url: url,
+      scraping: false,
+      hasError: true,
+      message: "Invalid URL!",
+      products: [],
+    };
     return NextResponse.json(resBody, { status: 400 });
   }
 
+  // Return mock data if the flag is set
   if (returnMockData) {
-    const resBody = {url: url, message: "Scraping complete! (Mock Products Returned)", products: mockProducts };
+    // wait 10 seconds to simulate a slow response
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    const resBody = {
+      url: url,
+      scraping: false,
+      hasError: false,
+      message: `${mockProducts.length} mock products scraped!`,
+      products: mockProducts,
+    };
     return NextResponse.json(resBody, { status: 200 });
   }
 
+  // Scrape the URL
   try {
     const brands = await getBrandList(url);
     const products = await findAllProductsOnPage(url);
+
+    if (brands.length === 0) {
+      const resBody = {
+        url: url,
+        scraping: false,
+        hasError: false,
+        message: "No brands found!",
+        products: [],
+      };
+      return NextResponse.json(resBody, { status: 400 });
+    }
+
+    if (products.length === 0) {
+      const resBody = {
+        url: url,
+        scraping: false,
+        hasError: false,
+        message: "No products found!",
+        products: [],
+      };
+      return NextResponse.json(resBody, { status: 400 });
+    }
 
     products.forEach((product) => {
       const brand = brands.find((brand) => product.title.includes(brand));
       product.brand = brand || "";
     });
 
-    if (products.length === 0) {
-      const resBody = {url: url, message: "No new products found!", products: [] };
-      return NextResponse.json(resBody, { status: 400 });
-    }
-
-    const resBody = {url: url, message: "Scraping complete!", products };
+    const resBody = {
+      url: url,
+      scraping: false,
+      hasError: false,
+      message: `${products.length} products scraped successfully!`,
+      products: products,
+    };
     return NextResponse.json(resBody, { status: 200 });
-  }
-  catch (error) {
-    const resBody = {url: url, message: "Failed to scrape the URL!", products: [] };
+  } catch (error) {
+    const resBody = {
+      url: url,
+      scraping: false,
+      hasError: true,
+      message: "Error scraping the URL",
+      products: [],
+    };
     return NextResponse.json(resBody, { status: 500 });
   }
 }

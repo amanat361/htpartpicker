@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import type { Product } from "@/app/admin/scrape/productScraper";
+import type { Product } from "@/app/api/scrape/route";
 
 import {
   Table,
