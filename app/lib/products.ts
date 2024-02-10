@@ -225,4 +225,7 @@ const mockProducts = [
   },
 ] as Product[];
 
-export { type Item, items, type Category, categories, mockProducts };
+
+const largeMockProducts = Array(50).fill(mockProducts).flat();
+
+export { type Item, items, type Category, categories, mockProducts, largeMockProducts };

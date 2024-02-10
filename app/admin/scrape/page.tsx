@@ -18,7 +18,7 @@ import type { ScrapeLink } from "@/app/api/scrape/route";
 import { useState } from "react";
 
 import Failure from "../add/components/Failure";
-import ScrapedProducts from "./ScrapedProducts";
+import ProductTable from "./ProductTable";
 
 export default function LinkQueue() {
   const [links, setLinks] = useState<ScrapeLink[]>([]);
@@ -127,7 +127,7 @@ export default function LinkQueue() {
         </TableBody>
       </Table>
       {links.length > 0 && (
-        <ScrapedProducts
+        <ProductTable
           category="Testing"
           products={links.flatMap((link) => link.products)}
         />
