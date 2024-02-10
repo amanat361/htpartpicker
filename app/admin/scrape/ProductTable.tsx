@@ -5,14 +5,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/table";
-import {
-  Pagination,
-  PaginationGap,
-  PaginationList,
-  PaginationNext,
-  PaginationPage,
-  PaginationPrevious,
-} from "@components/pagination";
 import { useState, useEffect, useRef } from "react";
 import { bulkProductInsert } from "@utils/supabaseServer";
 import type { Product } from "@/app/api/scrape/route";
@@ -20,6 +12,7 @@ import ProductRow from "./ProductRow";
 import SubmitTable from "./SubmitTable";
 
 import { useSearchParams } from "next/navigation";
+import TablePagination from "./TablePagination";
 const ITEMS_PER_PAGE = 5;
 
 export default function ProductTable({
@@ -101,26 +94,11 @@ export default function ProductTable({
         </TableBody>
       </Table>
       <SubmitTable loading={loading} onSubmit={onSubmit} />
-      <Pagination>
-        <PaginationPrevious href={page === 1 ? null : `?page=${page - 1}`} />
-        <PaginationList>
-          {Array.from({ length: Math.ceil(state.length / ITEMS_PER_PAGE) }).map(
-            (_, i) => {
-              const pageNumber = i + 1;
-              return (
-                <PaginationPage key={pageNumber} href={`?page=${pageNumber}`}>
-                  {pageNumber as unknown as string}
-                </PaginationPage>
-              );
-            }
-          )}
-        </PaginationList>
-        <PaginationNext
-          href={
-            state.length <= page * ITEMS_PER_PAGE ? null : `?page=${page + 1}`
-          }
-        />
-      </Pagination>
+      <TablePagination
+        stateLength={state.length}
+        page={page}
+        itemsPerPage={ITEMS_PER_PAGE}
+      />
     </>
   );
 }

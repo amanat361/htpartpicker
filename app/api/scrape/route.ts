@@ -153,8 +153,8 @@ export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
       url: url,
       scraping: false,
       hasError: false,
-      message: `${mockProducts.length} mock products scraped!`,
-      products: mockProducts,
+      message: `${largeMockProducts.length} mock products scraped!`,
+      products: largeMockProducts,
     };
     return NextResponse.json(resBody, { status: 200 });
   }
