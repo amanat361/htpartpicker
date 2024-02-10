@@ -13,7 +13,7 @@ import SubmitTable from "./SubmitTable";
 
 import { useSearchParams } from "next/navigation";
 import TablePagination from "./TablePagination";
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 export default function ProductTable({
   category,
@@ -41,6 +41,14 @@ export default function ProductTable({
     }
   }, [products]);
 
+  useEffect(() => {
+    if (state.length === 0) setPage(1);
+    const lastPage = Math.ceil(state.length / ITEMS_PER_PAGE);
+    if (state.length > 0 && state.length % ITEMS_PER_PAGE === 0) {
+      if (page > lastPage) setPage(lastPage);
+    } 
+  }, [state, page]);
+
   const onSubmit = async () => {
     setLoading(true);
     const error = await bulkProductInsert(state);
@@ -56,9 +64,6 @@ export default function ProductTable({
     const newState = [...state];
     newState.splice(index, 1);
     setState(newState);
-    if (state.length % ITEMS_PER_PAGE === 1 && page > 1) {
-      setPage(page - 1);
-    }
   };
 
   return (
