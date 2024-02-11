@@ -17,7 +17,6 @@ import { Badge } from "@/app/components/badge";
 import type { ScrapeLink } from "@/app/api/scrape/route";
 import { useState } from "react";
 
-import Failure from "../add/components/Failure";
 import ProductTable from "./ProductTable";
 
 export default function LinkQueue() {
@@ -90,7 +89,7 @@ export default function LinkQueue() {
           Scrape
         </Button>
       </div>
-      {message && <Failure errorMessage={message} />}
+      {message && <Badge color="red">{message}</Badge>}
       <Table>
         <TableHead>
           <TableRow>

@@ -44,7 +44,10 @@ export default function ProductTable({
   const onSubmit = async () => {
     setLoading(true);
     const error = await bulkProductInsert(state);
-    if (!error) setState([]);
+    if (!error) {
+      setState([]);
+      setPage(1);
+    }
     setLoading(false);
   };
 
@@ -55,7 +58,6 @@ export default function ProductTable({
   const onDelete = (index: number) => {
     const newState = [...state];
     newState.splice(index, 1);
-    if (newState.length === 0) setPage(1);
     const lastPage = Math.ceil(newState.length / ITEMS_PER_PAGE);
     if (newState.length % ITEMS_PER_PAGE === 0) {
       if (page > lastPage) setPage(lastPage);

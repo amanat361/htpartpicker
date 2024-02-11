@@ -45,6 +45,7 @@ export default function ProductRow(props: {
           name="title"
           value={product.title}
           onChange={updateItemAndSync}
+          invalid={!product.title}
         />
       </TableCell>
       {/* brand */}
@@ -54,6 +55,7 @@ export default function ProductRow(props: {
           name="brand"
           value={product.brand}
           onChange={updateItemAndSync}
+          invalid={!product.brand}
         />
       </TableCell>
       {/* price */}
@@ -63,6 +65,7 @@ export default function ProductRow(props: {
           name="price"
           value={product.price}
           onChange={updateItemAndSync}
+          invalid={!product.price}
         />
       </TableCell>
       {/* link */}
@@ -78,6 +81,7 @@ export default function ProductRow(props: {
           onChange={(e) => {
             setProduct({ ...product, description: e.target.value });
           }}
+          invalid={!product.description}
         />
       </TableCell>
       {/* delete */}
