@@ -225,4 +225,20 @@ const mockProducts = [
   },
 ] as Product[];
 
-export { type Item, items, type Category, categories, mockProducts };
+
+// make a large mock products array with randomized strings
+const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
+  url: `https://example.com/product${i + 1}`,
+  image: "https://via.placeholder.com/200",
+  title: `Product ${i + 1}`,
+  price: `$${Math.floor(Math.random() * 1000)}`,
+  brand: `Brand ${i + 1}`,
+  description: `Description for product ${i + 1}`,
+  highlights: [
+    `Highlight 1 for product ${i + 1}`,
+    `Highlight 2 for product ${i + 1}`,
+    `Highlight 3 for product ${i + 1}`,
+  ],
+}));
+
+export { type Item, items, type Category, categories, mockProducts, largeMockProducts };
