@@ -41,14 +41,6 @@ export default function ProductTable({
     }
   }, [products]);
 
-  useEffect(() => {
-    if (state.length === 0) setPage(1);
-    const lastPage = Math.ceil(state.length / ITEMS_PER_PAGE);
-    if (state.length > 0 && state.length % ITEMS_PER_PAGE === 0) {
-      if (page > lastPage) setPage(lastPage);
-    } 
-  }, [state, page]);
-
   const onSubmit = async () => {
     setLoading(true);
     const error = await bulkProductInsert(state);
@@ -63,6 +55,11 @@ export default function ProductTable({
   const onDelete = (index: number) => {
     const newState = [...state];
     newState.splice(index, 1);
+    if (newState.length === 0) setPage(1);
+    const lastPage = Math.ceil(newState.length / ITEMS_PER_PAGE);
+    if (newState.length % ITEMS_PER_PAGE === 0) {
+      if (page > lastPage) setPage(lastPage);
+    }
     setState(newState);
   };
 
