@@ -48,7 +48,7 @@ const badgeColors = {
   pair: "purple",
 } as BadgeColors;
 
-const customFont = Roboto_Slab();
+const customFont = Roboto_Slab({ subsets: ["latin"] });
 
 function SectionHeading() {
   return (
