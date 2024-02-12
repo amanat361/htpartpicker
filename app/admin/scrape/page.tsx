@@ -13,9 +13,10 @@ import { Button } from "@components/button";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { TextLink } from "@components/text";
 import { Badge } from "@/app/components/badge";
+import "ldrs/lineSpinner"; // Default values shown
 
 import type { ScrapeLink } from "@/app/api/scrape/route";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ProductTable from "./ProductTable";
 
@@ -75,6 +76,14 @@ export default function LinkQueue() {
     setMessage("");
   };
 
+  useEffect(() => {
+    async function getLoader() {
+      const { mirage } = await import("ldrs");
+      mirage.register();
+    }
+    getLoader();
+  }, []);
+
   return (
     <div className="max-w-6xl w-full space-y-8">
       <h1 className="text-md font-bold">Add a URL to the queue</h1>
@@ -109,7 +118,7 @@ export default function LinkQueue() {
                 </TableCell>
                 <TableCell>
                   {link.scraping ? (
-                    <Badge color="blue">Loading...</Badge>
+                    <l-mirage color="white"></l-mirage>
                   ) : (
                     <Badge color="violet">Finished</Badge>
                   )}
