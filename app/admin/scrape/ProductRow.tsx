@@ -9,6 +9,7 @@ import {
   Dropdown,
   DropdownButton,
   DropdownItem,
+  DropdownLabel,
   DropdownMenu,
 } from "@components/dropdown";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
@@ -96,7 +97,7 @@ export default function ProductRow(props: {
             {product.highlights.map((highlight, i) => (
               <DropdownItem key={i}>
                 <CheckBadgeIcon />
-                {highlight}
+                <DropdownLabel>{highlight}</DropdownLabel>
               </DropdownItem>
             ))}
           </DropdownMenu>
