@@ -78,8 +78,9 @@ export default function LinkQueue() {
 
   useEffect(() => {
     async function getLoader() {
-      const { mirage } = await import("ldrs");
+      const { mirage, quantum } = await import("ldrs");
       mirage.register();
+      quantum.register();
     }
     getLoader();
   }, []);
