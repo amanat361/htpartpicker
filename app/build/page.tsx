@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
+import { Roboto_Slab } from "next/font/google";
 
 import {
   Table,
@@ -21,7 +23,6 @@ import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { Badge } from "@components/badge";
 import { Strong, Text, TextLink } from "@components/text";
 import { Item, items } from "@/app/lib/products";
-import Configurations from "./configurations";
 
 type BadgeColor =
   | "teal"
@@ -47,11 +48,16 @@ const badgeColors = {
   pair: "purple",
 } as BadgeColors;
 
+const customFont = Roboto_Slab({ subsets: ["latin"] });
+
 function SectionHeading() {
   return (
     <div className="border-b-[1px] border-gray-400 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
-      <h1 className="text-lg sm:text-4xl font-semibold leading-6 text-gray-900 dark:text-gray-100">
-        Build your <span className="text-rose-600">Home Theater</span>
+      <h1 className={`${customFont.className} font-bold text-lg sm:text-5xl text-gray-900 dark:text-gray-100`}>
+          Build your{" "}
+          <span className="bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800 inline-block text-transparent bg-clip-text">
+            Home Theater
+          </span>
       </h1>
       <div className="mt-3 flex sm:ml-4 sm:mt-0 gap-4">
         <Button outline>

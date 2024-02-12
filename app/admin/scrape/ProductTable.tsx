@@ -34,9 +34,18 @@ export default function ProductTable({
   }, [searchParams]);
 
   useEffect(() => {
+    const isEmpty = (product: Product) => {
+      return Object.values(product).some((value) => value === "");
+    };
+
+    const notEmpty = (product: Product) => {
+      return !isEmpty(product);
+    };
     if (products.length > addedProductsCount.current) {
       const newProducts = products.slice(addedProductsCount.current);
-      setState((state) => [...state, ...newProducts]);
+      const emptyProducts = newProducts.filter(isEmpty);
+      const notEmptyProducts = newProducts.filter(notEmpty);
+      setState((state) => [...emptyProducts, ...notEmptyProducts, ...state]);
       addedProductsCount.current = products.length;
     }
   }, [products]);
@@ -74,12 +83,12 @@ export default function ProductTable({
       >
         <TableHead>
           <TableRow>
-            <TableHeader>Image</TableHeader>
+            <TableHeader>View</TableHeader>
             <TableHeader>Title</TableHeader>
             <TableHeader>Brand</TableHeader>
             <TableHeader>Price</TableHeader>
-            <TableHeader>URL</TableHeader>
             <TableHeader>Description</TableHeader>
+            <TableHeader>Highlights</TableHeader>
             <TableHeader>Delete</TableHeader>
           </TableRow>
         </TableHead>
