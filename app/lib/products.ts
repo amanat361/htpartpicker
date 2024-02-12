@@ -228,7 +228,7 @@ const mockProducts = [
 
 // make a large mock products array with randomized strings
 const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
-  url: `https://example.com/product${i + 1}`,
+  url: crypto.randomUUID(),
   image: "https://via.placeholder.com/200",
   title: `Product ${i + 1}`,
   price: `$${Math.floor(Math.random() * 1000)}`,
@@ -240,5 +240,9 @@ const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
     `Highlight 3 for product ${i + 1}`,
   ],
 }));
+
+
+largeMockProducts[9].description = "";
+largeMockProducts[13].title = "";
 
 export { type Item, items, type Category, categories, mockProducts, largeMockProducts };
