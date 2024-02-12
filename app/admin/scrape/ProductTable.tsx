@@ -83,12 +83,12 @@ export default function ProductTable({
       >
         <TableHead>
           <TableRow>
-            <TableHeader>Image</TableHeader>
+            <TableHeader>View</TableHeader>
             <TableHeader>Title</TableHeader>
             <TableHeader>Brand</TableHeader>
             <TableHeader>Price</TableHeader>
-            <TableHeader>URL</TableHeader>
             <TableHeader>Description</TableHeader>
+            <TableHeader>Highlights</TableHeader>
             <TableHeader>Delete</TableHeader>
           </TableRow>
         </TableHead>

@@ -1,14 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  TableCell,
-  TableRow,
-} from "@components/table";
+import { TableCell, TableRow } from "@components/table";
 import { Button } from "@components/button";
 import { Input } from "@components/input";
-import { TextLink } from "@components/text";
-import { TrashIcon } from "@heroicons/react/16/solid";
+import { TrashIcon, CheckBadgeIcon } from "@heroicons/react/16/solid";
 import type { Product } from "@/app/api/scrape/route";
 import { useState } from "react";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu,
+} from "@components/dropdown";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
 export default function ProductRow(props: {
   index: number;
@@ -32,11 +35,13 @@ export default function ProductRow(props: {
     <TableRow key={product.url}>
       {/* image */}
       <TableCell>
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-12 h-12 rounded-xl object-cover"
-        />
+        <a href={product.url} target="_blank" rel="noreferrer">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-12 h-12 rounded-xl object-cover"
+          />
+        </a>
       </TableCell>
       {/* title */}
       <TableCell>
@@ -68,10 +73,6 @@ export default function ProductRow(props: {
           invalid={!product.price}
         />
       </TableCell>
-      {/* link */}
-      <TableCell>
-        <TextLink href={product.url}>View on Crutchfield</TextLink>
-      </TableCell>
       {/* description */}
       <TableCell>
         <Input
@@ -83,6 +84,23 @@ export default function ProductRow(props: {
           }}
           invalid={!product.description}
         />
+      </TableCell>
+      {/* highlights */}
+      <TableCell>
+        <Dropdown>
+          <DropdownButton outline>
+            View Highlights
+            <ChevronDownIcon />
+          </DropdownButton>
+          <DropdownMenu>
+            {product.highlights.map((highlight, i) => (
+              <DropdownItem key={i}>
+                <CheckBadgeIcon />
+                {highlight}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
       </TableCell>
       {/* delete */}
       <TableCell>
