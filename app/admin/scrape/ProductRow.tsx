@@ -95,7 +95,7 @@ export default function ProductRow(props: {
           </DropdownButton>
           <DropdownMenu>
             {product.highlights.map((highlight, i) => (
-              <DropdownItem key={i}>
+              <DropdownItem key={i} href="#">
                 <CheckBadgeIcon />
                 <DropdownLabel>{highlight}</DropdownLabel>
               </DropdownItem>
