@@ -2,11 +2,10 @@
 import { TableCell, TableRow } from "@components/table";
 import { Button } from "@components/button";
 import { Input } from "@components/input";
-import { TrashIcon, CheckBadgeIcon } from "@heroicons/react/16/solid";
+import { TrashIcon } from "@heroicons/react/16/solid";
 import type { Product } from "@/app/api/scrape/route";
 import { useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
 export default function ProductRow(props: {
   index: number;
