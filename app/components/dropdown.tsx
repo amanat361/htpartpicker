@@ -33,6 +33,7 @@ export function Dropdown(props: HeadlessMenuProps) {
 export function DropdownButton<T extends React.ElementType = typeof Button>(
   props: React.ComponentProps<typeof HeadlessMenuButton<T>>
 ) {
+  // @ts-ignore
   return <HeadlessMenuButton as={Button} {...props} />
 }
 

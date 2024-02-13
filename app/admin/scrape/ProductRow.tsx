@@ -2,16 +2,10 @@
 import { TableCell, TableRow } from "@components/table";
 import { Button } from "@components/button";
 import { Input } from "@components/input";
-import { TrashIcon, CheckBadgeIcon } from "@heroicons/react/16/solid";
+import { TrashIcon } from "@heroicons/react/16/solid";
 import type { Product } from "@/app/api/scrape/route";
 import { useState } from "react";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownItem,
-  DropdownMenu,
-} from "@components/dropdown";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
 
 export default function ProductRow(props: {
   index: number;
@@ -87,20 +81,13 @@ export default function ProductRow(props: {
       </TableCell>
       {/* highlights */}
       <TableCell>
-        <Dropdown>
-          <DropdownButton outline>
-            View Highlights
-            <ChevronDownIcon />
-          </DropdownButton>
-          <DropdownMenu>
+        <Listbox name="highlights" defaultValue={product.highlights[0]}>
             {product.highlights.map((highlight, i) => (
-              <DropdownItem key={i}>
-                <CheckBadgeIcon />
-                {highlight}
-              </DropdownItem>
+              <ListboxOption key={i} value={highlight}>
+                <ListboxLabel>{highlight}</ListboxLabel>
+              </ListboxOption>
             ))}
-          </DropdownMenu>
-        </Dropdown>
+        </Listbox>
       </TableCell>
       {/* delete */}
       <TableCell>
