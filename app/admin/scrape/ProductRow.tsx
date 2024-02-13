@@ -80,13 +80,15 @@ export default function ProductRow(props: {
         />
       </TableCell>
       {/* highlights */}
-      <TableCell>
+      <TableCell className="w-56 max-w-56">
         <Listbox name="highlights" defaultValue={product.highlights[0]}>
-            {product.highlights.map((highlight, i) => (
-              <ListboxOption key={i} value={highlight}>
-                <ListboxLabel>{highlight}</ListboxLabel>
-              </ListboxOption>
-            ))}
+          {product.highlights.map((highlight, i) => (
+            <ListboxOption key={i} value={highlight}>
+              <ListboxLabel>
+                {highlight}
+              </ListboxLabel>
+            </ListboxOption>
+          ))}
         </Listbox>
       </TableCell>
       {/* delete */}
