@@ -51,7 +51,7 @@ export default function ProductTable({
       const newProducts = addedProducts.filter(notAdded);
       const emptyProducts = newProducts.filter(isEmpty);
       const notEmptyProducts = newProducts.filter(notEmpty);
-      setState((state) => [...emptyProducts, ...notEmptyProducts, ...state]);
+      setState((state) => [...emptyProducts, ...state, ...notEmptyProducts]);
       addedProductsCount.current = products.length;
     }
   }, [products, state]);
