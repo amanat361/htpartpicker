@@ -34,6 +34,10 @@ export default function ProductTable({
   }, [searchParams]);
 
   useEffect(() => {
+    const notAdded = (product: Product) => {
+      return !state.some((p) => p.url === product.url);
+    }
+
     const isEmpty = (product: Product) => {
       return Object.values(product).some((value) => value === "");
     };
@@ -41,14 +45,16 @@ export default function ProductTable({
     const notEmpty = (product: Product) => {
       return !isEmpty(product);
     };
+
     if (products.length > addedProductsCount.current) {
-      const newProducts = products.slice(addedProductsCount.current);
+      const addedProducts = products.slice(addedProductsCount.current);
+      const newProducts = addedProducts.filter(notAdded);
       const emptyProducts = newProducts.filter(isEmpty);
       const notEmptyProducts = newProducts.filter(notEmpty);
       setState((state) => [...emptyProducts, ...notEmptyProducts, ...state]);
       addedProductsCount.current = products.length;
     }
-  }, [products]);
+  }, [products, state]);
 
   const onSubmit = async () => {
     setLoading(true);
