@@ -1,6 +1,5 @@
 import { Button } from "@components/button";
-import { CheckBadgeIcon, StopCircleIcon } from "@heroicons/react/16/solid";
-import { useEffect } from "react";
+import { CheckBadgeIcon } from "@heroicons/react/16/solid";
 
 export default function SubmitTable({
   loading,
