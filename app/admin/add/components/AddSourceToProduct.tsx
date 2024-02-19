@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { addSourceToProduct } from "@utils/supabaseServer";
+import { insertSourceForProduct } from "@/app/database/actions";
 import { useState } from "react";
 import {
   Dialog,
@@ -23,6 +23,7 @@ import {
 import type { Source, ProductSource } from "@utils/supabaseServer";
 import Failure from "./Failure";
 import Success from "./Success";
+import { Result } from "@database/types";
 
 type Response = {
   message: string;
@@ -41,7 +42,7 @@ export default function AddSourceToProductComponent({
   const [source, setSource] = useState(sources[0]);
   const [url, setUrl] = useState("");
   const [price, setPrice] = useState(0);
-  const [status, setStatus] = useState<Response | null>(null);
+  const [status, setStatus] = useState<Result | null>(null);
 
   return (
     <>
@@ -122,12 +123,14 @@ export default function AddSourceToProductComponent({
             disabled={isLoading}
             onClick={async () => {
               setIsLoading(true);
-              const result = await addSourceToProduct({
-                product_id,
-                source_id: source.id,
-                url,
-                price,
-              } as ProductSource);
+              const result = await insertSourceForProduct(
+                {
+                  product_id,
+                  source_id: source.id,
+                  url,
+                  price,
+                },
+              );
               setStatus(result);
               setIsLoading(false);
             }}
