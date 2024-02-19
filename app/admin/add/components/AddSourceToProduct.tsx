@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { addSourceToProduct } from "@utils/supabaseServer";
+import { insertProductSources } from "@utils/supabase/public";
 import { useState } from "react";
 import {
   Dialog,
@@ -122,12 +122,14 @@ export default function AddSourceToProductComponent({
             disabled={isLoading}
             onClick={async () => {
               setIsLoading(true);
-              const result = await addSourceToProduct({
-                product_id,
-                source_id: source.id,
-                url,
-                price,
-              } as ProductSource);
+              const { data, result } = await insertProductSources([
+                {
+                  product_id,
+                  source_id: source.id,
+                  url,
+                  price,
+                },
+              ]);
               setStatus(result);
               setIsLoading(false);
             }}
