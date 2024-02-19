@@ -24,7 +24,6 @@ async function getProducts() {
     .from("products")
     .select("*")
     .order("created_at", { ascending: false })
-    // .limit(10);
   if (error) return [];
   return products;
 }
