@@ -19,38 +19,25 @@ import {
 import { Input } from "@components/input";
 import { Text } from "@components/text";
 import { Badge } from "@components/badge";
-import {
-  Listbox,
-  ListboxLabel,
-  ListboxOption,
-} from "@components/listbox";
+import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
 import { Checkbox, CheckboxField, CheckboxGroup } from "@components/checkbox";
 import { useFormState, useFormStatus } from "react-dom";
-import { getTags, addTag, addProduct } from "@utils/supabaseServer";
+import { insertProductFromForm, insertTagWithValidation } from "@/app/database/actions";
 4;
 import { Button } from "@components/button";
 import { useEffect, useState } from "react";
 
-import {
-  PlusCircleIcon,
-  XCircleIcon,
-} from "@heroicons/react/16/solid";
+import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 
 import Failure from "./components/Failure";
 import Success from "./components/Success";
-
-import type {
-  Tag,
-  Category,
-} from "@utils/supabaseServer";
+import type { Tag, Category } from "@database/types";
 import ImagePreview from "./components/ImagePreview";
 
 function CreateTagButton({
   category,
-  setAddedTag,
 }: {
   category: string;
-  setAddedTag: React.Dispatch<React.SetStateAction<Tag | null>>;
 }) {
   const { pending } = useFormStatus();
   const [isOpen, setIsOpen] = useState(false);
@@ -97,8 +84,7 @@ function CreateTagButton({
           </Button>
           <Button
             onClick={() => {
-              addTag(tagName, category);
-              setAddedTag({ id: "new", category: category, name: tagName });
+              insertTagWithValidation({ name: tagName, category });
               setTagName("");
               setIsOpen(false);
             }}
@@ -128,25 +114,22 @@ const initialState = {
 };
 
 export default function ProductForm({
+  tags: initialTags,
   categories,
 }: {
+  tags: Tag[];
   categories: Category[];
 }) {
-  const [state, formAction] = useFormState(addProduct, initialState);
+  const [state, formAction] = useFormState(insertProductFromForm, initialState);
   const [name, setName] = useState<string>("");
   const [brand, setBrand] = useState<string>("");
   const [category, setCategory] = useState(categories[0].name);
   const [image_url, setImageURL] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
-  const [addedTag, setAddedTag] = useState<Tag | null>(null);
 
   useEffect(() => {
-    async function loadTags() {
-      const tags = await getTags(category);
-      setTags(tags);
-    }
-    loadTags();
-  }, [addedTag, category]);
+    setTags(initialTags.filter((tag) => tag.category === category));
+  }, [initialTags, category]);
 
   function clearForm() {
     const form = document.querySelector("form");
@@ -157,7 +140,6 @@ export default function ProductForm({
       setCategory(categories[0].name);
       setImageURL("");
       setTags([]);
-      setAddedTag(null);
     }
     const adminCode = document.querySelector(
       "#product_name"
@@ -247,7 +229,6 @@ export default function ProductForm({
                   {/* create tag button */}
                   <CreateTagButton
                     category={category}
-                    setAddedTag={setAddedTag}
                   />
                 </CheckboxGroup>
               </div>

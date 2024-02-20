@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import type { Source, DetailedProduct } from "@utils/supabaseServer";
+import type { Source, ProductWithTagsAndSources } from "@database/types";
 import { Badge } from "@components/badge";
 import {
   Table,
@@ -54,7 +54,7 @@ export default function RecentProducts({
   products,
 }: {
   sources: Source[];
-  products: DetailedProduct[];
+  products: ProductWithTagsAndSources[];
 }) {
   return (
     <Table dense bleed className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]">
@@ -95,8 +95,8 @@ export default function RecentProducts({
             <TableCell>
               {product.tags.length === 0 && <Badge color="zinc">None</Badge>}
               {product.tags.slice(0, maxTags).map((tag) => (
-                <Badge key={tag} color="indigo" className="mr-1">
-                  {tag}
+                <Badge key={tag.id} color="indigo" className="mr-1">
+                  {tag.name}
                 </Badge>
               ))}
               {product.tags.length > maxTags && (

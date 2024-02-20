@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { Tables, TablesInsert } from "@/database.types";
+import { TablesInsert } from "@/database.types";
 
 import {
   validateImageURL,
@@ -13,69 +13,18 @@ import {
 } from "./helpers";
 
 import {
-  ProductTag,
-  ProductWithTagsAndSources,
-  Product,
-  Tag,
   Result,
   ScrapedProduct,
 } from "./types";
 
 import {
   getTags,
-  getProductTags,
-  getProductSources,
-  getProducts,
   insertTags,
   insertProductSources,
   insertProducts,
   insertProductTags,
+  deleteProduct,
 } from "./methods";
-
-export async function getTagsByCategory(
-  category: Tables<"categories">["name"]
-) {
-  const { data: tags, result } = await getTags();
-  if (result.hasError) return [];
-  return tags.filter((tag) => tag.category === category);
-}
-
-export async function getTagsForProduct(product: Product) {
-  const { data: tags, result } = await getProductTags();
-  if (result.hasError) return [];
-  return tags.filter((tag) => tag.product_id === product.id);
-}
-
-export async function getSourcesForProduct(product: Product) {
-  const { data: sources, result } = await getProductSources();
-  if (result.hasError) return [];
-  return sources.filter((source) => source.product_id === product.id);
-}
-
-export async function getTagsFromProductTags(
-  product_tags: ProductTag[]
-): Promise<Tag[]> {
-  const { data: tags, result } = await getTags();
-  if (result.hasError) return [];
-  return tags.filter((tag) => product_tags.some((pt) => pt.tag_id === tag.id));
-}
-
-export async function getProductsWithTagsAndSources() {
-  const { data: products, result } = (await getProducts()) as {
-    data: ProductWithTagsAndSources[];
-    result: Result;
-  };
-  if (result.hasError) return [];
-  const productsWithTagsAndSources = await Promise.all(
-    products.map(async (product) => {
-      const tags = await getTagsForProduct(product);
-      product.tags = await getTagsFromProductTags(tags);
-      product.sources = await getSourcesForProduct(product);
-      return product;
-    })
-  );
-  return productsWithTagsAndSources;
-}
 
 export async function insertTagWithValidation(tag: TablesInsert<"tags">) {
   const { data: tags, result } = await getTags();
@@ -137,4 +86,11 @@ export async function insertScrapedProducts(products: ScrapedProduct[]) {
   console.log("Bulk product insert started...");
   console.log(products);
   return false;
+}
+
+export async function deleteProductAndRevalidate(product_id: string) {
+  const result = await deleteProduct(product_id);
+  if (result.hasError) return result;
+  revalidatePath("/");
+  return result;
 }

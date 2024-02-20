@@ -1,15 +1,24 @@
 import ProductForm from "./ProductForm";
 import RecentProducts from "./RecentProducts";
-import { getDetailedProducts, getSources, getCategories } from "@utils/supabaseServer";
+import { getSources, getCategories, getProductsWithTagsAndSources, getTags } from "@database/methods";
 
 export default async function AddPage() {
-  const products = await getDetailedProducts();
-  const sources = await getSources();
-  const categories = await getCategories();
+  const products = await getProductsWithTagsAndSources();
+  const {data: tags, result: tagsResult} = await getTags();
+  const {data: sources, result: sourcesResult } = await getSources();
+  const {data: categories, result: categoriesResult} = await getCategories();
+
+  if (sourcesResult.hasError) {
+    return <div>There was an error fetching sources. {sourcesResult.message}</div>;
+  }
+
+  if (categoriesResult.hasError) {
+    return <div>There was an error fetching categories. {categoriesResult.message}</div>;
+  }
 
   return (
     <div className="max-w-6xl w-full space-y-12">
-      <ProductForm categories={categories} />
+      <ProductForm tags={tags} categories={categories} />
       <RecentProducts sources={sources} products={products} />
     </div>
   );

@@ -121,3 +121,19 @@ export const createSetter = <
   };
   return setter;
 };
+
+export const createDeleter = <T extends Table, Q extends Tables<T>>(
+  table: T
+) => {
+  const query = supabase.from(table);
+  const deleter = async (id: string): Promise<Result> => {
+    const { error } = await query.delete().eq("id", id);
+    if (error)
+      return {
+        message: `Error deleting ${table}.+Supabase says: ${error.message}`,
+        hasError: true,
+      };
+    return { message: `${table} deleted successfully`, hasError: false };
+  };
+  return deleter;
+};

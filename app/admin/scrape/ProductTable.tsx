@@ -6,8 +6,8 @@ import {
   TableRow,
 } from "@components/table";
 import { useState, useEffect, useRef } from "react";
-import { bulkProductInsert } from "@utils/supabaseServer";
-import type { Product } from "@/app/api/scrape/route";
+import { insertScrapedProducts } from "@database/actions";
+import type { ScrapedProduct } from "@database/types";
 import ProductRow from "./ProductRow";
 import SubmitTable from "./SubmitTable";
 
@@ -20,10 +20,10 @@ export default function ProductTable({
   products,
 }: {
   category: String;
-  products: Product[];
+  products: ScrapedProduct[];
 }) {
   const [loading, setLoading] = useState(false);
-  const [state, setState] = useState<Product[]>([]);
+  const [state, setState] = useState<ScrapedProduct[]>([]);
   const [page, setPage] = useState(1);
   const addedProductsCount = useRef(0);
   const searchParams = useSearchParams();
@@ -34,15 +34,15 @@ export default function ProductTable({
   }, [searchParams]);
 
   useEffect(() => {
-    const notAdded = (product: Product) => {
+    const notAdded = (product: ScrapedProduct) => {
       return !state.some((p) => p.url === product.url);
     }
 
-    const isEmpty = (product: Product) => {
+    const isEmpty = (product: ScrapedProduct) => {
       return Object.values(product).some((value) => value === "");
     };
 
-    const notEmpty = (product: Product) => {
+    const notEmpty = (product: ScrapedProduct) => {
       return !isEmpty(product);
     };
 
@@ -58,7 +58,7 @@ export default function ProductTable({
 
   const onSubmit = async () => {
     setLoading(true);
-    const error = await bulkProductInsert(state);
+    const error = await insertScrapedProducts(state);
     if (!error) {
       setState([]);
       setPage(1);
@@ -66,7 +66,7 @@ export default function ProductTable({
     setLoading(false);
   };
 
-  const onInputChange = (index: number, product: Product) => {
+  const onInputChange = (index: number, product: ScrapedProduct) => {
     state[index] = product;
   };
 

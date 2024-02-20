@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { insertSourceForProduct } from "@/app/database/actions";
+import { insertSourceForProduct } from "@database/actions";
 import { useState } from "react";
 import {
   Dialog,
@@ -20,7 +20,7 @@ import {
   ListboxLabel,
   ListboxOption,
 } from "@components/listbox";
-import type { Source, ProductSource } from "@utils/supabaseServer";
+import type { Source, ProductSource } from "@database/types";
 import Failure from "./Failure";
 import Success from "./Success";
 import { Result } from "@database/types";
@@ -129,7 +129,7 @@ export default function AddSourceToProductComponent({
                   source_id: source.id,
                   url,
                   price,
-                },
+                } as ProductSource,
               );
               setStatus(result);
               setIsLoading(false);
