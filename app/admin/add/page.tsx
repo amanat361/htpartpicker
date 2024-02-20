@@ -8,6 +8,10 @@ export default async function AddPage() {
   const {data: sources, result: sourcesResult } = await getSources();
   const {data: categories, result: categoriesResult} = await getCategories();
 
+  if (tagsResult.hasError) {
+    return <div>There was an error fetching tags. {tagsResult.message}</div>;
+  }
+
   if (sourcesResult.hasError) {
     return <div>There was an error fetching sources. {sourcesResult.message}</div>;
   }

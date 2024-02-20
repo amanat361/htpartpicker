@@ -125,7 +125,9 @@ export default function ProductForm({
   const [brand, setBrand] = useState<string>("");
   const [category, setCategory] = useState(categories[0].name);
   const [image_url, setImageURL] = useState<string>("");
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag[]>(
+    initialTags.filter((tag) => tag.category === categories[0].name)
+  );
 
   useEffect(() => {
     setTags(initialTags.filter((tag) => tag.category === category));

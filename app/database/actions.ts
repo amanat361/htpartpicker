@@ -29,8 +29,7 @@ import {
 export async function insertTagWithValidation(tag: TablesInsert<"tags">) {
   const { data: tags, result } = await getTags();
   if (result.hasError) return [];
-  if (tags.some((t) => t.name === tag.name)) return [];
-  if (tags.some((t) => t.category === tag.category)) return [];
+  if (tags.some((t) => t.name === tag.name && t.category === tag.category)) return [];
   const { data: newTags, result: newResult } = await insertTags([tag]);
   if (newResult.hasError) return [];
   revalidatePath("/");
