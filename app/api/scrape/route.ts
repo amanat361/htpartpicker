@@ -3,23 +3,14 @@ import { validateUrl } from "@utils/helperFunctions";
 import { mockProducts, largeMockProducts } from "@lib/products";
 import type { Page } from "puppeteer-core";
 import { NextResponse } from "next/server";
-
-export interface Product {
-  url: string;
-  image: string;
-  title: string;
-  price: string;
-  brand: string;
-  description: string;
-  highlights: string[];
-}
+import type { ScrapedProduct } from "@database/types";
 
 export type ScrapeLink = {
   url: string;
   scraping: boolean;
   hasError: boolean;
   message: string;
-  products: Product[];
+  products: ScrapedProduct[];
 };
 
 async function autoScroll(page: Page) {
@@ -61,7 +52,7 @@ async function getBrandList(url: string): Promise<string[]> {
   return brands;
 }
 
-async function findAllProductsOnPage(url: string): Promise<Product[]> {
+async function findAllProductsOnPage(url: string): Promise<ScrapedProduct[]> {
   const page = await getPage();
   await page.goto(url);
 
@@ -69,15 +60,16 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
   await autoScroll(page);
 
   // Now scrape the products
-  const products: Product[] = await page.evaluate(() => {
+  const products: ScrapedProduct[] = await page.evaluate(() => {
     const productBlocks = Array.from(
       document.querySelectorAll(".product-block")
     );
     return productBlocks.map((productBlock) => {
-      const product: Product = {
+      const product: ScrapedProduct = {
+        category: "",
         url: "",
-        image: "",
-        title: "",
+        name: "",
+        image_url: "",
         price: "",
         brand: "",
         description: "",
@@ -90,10 +82,10 @@ async function findAllProductsOnPage(url: string): Promise<Product[]> {
       const img = productBlock.querySelector(
         "img.prodImage"
       ) as HTMLImageElement;
-      product.image = img?.src || "";
+      product.image_url = img?.src || "";
 
       const h4 = productBlock.querySelector("h4.product-list-items-title");
-      product.title = h4?.textContent || "";
+      product.name = h4?.textContent || "";
 
       const p = productBlock.querySelector("p.product-list-items-desc");
       product.description = p?.textContent || "";
@@ -187,7 +179,7 @@ export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
     }
 
     products.forEach((product) => {
-      const brand = brands.find((brand) => product.title.includes(brand));
+      const brand = brands.find((brand) => product.name.includes(brand));
       product.brand = brand || "";
     });
 

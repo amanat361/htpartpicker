@@ -10,22 +10,39 @@ import {
 } from "@components/table";
 import { Input } from "@components/input";
 import { Button } from "@components/button";
-import { PlusIcon } from "@heroicons/react/16/solid";
+import { PlusIcon, SparklesIcon } from "@heroicons/react/16/solid";
 import { TextLink } from "@components/text";
 import { Badge } from "@/app/components/badge";
+import { product_links_from_crutchfield } from "@lib/links";
 import "ldrs/lineSpinner"; // Default values shown
 
 import type { ScrapeLink } from "@/app/api/scrape/route";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useRef } from "react";
 
 import ProductTable from "./ProductTable";
 
 export default function LinkQueue() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [links, setLinks] = useState<ScrapeLink[]>([]);
   const [newLink, setNewLink] = useState("");
   const [message, setMessage] = useState("");
 
-  const addLink = () => {
+  async function randomizeLink() {
+    if (!product_links_from_crutchfield.length) {
+      setMessage("No more links to scrape");
+      return;
+    }
+    const randomIndex = Math.floor(
+      Math.random() * product_links_from_crutchfield.length
+    );
+    setNewLink(product_links_from_crutchfield[randomIndex]);
+    product_links_from_crutchfield.splice(randomIndex, 1);
+    inputRef.current?.focus();
+  }
+
+  const addLink = (e: FormEvent) => {
+    e.preventDefault();
+
     if (links.some((link) => link.url === newLink)) {
       setMessage("URL already in queue");
       return;
@@ -88,17 +105,22 @@ export default function LinkQueue() {
   return (
     <div className="max-w-6xl w-full space-y-8">
       <h1 className="text-md font-bold">Add a URL to the queue</h1>
-      <div className="flex gap-2 items-center mt-2">
+      <form onSubmit={addLink} className="flex gap-2 items-center mt-2">
         <Input
+          ref={inputRef}
           name="url"
           value={newLink}
           onChange={(e) => setNewLink(e.target.value)}
         />
-        <Button color="lime" onClick={addLink}>
+        <Button color="indigo" onClick={randomizeLink}>
+          <SparklesIcon />
+          Random
+        </Button>
+        <Button color="lime" type="submit">
           <PlusIcon />
           Scrape
         </Button>
-      </div>
+      </form>
       {message && <Badge color="red">{message}</Badge>}
       <Table>
         <TableHead>

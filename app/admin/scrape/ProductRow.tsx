@@ -3,14 +3,14 @@ import { TableCell, TableRow } from "@components/table";
 import { Button } from "@components/button";
 import { Input } from "@components/input";
 import { TrashIcon } from "@heroicons/react/16/solid";
-import type { Product } from "@/app/api/scrape/route";
+import type { ScrapedProduct } from "@database/types";
 import { useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
 
 export default function ProductRow(props: {
   index: number;
-  product: Product;
-  onChange: (index: number, newProduct: Product) => void;
+  product: ScrapedProduct;
+  onChange: (index: number, newProduct: ScrapedProduct) => void;
   onDelete: (index: number) => void;
 }) {
   const [product, setProduct] = useState(props.product);
@@ -31,8 +31,8 @@ export default function ProductRow(props: {
       <TableCell>
         <a href={product.url} target="_blank" rel="noreferrer">
           <img
-            src={product.image}
-            alt={product.title}
+            src={product.image_url}
+            alt={product.name}
             className="w-12 h-12 rounded-xl object-cover"
           />
         </a>
@@ -42,9 +42,9 @@ export default function ProductRow(props: {
         <Input
           type="text"
           name="title"
-          value={product.title}
+          value={product.name}
           onChange={updateItemAndSync}
-          invalid={!product.title}
+          invalid={!product.name}
         />
       </TableCell>
       {/* brand */}

@@ -1,3 +1,5 @@
+import type { ScrapedProduct } from "@database/types";
+
 type Item = {
   name: string;
   quantity: "single" | "pair" | "multiple";
@@ -133,8 +135,8 @@ const categories = [
 
 interface Product {
   url: string;
-  image: string;
-  title: string;
+  image_url: string;
+  name: string;
   price: string;
   brand: string;
   description: string;
@@ -144,9 +146,9 @@ interface Product {
 const mockProducts = [
   {
     url: "https://example.com/product1",
-    image:
+    image_url:
       "https://media.wired.com/photos/598e35fb99d76447c4eb1f28/master/pass/phonepicutres-TA.jpg",
-    title: "FIRST PRODUCT",
+    name: "FIRST PRODUCT",
     price: "$999",
     brand: "TESTING",
     description:
@@ -156,12 +158,13 @@ const mockProducts = [
       "Bluetooth Connectivity",
       "Easy Installation",
     ],
+    category: "Testing",
   },
   {
     url: "https://example.com/product2",
-    image:
+    image_url:
       "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
-    title: "CinemaPro HD Projector",
+    name: "CinemaPro HD Projector",
     price: "$1,299",
     brand: "CinemaPro",
     description:
@@ -171,12 +174,13 @@ const mockProducts = [
       "3D Support",
       "Eco-Friendly Power Consumption",
     ],
+    category: "Testing",
   },
   {
     url: "https://example.com/product3",
-    image:
+    image_url:
       "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
-    title: "AudioWave Soundbar 300",
+    name: "AudioWave Soundbar 300",
     price: "$499",
     brand: "AudioWave",
     description: "Sleek design with powerful sound, perfect for any TV setup.",
@@ -185,12 +189,13 @@ const mockProducts = [
       "Integrated Voice Control",
       "Wall-Mountable",
     ],
+    category: "Testing",
   },
   {
     url: "https://example.com/product4",
-    image:
+    image_url:
       "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
-    title: "BassKing 800 Subwoofer",
+    name: "BassKing 800 Subwoofer",
     price: "$350",
     brand: "BassKing",
     description:
@@ -200,37 +205,41 @@ const mockProducts = [
       "Compact Design",
       "Low Frequency Response",
     ],
+    category: "Testing",
   },
   {
     url: "https://example.com/product5",
-    image:
+    image_url:
       "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
-    title: "ClearView 4K HDMI Cable",
+    name: "ClearView 4K HDMI Cable",
     price: "$25",
     brand: "ClearView",
     description:
       "High-speed HDMI cable ensuring optimal picture quality and sound.",
-    highlights: ["4K Resolution Support", "High Bandwidth", "Durable Build"],
+    highlights: ["4K Resolution Support", "High Bandwidth", "Durable Build"
+    ],
+    category: "Testing",
   },
   {
     url: "https://example.com/product6",
-    image:
+    image_url:
       "https://images.crutchfieldonline.com/ImageHandler/trim/750/457/products/2021/36/107/g107MXT12-F.jpg",
-    title: "EchoDome Wireless Speakers",
+    name: "EchoDome Wireless Speakers",
     price: "$450",
     brand: "EchoDome",
     description:
       "Immersive sound with stylish, room-filling audio performance.",
     highlights: ["360-Degree Sound", "Multi-Room Audio", "Elegant Design"],
+    category: "Testing",
   },
-] as Product[];
+] as ScrapedProduct[];
 
 
 // make a large mock products array with randomized strings
 const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
   url: crypto.randomUUID(),
-  image: "https://via.placeholder.com/200",
-  title: `Product ${i + 1}`,
+  image_url: "https://via.placeholder.com/200",
+  name: `Product ${i + 1}`,
   price: `$${Math.floor(Math.random() * 1000)}`,
   brand: `Brand ${i + 1}`,
   description: `Description for product ${i + 1}`,
@@ -239,10 +248,11 @@ const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
     `Highlight 2 for product ${i + 1}`,
     `Highlight 3 for product ${i + 1}`,
   ],
-}));
+  category: "Testing",
+})) as ScrapedProduct[];
 
 
 largeMockProducts[9].description = "";
-largeMockProducts[13].title = "";
+largeMockProducts[13].name = "";
 
 export { type Item, items, type Category, categories, mockProducts, largeMockProducts };

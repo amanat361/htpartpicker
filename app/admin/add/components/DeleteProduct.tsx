@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProduct } from "@utils/supabaseServer";
+import { deleteProductAndRevalidate } from "@/app/database/actions";
 import { useState } from "react";
 import {
   Alert,
@@ -36,7 +36,7 @@ export default function DeleteProductComponent({
           <Button
             color="red"
             onClick={() => {
-              deleteProduct(product_id);
+              deleteProductAndRevalidate(product_id);
               setIsOpen(false);
             }}
           >
