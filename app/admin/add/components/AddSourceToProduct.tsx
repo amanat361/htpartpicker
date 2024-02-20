@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { insertSourceForProduct } from "@database/actions";
+import { insertSourceForProduct } from "@/database/actions";
 import { useState } from "react";
 import {
   Dialog,
@@ -9,21 +9,21 @@ import {
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@components/dialog";
-import { Description, Field, Label } from "@components/fieldset";
-import { Input } from "@components/input";
-import { Button } from "@components/button";
+} from "@/components/dialog";
+import { Description, Field, Label } from "@/components/fieldset";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
 import { PlusCircleIcon, CheckCircleIcon } from "@heroicons/react/16/solid";
 import {
   Listbox,
   ListboxDescription,
   ListboxLabel,
   ListboxOption,
-} from "@components/listbox";
-import type { Source, ProductSource } from "@database/types";
+} from "@/components/listbox";
+import type { Source, ProductSource } from "@/database/types";
 import Failure from "./Failure";
 import Success from "./Success";
-import { Result } from "@database/types";
+import { Result } from "@/database/types";
 
 type Response = {
   message: string;

@@ -1,4 +1,4 @@
-import { Text, TextLink } from "@components/text";
+import { Text, TextLink } from "@/components/text";
 
 export default function GuidesPage() {
   return (

@@ -15,10 +15,10 @@ import {
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
-} from "@components/dropdown";
+} from "@/components/dropdown";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { categories } from "@/app/lib/products";
-import { Button } from "@components/button";
+import { categories } from "@/lib/products";
+import { Button } from "@/components/button";
 import { Input } from "./input";
 
 function classNames(...classes: string[]) {

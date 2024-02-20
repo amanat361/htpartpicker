@@ -4,10 +4,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@components/table";
+} from "@/components/table";
 import { useState, useEffect, useRef } from "react";
-import { insertScrapedProducts } from "@database/actions";
-import type { ScrapedProduct } from "@database/types";
+import { insertScrapedProducts } from "@/database/actions";
+import type { ScrapedProduct } from "@/database/types";
 import ProductRow from "./ProductRow";
 import SubmitTable from "./SubmitTable";
 

@@ -1,5 +1,5 @@
 import { Text, Strong } from "./text";
-import { Button } from "@components/button";
+import { Button } from "@/components/button";
 import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
 
 export default function SectionHeading( {title}: {title: string} ) {

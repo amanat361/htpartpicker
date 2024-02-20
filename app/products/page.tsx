@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Text, TextLink } from "@components/text";
+import { Text, TextLink } from "@/components/text";
 import Link from "next/link";
 
 const products = [

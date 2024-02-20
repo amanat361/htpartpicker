@@ -1,14 +1,14 @@
 "use client";
 
-import { deleteProductAndRevalidate } from "@/app/database/actions";
+import { deleteProductAndRevalidate } from "@/database/actions";
 import { useState } from "react";
 import {
   Alert,
   AlertActions,
   AlertDescription,
   AlertTitle,
-} from "@components/alert";
-import { Button } from "@components/button";
+} from "@/components/alert";
+import { Button } from "@/components/button";
 import { TrashIcon, CheckCircleIcon } from "@heroicons/react/16/solid";
 
 export default function DeleteProductComponent({

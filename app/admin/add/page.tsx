@@ -1,6 +1,6 @@
 import ProductForm from "./ProductForm";
 import RecentProducts from "./RecentProducts";
-import { getSources, getCategories, getProductsWithTagsAndSources, getTags } from "@database/methods";
+import { getSources, getCategories, getProductsWithTagsAndSources, getTags } from "@/database/methods";
 
 export default async function AddPage() {
   const products = await getProductsWithTagsAndSources();
