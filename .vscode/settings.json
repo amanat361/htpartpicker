@@ -16,7 +16,9 @@
           "postcss.config.js",
           ".env.local",
           ".next/",
-          "node_modules/"
+          "node_modules/",
+          ".vercel/",
+          ".vercel/"
         ]
       },
       {
@@ -54,7 +56,8 @@
     "postcss.config.js": true,
     ".env.local": true,
     ".next/": true,
-    "node_modules/": true
+    "node_modules/": true,
+    ".vercel/": true
   },
   "hidefiles.selectedProfile": "Default"
 }
