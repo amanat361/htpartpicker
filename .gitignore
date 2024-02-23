@@ -36,9 +36,10 @@ yarn-error.log*
 next-env.d.ts
 
 # vscode
-/.vscode
+.vscode
+.vscode/settings.json
 
 # go files
-go.mod
-go.work
-go.sum
+/go.mod
+/go.work
+/go.sum
