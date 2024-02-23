@@ -1,9 +1,5 @@
 "use client";
-import {
-  XMarkIcon,
-  // PlusCircleIcon,
-  // MinusCircleIcon,
-} from "@heroicons/react/20/solid";
+import { XMarkIcon, ArrowUpRightIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 
 type CommitData = {
@@ -64,11 +60,15 @@ export default function Banner({ data }: { data: CommitData }) {
   if (dismissed) return null;
 
   return (
-    <a href={data.html_url} target="_blank" className="flex items-center h-16 border border-black dark:border-white hover:cursor-pointer rounded-lg p-4 gap-4 fixed bottom-4 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group">
+    <a
+      href={data.html_url}
+      target="_blank"
+      className="flex flex-col sm:flex-row items-center sm:h-16 border border-black dark:border-white hover:cursor-pointer rounded-lg p-4 m-4 sm:gap-4 fixed bottom-0 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group"
+    >
       <div className="text-lg flex items-center gap-4 ">
         <svg
-          width="30"
-          height="30"
+          width="24"
+          height="24"
           viewBox="0 0 1024 1024"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -81,28 +81,23 @@ export default function Banner({ data }: { data: CommitData }) {
           />
         </svg>
         <div>
-          <h3 className="font-semibold">HT Part Picker Update</h3>
+          <h3 className="font-semibold text-sm">HT Part Picker Update</h3>
           <p className="text-sm text-gray-800 group-hover:text-gray-400 dark:text-gray-400 dark:group-hover:text-gray-800 transition-all">
             {data.commit.message}
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 text-emerald-700 group-hover:text-emerald-400 dark:text-emerald-400 dark:group-hover:text-emerald-700 transition-all">
-        <PlusCircleIcon className="w-6 h-6" />
-        <span className="text-md">{data.stats.additions} Additions</span>
+      <div className="flex gap-4 py-2 sm:py-0">
+        <div className="flex items-center gap-2 text-emerald-700 group-hover:text-emerald-400 dark:text-emerald-400 dark:group-hover:text-emerald-700 transition-all">
+          <PlusCircleIcon className="w-4 h-4" />
+          <span className="text-sm">{data.stats.additions} Additions</span>
+        </div>
+        <div className="flex items-center gap-2 text-rose-700 group-hover:text-rose-400 dark:text-rose-500 dark:group-hover:text-rose-700 transition-all">
+          <MinusCircleIcon className="w-4 h-4" />
+          <span className="text-sm">{data.stats.deletions} Deletions</span>
+        </div>
+        <ArrowUpRightIcon className="w-5 h-5 group-hover:text-white dark:group-hover:text-black transition-all" />
       </div>
-      <div className="flex items-center gap-2 text-rose-700 group-hover:text-rose-400 dark:text-rose-500 dark:group-hover:text-rose-700 transition-all">
-        <MinusCircleIcon className="w-6 h-6" />
-        <span className="text-md">{data.stats.deletions} Deletions</span>
-      </div>
-      <button
-        type="button"
-        className="p-2 focus-visible:outline-offset-[-4px]"
-        onClick={() => setDismissed(true)}
-      >
-        <span className="sr-only">Dismiss</span>
-        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-      </button>
     </a>
   );
 }
