@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
@@ -8,30 +7,30 @@ import {
   Fieldset,
   Label,
   Legend,
-} from "@components/fieldset";
+} from "@/components/fieldset";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@components/dialog";
-import { Input } from "@components/input";
-import { Text } from "@components/text";
-import { Badge } from "@components/badge";
-import { Listbox, ListboxLabel, ListboxOption } from "@components/listbox";
-import { Checkbox, CheckboxField, CheckboxGroup } from "@components/checkbox";
+} from "@/components/dialog";
+import { Input } from "@/components/input";
+import { Text } from "@/components/text";
+import { Badge } from "@/components/badge";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/listbox";
+import { Checkbox, CheckboxField, CheckboxGroup } from "@/components/checkbox";
 import { useFormState, useFormStatus } from "react-dom";
-import { insertProductFromForm, insertTagWithValidation } from "@/app/database/actions";
+import { insertProductFromForm, insertTagWithValidation } from "@/database/actions";
 4;
-import { Button } from "@components/button";
+import { Button } from "@/components/button";
 import { useEffect, useState } from "react";
 
 import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 
 import Failure from "./components/Failure";
 import Success from "./components/Success";
-import type { Tag, Category } from "@database/types";
+import type { Tag, Category } from "@/database/types";
 import ImagePreview from "./components/ImagePreview";
 
 function CreateTagButton({

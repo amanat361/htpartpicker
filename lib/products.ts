@@ -1,4 +1,4 @@
-import type { ScrapedProduct } from "@database/types";
+import type { ScrapedProduct } from "@/database/types";
 
 type Item = {
   name: string;

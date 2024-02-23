@@ -5,7 +5,7 @@ import {
   PaginationNext,
   PaginationPage,
   PaginationPrevious,
-} from "@components/pagination";
+} from "@/components/pagination";
 
 function generatePageNumbers(currentPage: number, totalPages: number) {
   const start = [1,2,3];

@@ -1,8 +1,6 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
-export const maxDuration = 300; // 5 minutes
-
 function AdminAlert() {
   return (
     <div className="rounded-md bg-yellow-50 p-4 w-full max-w-6xl mb-12">

@@ -7,13 +7,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@components/table";
-import { Input } from "@components/input";
-import { Button } from "@components/button";
+} from "@/components/table";
+import { Input } from "@/components/input";
+import { Button } from "@/components/button";
 import { PlusIcon, SparklesIcon } from "@heroicons/react/16/solid";
-import { TextLink } from "@components/text";
-import { Badge } from "@/app/components/badge";
-import { product_links_from_crutchfield } from "@lib/links";
+import { TextLink } from "@/components/text";
+import { Badge } from "@/components/badge";
+import { product_links_from_crutchfield } from "@/lib/links";
 import "ldrs/lineSpinner"; // Default values shown
 
 import type { ScrapeLink } from "@/app/api/scrape/route";

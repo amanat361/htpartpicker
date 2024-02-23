@@ -1,9 +1,9 @@
-import { getPage } from "@utils/puppeteerServer";
-import { validateUrl } from "@utils/helperFunctions";
-import { mockProducts, largeMockProducts } from "@lib/products";
+import { getPage } from "@/puppeteer/puppeteerServer";
+import { validateUrl } from "@/puppeteer/helperFunctions";
+import { mockProducts, largeMockProducts } from "@/lib/products";
 import type { Page } from "puppeteer-core";
 import { NextResponse } from "next/server";
-import type { ScrapedProduct } from "@database/types";
+import type { ScrapedProduct } from "@/database/types";
 
 export type ScrapeLink = {
   url: string;

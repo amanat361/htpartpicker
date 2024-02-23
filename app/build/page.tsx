@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { Roboto_Slab } from "next/font/google";
 
@@ -9,20 +8,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@components/table";
+} from "@/components/table";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@components/dialog";
+} from "@/components/dialog";
 import { useState } from "react";
-import { Button } from "@components/button";
+import { Button } from "@/components/button";
 import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
-import { Badge } from "@components/badge";
-import { Strong, Text, TextLink } from "@components/text";
-import { Item, items } from "@/app/lib/products";
+import { Badge } from "@/components/badge";
+import { Strong, Text, TextLink } from "@/components/text";
+import { Item, items } from "@/lib/products";
 
 type BadgeColor =
   | "teal"

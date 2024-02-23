@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-import type { Source, ProductWithTagsAndSources } from "@database/types";
-import { Badge } from "@components/badge";
+import type { Source, ProductWithTagsAndSources } from "@/database/types";
+import { Badge } from "@/components/badge";
 import {
   Table,
   TableBody,
@@ -8,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@components/table";
+} from "@/components/table";
 import AddSourceToProductComponent from "./components/AddSourceToProduct";
 import DeleteProductComponent from "./components/DeleteProduct";
 
