@@ -9,7 +9,7 @@ import { Button } from "./button";
 
 const actions = [
   {
-    title: "Build your Theater",
+    title: "Build",
     description:
       "The current build tool is a work in progress but you can preview it here.",
     href: "/build",
@@ -18,7 +18,7 @@ const actions = [
     iconBackground: "bg-teal-50 dark:bg-teal-700",
   },
   {
-    title: "Add products",
+    title: "Add",
     description:
       "Add products to the database for use in your builds. Admins only.",
     href: "/admin/add",
@@ -27,7 +27,7 @@ const actions = [
     iconBackground: "bg-cyan-50 dark:bg-cyan-700",
   },
   {
-    title: "Scrape products",
+    title: "Scrape",
     description:
       "Use the expirimental scraping tool for bulk inserts. Admins only.",
     href: "/admin/scrape",
@@ -36,7 +36,7 @@ const actions = [
     iconBackground: "bg-amber-50 dark:bg-amber-700",
   },
   {
-    title: "View on GitHub",
+    title: "View",
     description: "View the source code and contribute to the project.",
     href: "https://github.com/amanat361/htpartpicker",
     icon: CodeBracketIcon,
