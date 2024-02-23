@@ -1,3 +1,3 @@
-module github.com/amanat361/htpartpicker
+module htpartpicker/api
 
-go 1.22.0
+go 1.18
