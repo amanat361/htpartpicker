@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";

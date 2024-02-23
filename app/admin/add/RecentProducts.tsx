@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type { Source, ProductWithTagsAndSources } from "@/database/types";
 import { Badge } from "@/components/badge";
 import {

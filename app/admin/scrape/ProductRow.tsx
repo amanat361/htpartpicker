@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { TableCell, TableRow } from "@/components/table";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
