@@ -46,7 +46,18 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
-    "**/.DS_Store": true
+    "**/.DS_Store": true,
+    ".vscode/": true,
+    ".eslintrc.json": true,
+    ".gitignore": true,
+    "next-env.d.ts": true,
+    "next.config.mjs": true,
+    "package-lock.json": true,
+    "postcss.config.js": true,
+    ".env.local": true,
+    ".next/": true,
+    "node_modules/": true,
+    ".vercel/": true
   },
-  "hidefiles.selectedProfile": "Show All Files"
+  "hidefiles.selectedProfile": "Default"
 }
