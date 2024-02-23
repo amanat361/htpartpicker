@@ -8,13 +8,11 @@ export default async function Home() {
 
   const response = await fetch(repository_url);
   const data = await response.json();
-  const message = data["commit"]["message"] || "";
-  const url = data["html_url"] || "";
 
   return (
     <>
       <Greeting />
-      {message && url && <Banner message={message} url={url} />}
+      {data && <Banner data={data}/>}
     </>
   );
 }
