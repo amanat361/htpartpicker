@@ -32,7 +32,6 @@
           "database.types.ts",
           "package.json",
           "README.md",
-          "tailwind.config.ts",
           "tsconfig.json",
           "vercel.json",
           "app/favicon.ico",
