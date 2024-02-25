@@ -112,8 +112,8 @@ const categories = [
     shortDescription: "The visual centerpiece",
   },
   {
-    name: "AV Receivers",
-    link: "/products/av-receivers",
+    name: "Receivers",
+    link: "/products/receivers",
     shortDescription: "The command center of it all",
   },
   {
