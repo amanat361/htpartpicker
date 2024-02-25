@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/table";
+
 import { getCategories } from "@/database/methods";
 import { getProducts } from "@/database/methods";
 import Greeting from "@/components/construction";
@@ -8,28 +17,49 @@ export default async function PageUnderConstruction({
   params: { category: string };
 }) {
   const products = await getProducts();
-  if (products.result.hasError) return <div>error</div>;
+  if (products.result.hasError) return <Greeting />;
   const filteredProducts = products.data.filter(
-    (product) => product.category === params.category
+    (product) => product.category.toLowerCase() === params.category
   );
 
   return (
-    <>
-      <h1 className="text-2xl">{params.category}</h1>
-      <div className="flex flex-col gap-4 w-full max-w-6xl">
-        {filteredProducts.map((product) => (
-          <div key={product.id} className="w-full flex gap-4 items-center">
-            <img
-              className="w-16 h-16"
-              src={product.image_url}
-              alt={product.name}
-            />
-            {product.name}
-          </div>
-        ))}
-      </div>
-      <Greeting />
-    </>
+    <div className="w-full max-w-6xl">
+      <h1 className="text-2xl leading-6 mb-4">{params.category}</h1>
+      <Table
+        dense
+        bleed
+        className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
+      >
+        <TableHead>
+          <TableRow>
+            <TableHeader>Image</TableHeader>
+            <TableHeader>Name</TableHeader>
+            <TableHeader>Brand</TableHeader>
+            <TableHeader>ID</TableHeader>
+            <TableHeader>Created At</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {filteredProducts.map((product) => (
+            <TableRow key={product.id}>
+              <TableCell>
+                <img
+                  className="w-16 h-16"
+                  src={product.image_url}
+                  alt={product.name}
+                />
+              </TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.brand}</TableCell>
+              <TableCell>{product.id}</TableCell>
+              <TableCell>
+                {new Date(product.created_at).toLocaleString()}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
 
@@ -38,6 +68,6 @@ export async function generateStaticParams() {
   if (result.hasError) return [{ category: "error" }];
 
   return data.map((category) => ({
-    category: category.name,
+    category: category.name.toLowerCase(),
   }));
 }
