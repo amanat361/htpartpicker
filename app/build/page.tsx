@@ -22,6 +22,7 @@ import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { Badge } from "@/components/badge";
 import { Strong, Text, TextLink } from "@/components/text";
 import { Item, items } from "@/lib/products";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 type BadgeColor =
   | "teal"
@@ -51,24 +52,38 @@ const customFont = Roboto_Slab({ subsets: ["latin"] });
 
 function SectionHeading() {
   return (
-    <div className="border-b-[1px] border-gray-400 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
-      <h1 className={`${customFont.className} font-bold text-lg sm:text-5xl text-gray-900 dark:text-gray-100`}>
-          Build your{" "}
-          <span className="bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800 inline-block text-transparent bg-clip-text">
-            Home Theater
-          </span>
-      </h1>
-      <div className="mt-3 flex sm:ml-4 sm:mt-0 gap-4">
-        <Button outline>
-          <ShareIcon />
-          Share
-        </Button>
-        <Button>
-          <PlusIcon />
-          Create
-        </Button>
-      </div>
-    </div>
+    <TypewriterEffectSmooth
+      words={[
+        { text: "Build" },
+        { text: "your" },
+        {
+          text: "Home",
+          className: "text-blue-700 dark:text-blue-800",
+        },
+        {
+          text: "Theater",
+          className: "text-indigo-700 dark:text-indigo-800",
+        },
+      ]}
+    />
+    // <div className="border-b-[1px] border-gray-400 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
+    //   <h1 className={`${customFont.className} font-bold text-lg sm:text-5xl text-gray-900 dark:text-gray-100`}>
+    //       Build your{" "}
+    //       <span className="bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800 inline-block text-transparent bg-clip-text">
+    //         Home Theater
+    //       </span>
+    //   </h1>
+    //   <div className="mt-3 flex sm:ml-4 sm:mt-0 gap-4">
+    //     <Button outline>
+    //       <ShareIcon />
+    //       Share
+    //     </Button>
+    //     <Button>
+    //       <PlusIcon />
+    //       Create
+    //     </Button>
+    //   </div>
+    // </div>
   );
 }
 
