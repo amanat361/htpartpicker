@@ -23,6 +23,7 @@ import { Badge } from "@/components/badge";
 import { Strong, Text, TextLink } from "@/components/text";
 import { Item, items } from "@/lib/products";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import BuildCard from "./buildcard";
 
 type BadgeColor =
   | "teal"
@@ -66,24 +67,6 @@ function SectionHeading() {
         },
       ]}
     />
-    // <div className="border-b-[1px] border-gray-400 pb-5 flex flex-col sm:flex-row items-center sm:justify-between">
-    //   <h1 className={`${customFont.className} font-bold text-lg sm:text-5xl text-gray-900 dark:text-gray-100`}>
-    //       Build your{" "}
-    //       <span className="bg-gradient-to-r from-pink-800 via-purple-800 to-indigo-800 inline-block text-transparent bg-clip-text">
-    //         Home Theater
-    //       </span>
-    //   </h1>
-    //   <div className="mt-3 flex sm:ml-4 sm:mt-0 gap-4">
-    //     <Button outline>
-    //       <ShareIcon />
-    //       Share
-    //     </Button>
-    //     <Button>
-    //       <PlusIcon />
-    //       Create
-    //     </Button>
-    //   </div>
-    // </div>
   );
 }
 
@@ -182,6 +165,7 @@ export default function BuildPage() {
   return (
     <div className="max-w-6xl w-full space-y-12">
       <SectionHeading />
+      <BuildCard />
       {/* for now we will dynamically change config based on components */}
       {/* <Configurations />  */}
       <BuildTable />
