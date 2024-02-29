@@ -12,7 +12,7 @@ import {
   verifyAdminCode,
 } from "./helpers";
 
-import { Product, Result, ScrapedProduct, ProductSource } from "./types";
+import { Product, Result, ScrapedProduct, ProductSource, Category, Table } from "./types";
 
 import {
   getTags,
@@ -88,7 +88,7 @@ export async function insertScrapedProducts(products: ScrapedProduct[]) {
         name: product.name,
         brand: product.brand,
         image_url: product.image_url,
-        category: product.category,
+        category: "Testing",
         description: product.description,
       } as Product)
   );
