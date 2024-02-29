@@ -17,33 +17,46 @@ import { Badge } from "@/components/badge";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useEffect, useState } from "react";
 
-export default function BuildCard() {
+function CopyToClipboardButton({ text }: { text: string }) {
   const [copiedText, copyToClipboard] = useCopyToClipboard();
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (copiedText) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  }, [copiedText]);
+  function handleCopy() {
+    copyToClipboard(text);
+    setCopied(true);
+  }
 
+  useEffect(() => {
+    if (!copied) return;
+    const timeout = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [copied]);
+
+  return (
+    <Button
+      className="min-w-fit"
+      onClick={handleCopy}
+      color="emerald"
+    >
+      <ClipboardDocumentIcon />
+      <span className="hidden sm:block">
+        {copied ? "Done!" : "Copy"}
+      </span>
+    </Button>
+  );
+}
+
+export default function BuildCard() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex space-x-2">
         <Input value="htpartpicker.com/builds/abcdef" />
-        <Button
-          className="min-w-fit"
-          onClick={() => copyToClipboard("htpartpicker.com/builds/abcdef")}
-        >
-          <ClipboardDocumentIcon />
-          <span className="hidden sm:block">
-            {copied ? "Copied!" : "Copy Link"}
-          </span>
-        </Button>
-        <Button className="min-w-fit">
+        <CopyToClipboardButton text="testing" />
+        <Button className="min-w-fit" color="blue">
           <ShareIcon />
-          <span className="hidden sm:block">Share Link</span>
+          <span className="hidden sm:block">Share</span>
         </Button>
       </div>
       <div className="flex gap-2 w-full flex-wrap">

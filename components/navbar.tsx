@@ -136,17 +136,8 @@ export default function Navbar() {
               </div>
               <div className="hidden lg:ml-4 lg:block">
                 <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="relative flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-
                   {/* Profile dropdown */}
-                  <Menu as="div" className="relative ml-4 flex-shrink-0">
+                  <Menu as="div" className="relative flex-shrink-0">
                     <div>
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
@@ -250,14 +241,7 @@ export default function Navbar() {
                     tom@example.com
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+
               </div>
               <div className="mt-3 space-y-1 px-2">
                 <Disclosure.Button
