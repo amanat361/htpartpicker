@@ -1,4 +1,5 @@
 import { Text, TextLink } from "@/components/text";
+import { PinContainer } from "@/components/ui/3d-pin";
 import Link from "next/link";
 
 const products = [
@@ -37,20 +38,25 @@ const products = [
 
 function ProductList() {
   return (
-    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
       {products.map((product) => (
-        <Link key={product.id} href={product.href} className="group">
-          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
-            <img
-              src={product.imageSrc}
-              alt={product.imageAlt}
-              className="h-full w-full object-cover object-center group-hover:opacity-75"
-            />
+        <PinContainer key={product.id} href={product.href} title={product.name}>
+          <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem] ">
+            <h3 className="max-w-xs !pb-2 !m-0 font-bold  text-base text-slate-100">
+              {product.name}
+            </h3>
+            <div className="text-base !m-0 !p-0 font-normal">
+              <span className="text-slate-500 ">{product.name}</span>
+            </div>
+            <div className="flex flex-1 w-full overflow-hidden rounded-lg mt-4">
+              <img
+                src={product.imageSrc}
+                alt={product.imageAlt}
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
           </div>
-          <div className="mt-4 flex items-center justify-between text-base font-medium text-gray-900 dark:text-gray-100">
-            <h3>{product.name}</h3>
-          </div>
-        </Link>
+        </PinContainer>
       ))}
     </div>
   );
