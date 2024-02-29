@@ -67,7 +67,7 @@ export default function BuildCard() {
           <ClockIcon />
           <span className="hidden sm:block">History</span>
         </Button>
-        <div className="w-full flex flex-col sm:flex-row gap-2 sm:justify-center sm:items-center">
+        <div className="w-full sm:w-fit flex flex-col sm:flex-row gap-2 sm:justify-center sm:items-center">
           <Badge color="green">
             <CheckBadgeIcon className="w-4 h-4" />
             Your parts are compatible!
