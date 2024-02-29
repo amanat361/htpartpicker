@@ -139,9 +139,9 @@ export const TypewriterEffectSmooth = ({
   };
 
   return (
-    <div className={cn("flex space-x-1 my-6", className)}>
+    <div className={cn("flex items-center space-x-1", className)}>
       <motion.div
-        className="overflow-hidden pb-2"
+        className="overflow-hidden"
         initial={{
           width: "0%",
         }}
@@ -155,7 +155,7 @@ export const TypewriterEffectSmooth = ({
         }}
       >
         <div
-          className="text-xs sm:text-base md:text-xl lg:text:3xl xl:text-5xl font-bold"
+          className="text-xl sm:text-3xl md:text-5xl font-bold"
           style={{
             whiteSpace: "nowrap",
           }}
@@ -177,7 +177,7 @@ export const TypewriterEffectSmooth = ({
           repeatType: "reverse",
         }}
         className={cn(
-          "block rounded-sm w-[4px]  h-4 sm:h-6 xl:h-12 bg-blue-500",
+          "block rounded-sm w-[2px] md:w-[4px] h-6 sm:h-8 md:h-12 bg-blue-500",
           cursorClassName
         )}
       ></motion.span>

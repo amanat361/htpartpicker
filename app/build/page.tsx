@@ -18,7 +18,7 @@ import {
 } from "@/components/dialog";
 import { useState } from "react";
 import { Button } from "@/components/button";
-import { ShareIcon, PlusIcon } from "@heroicons/react/16/solid";
+import { ShareIcon, PlusIcon, WrenchIcon } from "@heroicons/react/16/solid";
 import { Badge } from "@/components/badge";
 import { Strong, Text, TextLink } from "@/components/text";
 import { Item, items } from "@/lib/products";
@@ -53,20 +53,24 @@ const customFont = Roboto_Slab({ subsets: ["latin"] });
 
 function SectionHeading() {
   return (
-    <TypewriterEffectSmooth
-      words={[
-        { text: "Build" },
-        { text: "your" },
-        {
-          text: "Home",
-          className: "text-blue-700 dark:text-blue-800",
-        },
-        {
-          text: "Theater",
-          className: "text-indigo-700 dark:text-indigo-800",
-        },
-      ]}
-    />
+    <div className="flex items-center gap-4">
+      <WrenchIcon className="h-6 w-6 md:h-10 md:w-10" />
+      <TypewriterEffectSmooth
+        className=""
+        words={[
+          { text: "Build" },
+          { text: "your" },
+          {
+            text: "Home",
+            className: "text-blue-700 dark:text-blue-800",
+          },
+          {
+            text: "Theater",
+            className: "text-indigo-700 dark:text-indigo-800",
+          },
+        ]}
+      />
+    </div>
   );
 }
 
@@ -113,7 +117,11 @@ function BuildTable() {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   return (
-    <Table striped>
+    <Table
+      striped
+      dense
+      className="[--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)]"
+    >
       <Popup isOpen={isOpen} setIsOpen={setIsOpen} item={selectedItem} />
       <TableHead>
         <TableRow>
@@ -163,7 +171,7 @@ function BuildTable() {
 
 export default function BuildPage() {
   return (
-    <div className="max-w-6xl w-full space-y-12">
+    <div className="max-w-6xl w-full space-y-4 md:space-y-6 lg:space-y-8">
       <SectionHeading />
       <BuildCard />
       {/* for now we will dynamically change config based on components */}
