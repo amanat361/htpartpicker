@@ -27,6 +27,7 @@ export default function ProductTable({
   const [page, setPage] = useState(1);
   const addedProductsCount = useRef(0);
   const searchParams = useSearchParams();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const page = searchParams.get("page");
@@ -58,10 +59,12 @@ export default function ProductTable({
 
   const onSubmit = async () => {
     setLoading(true);
-    const error = await insertScrapedProducts(state);
-    if (!error) {
+    const result = await insertScrapedProducts(state);
+    if (!result.hasError) {
       setState([]);
       setPage(1);
+    } else {
+      setError(result.message);
     }
     setLoading(false);
   };
@@ -113,6 +116,7 @@ export default function ProductTable({
         </TableBody>
       </Table>
       <SubmitTable loading={loading} onSubmit={onSubmit} />
+      {error && <div className="text-red-500">{error}</div>}
       <TablePagination
         stateLength={state.length}
         page={page}

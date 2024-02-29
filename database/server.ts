@@ -82,8 +82,7 @@ export const createSetter = <
       }
     }
     const { data, error } = (await query
-      .insert(rows as any)
-      .returns<Q[]>()) as {
+      .insert(rows as any)) as {
       data: Q[] | null;
       error: QueryError | null;
     };

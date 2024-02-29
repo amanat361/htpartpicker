@@ -12,10 +12,7 @@ import {
   verifyAdminCode,
 } from "./helpers";
 
-import {
-  Result,
-  ScrapedProduct,
-} from "./types";
+import { Product, Result, ScrapedProduct, ProductSource } from "./types";
 
 import {
   getTags,
@@ -24,12 +21,15 @@ import {
   insertProducts,
   insertProductTags,
   deleteProduct,
+  getProducts,
 } from "./methods";
+import { ConsoleMessage } from "puppeteer-core";
 
 export async function insertTagWithValidation(tag: TablesInsert<"tags">) {
   const { data: tags, result } = await getTags();
   if (result.hasError) return [];
-  if (tags.some((t) => t.name === tag.name && t.category === tag.category)) return [];
+  if (tags.some((t) => t.name === tag.name && t.category === tag.category))
+    return [];
   const { data: newTags, result: newResult } = await insertTags([tag]);
   if (newResult.hasError) return [];
   revalidatePath("/");
@@ -58,7 +58,7 @@ export async function insertProductFromForm(
   if (adminCodeResult.hasError) return adminCodeResult;
 
   const product = convertFormDataToProduct(formData);
-  const productValidationResult = validateObject(product);
+  const productValidationResult = validateObject(product as Record<string, string>);
   if (productValidationResult.hasError) return productValidationResult;
 
   const imageURLResult = validateImageURL(product.image_url);
@@ -82,9 +82,38 @@ export async function insertProductFromForm(
 
 export async function insertScrapedProducts(products: ScrapedProduct[]) {
   console.clear();
-  console.log("Bulk product insert started...");
-  console.log(products);
-  return false;
+  const productsToInsert = products.map(
+    (product) =>
+      ({
+        name: product.name,
+        brand: product.brand,
+        image_url: product.image_url,
+        category: product.category,
+        description: product.description,
+      } as Product)
+  );
+
+  const { result } = await insertProducts(productsToInsert);
+  if (result.hasError) return result;
+
+  const {data: addedProducts, result: productResult } = await getProducts();
+  if (productResult.hasError) return productResult;
+
+  const productSources = addedProducts.map((product, i) => ({
+    product_id: product.id,
+    source_id: 2, // crutchfield
+    url: products[i].url,
+    price: parseInt(products[i].price.slice(1)),
+  } as ProductSource));
+
+  const { data, result: sourceResult } = await insertProductSources(productSources);
+  if (sourceResult.hasError) return sourceResult;
+
+  console.log("Bulk product insert finished.");
+  return {
+    message: "Products added successfully",
+    hasError: false,
+  } as Result;
 }
 
 export async function deleteProductAndRevalidate(product_id: string) {

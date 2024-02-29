@@ -139,7 +139,7 @@ export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
   // Return mock data if the flag is set
   if (returnMockData) {
     // wait 10 seconds to simulate a slow response
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const resBody = {
       url: url,
