@@ -11,7 +11,6 @@ import type { ScrapedProduct } from "@/database/types";
 import ProductRow from "./ProductRow";
 import SubmitTable from "./SubmitTable";
 
-import { useSearchParams } from "next/navigation";
 import TablePagination from "./TablePagination";
 const ITEMS_PER_PAGE = 10;
 
@@ -26,19 +25,9 @@ export default function ProductTable({
   const [state, setState] = useState<ScrapedProduct[]>([]);
   const [page, setPage] = useState(1);
   const addedProductsCount = useRef(0);
-  const searchParams = useSearchParams();
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const page = searchParams.get("page");
-    if (page) setPage(parseInt(page));
-  }, [searchParams]);
-
-  useEffect(() => {
-    const notAdded = (product: ScrapedProduct) => {
-      return !state.some((p) => p.url === product.url);
-    }
-
     const isEmpty = (product: ScrapedProduct) => {
       return Object.values(product).some((value) => value === "");
     };
@@ -49,7 +38,7 @@ export default function ProductTable({
 
     if (products.length > addedProductsCount.current) {
       const addedProducts = products.slice(addedProductsCount.current);
-      const newProducts = addedProducts.filter(notAdded);
+      const newProducts = addedProducts;
       const emptyProducts = newProducts.filter(isEmpty);
       const notEmptyProducts = newProducts.filter(notEmpty);
       setState((state) => [...emptyProducts, ...state, ...notEmptyProducts]);
@@ -106,7 +95,7 @@ export default function ProductTable({
             .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
             .map((product, index) => (
               <ProductRow
-                key={product.url}
+                key={product.url + product.name + product.brand}
                 index={index}
                 product={product}
                 onChange={onInputChange}
@@ -120,6 +109,7 @@ export default function ProductTable({
       <TablePagination
         stateLength={state.length}
         page={page}
+        setPage={setPage}
         itemsPerPage={ITEMS_PER_PAGE}
       />
     </>
