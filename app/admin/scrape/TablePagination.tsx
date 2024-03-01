@@ -2,10 +2,13 @@ import {
   Pagination,
   PaginationGap,
   PaginationList,
-  PaginationNext,
+} from "@/components/pagination";
+
+import {
   PaginationPage,
   PaginationPrevious,
-} from "@/components/pagination";
+  PaginationNext
+} from "@/components/paginationWithState";
 
 function generatePageNumbers(currentPage: number, totalPages: number) {
   const start = [1,2,3];
@@ -30,25 +33,38 @@ function generatePageNumbers(currentPage: number, totalPages: number) {
 export default function TablePagination({
   stateLength,
   page,
+  setPage,
   itemsPerPage,
 }: {
   stateLength: number;
   page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   itemsPerPage: number;
 }) {
   const totalPages = Math.ceil(stateLength / itemsPerPage);
   const pageNumbers = generatePageNumbers(page, totalPages);
 
+  const goToPreviousPage = () => {
+    if (page > 1) setPage((prev) => prev - 1);
+  }
+
+  const goToNextPage = () => {
+    if (page < totalPages) setPage((prev) => prev + 1);
+  }
+
   return (
     <Pagination>
-      <PaginationPrevious href={page === 1 ? null : `?page=${page - 1}`} />
+      <PaginationPrevious
+        callback={goToPreviousPage}
+        disabled={page === 1}
+      />
       <PaginationList>
         {pageNumbers.map((pageNumber, i) => {
           if (pageNumber) {
             return (
               <PaginationPage
                 key={i}
-                href={`?page=${pageNumber}`}
+                callback={() => setPage(pageNumber)}
                 current={pageNumber === page}
               >
                 {`${pageNumber}`}
@@ -60,7 +76,8 @@ export default function TablePagination({
         })}
       </PaginationList>
       <PaginationNext
-        href={stateLength <= page * itemsPerPage ? null : `?page=${page + 1}`}
+        callback={goToNextPage}
+        disabled={page === totalPages}
       />
     </Pagination>
   );

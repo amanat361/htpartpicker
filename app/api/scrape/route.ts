@@ -1,6 +1,6 @@
 import { getPage } from "@/puppeteer/puppeteerServer";
 import { validateUrl } from "@/puppeteer/helperFunctions";
-import { mockProducts, largeMockProducts } from "@/lib/products";
+import { mockProducts, largeMockProducts, getLargeMockProducts } from "@/lib/products";
 import type { Page } from "puppeteer-core";
 import { NextResponse } from "next/server";
 import type { ScrapedProduct } from "@/database/types";
@@ -140,13 +140,14 @@ export async function POST(req: Request): Promise<NextResponse<ScrapeLink>> {
   if (returnMockData) {
     // wait 10 seconds to simulate a slow response
     // await new Promise((resolve) => setTimeout(resolve, 2000));
+    const p = getLargeMockProducts();
 
     const resBody = {
       url: url,
       scraping: false,
       hasError: false,
-      message: `${largeMockProducts.length} mock products scraped!`,
-      products: largeMockProducts,
+      message: `${p.length} mock products scraped!`,
+      products: p,
     };
     return NextResponse.json(resBody, { status: 200 });
   }

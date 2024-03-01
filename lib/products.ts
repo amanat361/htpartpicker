@@ -234,6 +234,27 @@ const mockProducts = [
   },
 ] as ScrapedProduct[];
 
+const getLargeMockProducts = () => {
+  const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
+    url: crypto.randomUUID(),
+    image_url: "https://via.placeholder.com/200",
+    name: `Product ${i + 1}`,
+    price: `$${Math.floor(Math.random() * 1000)}`,
+    brand: `Brand ${i + 1}`,
+    description: `Description for product ${i + 1}`,
+    highlights: [
+      `Highlight 1 for product ${i + 1}`,
+      `Highlight 2 for product ${i + 1}`,
+      `Highlight 3 for product ${i + 1}`,
+    ],
+    category: "Testing",
+  })) as ScrapedProduct[];
+
+  largeMockProducts[9].description = "";
+  largeMockProducts[13].name = "";
+
+  return largeMockProducts;
+}
 
 // make a large mock products array with randomized strings
 const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
@@ -255,4 +276,4 @@ const largeMockProducts = Array.from({ length: 50 }, (_, i) => ({
 largeMockProducts[9].description = "";
 largeMockProducts[13].name = "";
 
-export { type Item, items, type Category, categories, mockProducts, largeMockProducts };
+export { type Item, items, type Category, categories, mockProducts, largeMockProducts, getLargeMockProducts };

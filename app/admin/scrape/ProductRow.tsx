@@ -25,7 +25,7 @@ export default function ProductRow(props: {
   }
 
   return (
-    <TableRow key={product.url}>
+    <TableRow>
       {/* image */}
       <TableCell>
         <a href={product.url} target="_blank" rel="noreferrer">
