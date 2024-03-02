@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import { BsDiscord, BsReddit, BsLink, BsYoutube } from "react-icons/bs";
+import Testimonials from "@/components/testimonials";
 
 type IconType = typeof BsDiscord | typeof BsReddit;
 
@@ -100,6 +101,7 @@ export default function CommunityPage() {
         Icon={BsYoutube}
         className="bg-[#FF0000] hover:bg-[#CC0000]"
       />
+      <Testimonials />
     </div>
   );
 }
