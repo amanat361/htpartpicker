@@ -24,7 +24,7 @@ function Invite({
         <div className="flex items-center gap-4">
           <img
             src={image_url}
-            alt="Discord"
+            alt={`Image for invitation to ${title}`}
             className="h-14 w-14 rounded-xl object-cover"
             draggable="false"
           />
