@@ -15,7 +15,7 @@ import {
   DropdownMenu,
 } from "@/components/dropdown";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { categories } from "@/lib/products";
+import { categories } from "@/data/products";
 import { Button } from "@/components/button";
 import { Input } from "./input";
 

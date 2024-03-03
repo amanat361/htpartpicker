@@ -21,7 +21,15 @@ const testimonials = [
             "https://cdn.discordapp.com/avatars/129341584822108160/68d4b479c00c2d984c89a31f57931626?size=1024",
         },
       },
-      // More testimonials...
+      {
+        body: "It looks clean",
+        author: {
+          name: "Mutelight",
+          handle: "mutelight",
+          imageUrl:
+            "https://cdn.discordapp.com/avatars/129341584822108160/68d4b479c00c2d984c89a31f57931626?size=1024",
+        },
+      },
     ],
     [
       {
@@ -33,7 +41,6 @@ const testimonials = [
             "https://cdn.britannica.com/89/164789-050-D6B5E2C7/Barack-Obama-2012.jpg?w=400&h=300&c=crop",
         },
       },
-      // More testimonials...
     ],
   ],
   [

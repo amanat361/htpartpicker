@@ -1,6 +1,6 @@
 import { getPage } from "@/puppeteer/puppeteerServer";
 import { validateUrl } from "@/puppeteer/helperFunctions";
-import { mockProducts, largeMockProducts, getLargeMockProducts } from "@/lib/products";
+import { mockProducts, largeMockProducts, getLargeMockProducts } from "@/data/products";
 import type { Page } from "puppeteer-core";
 import { NextResponse } from "next/server";
 import type { ScrapedProduct } from "@/database/types";
