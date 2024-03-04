@@ -62,11 +62,6 @@ function Invite({
 export default function CommunityPage() {
   return (
     <div className="max-w-6xl w-full space-y-4 md:space-y-6 lg:space-y-8 flex flex-col items-center">
-      {/* <div className="mx-auto max-w-xl text-center">
-        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
-          Hear what the community has to say about HT Part Picker
-        </p>
-      </div> */}
       <Testimonials />
       <InvitationsPanel />
     </div>
