@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import { BsDiscord, BsReddit, BsLink, BsYoutube } from "react-icons/bs";
+import Testimonials from "@/components/testimonials";
 
 type IconType = typeof BsDiscord | typeof BsReddit;
 
@@ -24,7 +25,7 @@ function Invite({
         <div className="flex items-center gap-4">
           <img
             src={image_url}
-            alt="Discord"
+            alt={`Image for invitation to ${title}`}
             className="h-14 w-14 rounded-xl object-cover"
             draggable="false"
           />
@@ -100,6 +101,7 @@ export default function CommunityPage() {
         Icon={BsYoutube}
         className="bg-[#FF0000] hover:bg-[#CC0000]"
       />
+      <Testimonials />
     </div>
   );
 }

@@ -21,7 +21,7 @@ import { Button } from "@/components/button";
 import { ShareIcon, PlusIcon, WrenchIcon } from "@heroicons/react/16/solid";
 import { Badge } from "@/components/badge";
 import { Strong, Text, TextLink } from "@/components/text";
-import { Item, items } from "@/lib/products";
+import { Item, items } from "@/data/products";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 import BuildCard from "./buildcard";
 
