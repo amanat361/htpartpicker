@@ -1,11 +1,5 @@
 import {
-  ArrowPathIcon,
   ChevronRightIcon,
-  CloudArrowUpIcon,
-  Cog6ToothIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  ServerIcon,
   ShareIcon,
   WrenchIcon,
   PlusCircleIcon,
@@ -16,8 +10,6 @@ import {
   PhoneIcon,
 } from "@heroicons/react/20/solid";
 import {
-  BoltIcon,
-  CalendarDaysIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { TypewriterEffectSmooth } from "./effects/typewriter-effect";
