@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/button";
+import { Button } from "@/components/primitives/button";
 import { ArrowUturnLeftIcon } from "@heroicons/react/16/solid";
-import { Text } from "@/components/text";
+import { Text } from "@/components/primitives/text";
 
 export default function Error({
   error,

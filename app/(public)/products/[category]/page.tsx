@@ -5,7 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/table";
+} from "@/components/primitives/table";
 
 import { getCategories } from "@/database/methods";
 import { getProducts } from "@/database/methods";

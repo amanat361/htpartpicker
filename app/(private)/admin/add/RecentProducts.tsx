@@ -1,5 +1,5 @@
 import type { Source, ProductWithTagsAndSources } from "@/database/types";
-import { Badge } from "@/components/badge";
+import { Badge } from "@/components/primitives/badge";
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/table";
+} from "@/components/primitives/table";
 import AddSourceToProductComponent from "./components/AddSourceToProduct";
 import DeleteProductComponent from "./components/DeleteProduct";
 

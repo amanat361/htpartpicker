@@ -11,20 +11,20 @@ import {
   CheckBadgeIcon,
   InformationCircleIcon,
 } from "@heroicons/react/20/solid";
-import { Input } from "@/components/input";
-import { Button } from "@/components/button";
-import { Badge } from "@/components/badge";
+import { Input } from "@/components/primitives/input";
+import { Button } from "@/components/primitives/button";
+import { Badge } from "@/components/primitives/badge";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@/components/dialog";
+} from "@/components/primitives/dialog";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import React, { useEffect, useState } from "react";
 import { beeMovie } from "./bee-movie";
-import { Textarea } from "@/components/textarea";
+import { Textarea } from "@/components/primitives/textarea";
 
 function CopyToClipboardButton({ text }: { text: string }) {
   const [copiedText, copyToClipboard] = useCopyToClipboard();

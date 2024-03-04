@@ -8,7 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { Button } from "../button";
+import { Button } from "../primitives/button";
 
 export const AnimatedTooltip = ({
   items,

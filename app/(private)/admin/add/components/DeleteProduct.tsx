@@ -7,8 +7,8 @@ import {
   AlertActions,
   AlertDescription,
   AlertTitle,
-} from "@/components/alert";
-import { Button } from "@/components/button";
+} from "@/components/primitives/alert";
+import { Button } from "@/components/primitives/button";
 import { TrashIcon, CheckCircleIcon } from "@heroicons/react/16/solid";
 
 export default function DeleteProductComponent({

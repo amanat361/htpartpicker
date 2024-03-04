@@ -7,23 +7,23 @@ import {
   Fieldset,
   Label,
   Legend,
-} from "@/components/fieldset";
+} from "@/components/primitives/fieldset";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@/components/dialog";
-import { Input } from "@/components/input";
-import { Text } from "@/components/text";
-import { Badge } from "@/components/badge";
-import { Listbox, ListboxLabel, ListboxOption } from "@/components/listbox";
-import { Checkbox, CheckboxField, CheckboxGroup } from "@/components/checkbox";
+} from "@/components/primitives/dialog";
+import { Input } from "@/components/primitives/input";
+import { Text } from "@/components/primitives/text";
+import { Badge } from "@/components/primitives/badge";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/primitives/listbox";
+import { Checkbox, CheckboxField, CheckboxGroup } from "@/components/primitives/checkbox";
 import { useFormState, useFormStatus } from "react-dom";
 import { insertProductFromForm, insertTagWithValidation } from "@/database/actions";
 4;
-import { Button } from "@/components/button";
+import { Button } from "@/components/primitives/button";
 import { useEffect, useState } from "react";
 
 import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";

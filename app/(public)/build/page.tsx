@@ -8,21 +8,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/table";
+} from "@/components/primitives/table";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@/components/dialog";
+} from "@/components/primitives/dialog";
 import { useState } from "react";
-import { Button } from "@/components/button";
+import { Button } from "@/components/primitives/button";
 import { ShareIcon, PlusIcon, WrenchIcon } from "@heroicons/react/16/solid";
-import { Badge } from "@/components/badge";
-import { Strong, Text, TextLink } from "@/components/text";
+import { Badge } from "@/components/primitives/badge";
+import { Strong, Text, TextLink } from "@/components/primitives/text";
 import { Item, items } from "@/data/products";
-import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { TypewriterEffectSmooth } from "@/components/effects/typewriter-effect";
 import BuildCard from "./buildcard";
 
 type BadgeColor =

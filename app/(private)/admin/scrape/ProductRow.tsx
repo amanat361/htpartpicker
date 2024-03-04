@@ -1,10 +1,10 @@
-import { TableCell, TableRow } from "@/components/table";
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
+import { TableCell, TableRow } from "@/components/primitives/table";
+import { Button } from "@/components/primitives/button";
+import { Input } from "@/components/primitives/input";
 import { TrashIcon } from "@heroicons/react/16/solid";
 import type { ScrapedProduct } from "@/database/types";
 import { useState } from "react";
-import { Listbox, ListboxLabel, ListboxOption } from "@/components/listbox";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/primitives/listbox";
 
 export default function ProductRow(props: {
   index: number;

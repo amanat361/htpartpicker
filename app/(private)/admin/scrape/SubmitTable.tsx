@@ -1,4 +1,4 @@
-import { Button } from "@/components/button";
+import { Button } from "@/components/primitives/button";
 import { CheckBadgeIcon } from "@heroicons/react/16/solid";
 
 export default function SubmitTable({

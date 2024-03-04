@@ -1,5 +1,6 @@
 import Greeting from "@/components/construction";
-import Banner from "@/components/banner";
+import Banner from "@/components/primitives/banner";
+import LandingPage from "@/components/landing";
 
 const repository_url =
   "https://api.github.com/repos/amanat361/htpartpicker/commits/dev?per_page=1";
@@ -11,8 +12,9 @@ export default async function Home() {
 
   return (
     <>
-      <Greeting />
-      {data && <Banner data={data}/>}
+      {/* <Greeting /> */}
+      <LandingPage />
+      {/* {data && <Banner data={data}/>} */}
     </>
   );
 }

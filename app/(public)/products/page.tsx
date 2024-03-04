@@ -1,4 +1,4 @@
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { BentoGrid, BentoGridItem } from "@/components/effects/bento-grid";
 import { IconClipboardCopy } from "@tabler/icons-react";
 import { getCategories } from "@/database/methods";
 

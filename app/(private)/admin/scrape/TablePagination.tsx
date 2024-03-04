@@ -2,13 +2,10 @@ import {
   Pagination,
   PaginationGap,
   PaginationList,
-} from "@/components/pagination";
-
-import {
   PaginationPage,
   PaginationPrevious,
   PaginationNext
-} from "@/components/paginationWithState";
+} from "@/components/pagination";
 
 function generatePageNumbers(currentPage: number, totalPages: number) {
   const start = [1,2,3];

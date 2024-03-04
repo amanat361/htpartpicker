@@ -7,12 +7,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/table";
-import { Input } from "@/components/input";
-import { Button } from "@/components/button";
+} from "@/components/primitives/table";
+import { Input } from "@/components/primitives/input";
+import { Button } from "@/components/primitives/button";
 import { PlusIcon, SparklesIcon } from "@heroicons/react/16/solid";
-import { TextLink } from "@/components/text";
-import { Badge } from "@/components/badge";
+import { TextLink } from "@/components/primitives/text";
+import { Badge } from "@/components/primitives/badge";
 import { product_links_from_crutchfield } from "@/data/links";
 import "ldrs/lineSpinner"; // Default values shown
 
