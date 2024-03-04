@@ -12,9 +12,14 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="w-full max-w-6xl flex flex-col items-center justify-center gap-4">
-      <h1 className="text-2xl text-rose-600">Hii~~ uWu we have an oopsie woopsie!!! xpp</h1>
-      <h1>That&apos;s not vewy kawaii, but we are working sooper dooper fast to fix da wittle issue!</h1>
+    <div className="w-full max-w-3xl flex flex-col items-center justify-center gap-4 mx-auto p-4 md:p-8 lg:p-10 xl:p-12">
+      <h1 className="text-2xl text-rose-600">
+        Hii~~ uWu we have an oopsie woopsie!!! xpp
+      </h1>
+      <h1>
+        That&apos;s not vewy kawaii, but we are working sooper dooper fast to
+        fix da wittle issue!
+      </h1>
       <Text>*starts twerking*</Text>
       <img
         className="rounded-xl"
