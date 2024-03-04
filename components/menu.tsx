@@ -5,7 +5,7 @@ import {
   CodeBracketIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Button } from "./button";
+import { Button } from "./primitives/button";
 
 const actions = [
   {

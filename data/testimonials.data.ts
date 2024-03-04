@@ -81,12 +81,12 @@ const firstRightColumn = [
     },
   },
   {
-    body: "I have no idea what this site is, I just got paid $3 to put something here.",
+    body: "Um can you give me 5 minutes and I'll give you a review later?",
     author: {
-      name: "Random Dude",
-      handle: "randomdude",
+      name: "Ethan Gutierrez",
+      handle: "ethanqg",
       imageUrl:
-        "https://c8.alamy.com/comp/KGTANE/portrait-of-smiling-man-showing-thums-up-KGTANE.jpg",
+        "https://media.licdn.com/dms/image/D5603AQHz7-s3IEL4RQ/profile-displayphoto-shrink_400_400/0/1707971202264?e=1715212800&v=beta&t=QdWnHqdyz0YytNsOYa_wAGYYlmlvXd2r6kb1kdRdmyc",
     },
   },
 ];

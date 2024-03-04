@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/home-theater.png";
 import Link from "next/link";
-import { Button } from "@/components/button";
-import { Input } from "./input";
+import { Button } from "@/components/primitives/button";
+import { Input } from "./primitives/input";
 
 const selectedMobilePage =
   "rounded-md bg-gray-900 block px-3 py-2 text-base font-medium text-white";

@@ -6,7 +6,7 @@ function classNames(...classes: string[]) {
 
 export default function Testimonials() {
   return (
-    <div className="relative isolate pb-32 pt-24">
+    <div className="relative isolate pb-32">
       <div
         className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
         aria-hidden="true"
@@ -33,7 +33,7 @@ export default function Testimonials() {
       </div>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-xl text-center">
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+          <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
             Hear what the community has to say about HT Part Picker
           </p>
         </div>
