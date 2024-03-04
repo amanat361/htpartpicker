@@ -9,7 +9,7 @@ import {
 
 import { getCategories } from "@/database/methods";
 import { getProducts } from "@/database/methods";
-import Greeting from "@/components/construction";
+import ConstructionGreeting from "@/components/construction";
 
 export default async function PageUnderConstruction({
   params,
@@ -17,7 +17,7 @@ export default async function PageUnderConstruction({
   params: { category: string };
 }) {
   const products = await getProducts();
-  if (products.result.hasError) return <Greeting />;
+  if (products.result.hasError) return <ConstructionGreeting />;
   const filteredProducts = products.data.filter(
     (product) => product.category.toLowerCase() === params.category
   );

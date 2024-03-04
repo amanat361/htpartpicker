@@ -10,11 +10,11 @@ export default async function ProductCategories() {
   return (
     <>
       <div className="mx-auto max-w-xl text-center">
-        <p className="my-12 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+        <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
           Check out our categories for the best products in Home Theater
         </p>
       </div>
-      <BentoGrid className="max-w-6xl mx-auto">
+      <BentoGrid className="max-w-6xl mx-auto mt-16 sm:mt-20">
         {categories.map((category, i) => (
           <BentoGridItem
             key={i}

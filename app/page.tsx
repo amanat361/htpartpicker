@@ -1,5 +1,4 @@
-import Greeting from "@/components/construction";
-import Banner from "@/components/primitives/banner";
+import Banner from "@/components/banner";
 import LandingPage from "@/components/landing";
 
 const repository_url =
@@ -12,7 +11,6 @@ export default async function Home() {
 
   return (
     <>
-      {/* <Greeting /> */}
       <LandingPage />
       {/* {data && <Banner data={data}/>} */}
     </>
