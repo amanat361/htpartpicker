@@ -24,7 +24,8 @@ function AdminAlert() {
               >
                 return to the homepage
               </Link>{" "}
-              HT Part Picker is still in development and is not ready for public use. We are excited to share it soon!
+              HT Part Picker is still in development and is not ready for public
+              use. We are excited to share it soon!
             </p>
           </div>
         </div>
@@ -40,8 +41,10 @@ export default async function PrivateLayout({
 }) {
   return (
     <>
-      <AdminAlert />
-      {children}
+      <main className="flex flex-col items-center justify-center p-4 md:p-8 lg:p-10 xl:p-12">
+        <AdminAlert />
+        {children}
+      </main>
     </>
   );
 }
