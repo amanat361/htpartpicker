@@ -170,9 +170,10 @@ const footerNavigation = {
   ],
 };
 
-export default function LandingPage() {
+export default function Example() {
   return (
-    <>
+    <div className="bg-gray-900">
+      <main>
         {/* Hero section */}
         <div className="relative isolate overflow-hidden">
           <svg
@@ -510,6 +511,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
+      </main>
 
       {/* Footer */}
       <footer aria-labelledby="footer-heading" className="relative">
@@ -536,6 +538,6 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
-      </>
+    </div>
   );
 }
