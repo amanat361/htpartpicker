@@ -8,18 +8,25 @@ export default async function ProductCategories() {
   const categories = data;
 
   return (
-    <BentoGrid className="max-w-6xl mx-auto">
-      {categories.map((category, i) => (
-        <BentoGridItem
-          key={i}
-          title={category.name}
-          description={category.description}
-          header={<Skeleton />}
-          icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
-          className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-        />
-      ))}
-    </BentoGrid>
+    <>
+      <div className="mx-auto max-w-xl text-center">
+        <p className="my-12 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+          Check out our categories for the best products in Home Theater
+        </p>
+      </div>
+      <BentoGrid className="max-w-6xl mx-auto">
+        {categories.map((category, i) => (
+          <BentoGridItem
+            key={i}
+            title={category.name}
+            description={category.description}
+            header={<Skeleton />}
+            icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+            className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+          />
+        ))}
+      </BentoGrid>
+    </>
   );
 }
 

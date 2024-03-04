@@ -1,32 +1,17 @@
 "use client";
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/home-theater.png";
 import Link from "next/link";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownDescription,
-  DropdownItem,
-  DropdownLabel,
-  DropdownMenu,
-} from "@/components/dropdown";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { categories } from "@/data/products";
 import { Button } from "@/components/button";
 import { Input } from "./input";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const selectedMobilePage =
   "rounded-md bg-gray-900 block px-3 py-2 text-base font-medium text-white";
 const unselectedMobilePage =
-  "rounded-md block px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white";
+  "rounded-md block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-white";
 
 const pages = [
   {
@@ -44,29 +29,12 @@ const pages = [
   {
     name: "Community",
     href: "/community",
-  }
+  },
+  {
+    name: "Products",
+    href: "/products",
+  },
 ];
-
-function ProductDropdown() {
-  return (
-    <Dropdown>
-      <DropdownButton>
-        Products
-        <ChevronDownIcon />
-      </DropdownButton>
-      <DropdownMenu>
-        {categories.map((category) => (
-          <DropdownItem key={category.name} href={category.link}>
-            <DropdownLabel>{category.name}</DropdownLabel>
-            <DropdownDescription>
-              {category.shortDescription}
-            </DropdownDescription>
-          </DropdownItem>
-        ))}
-      </DropdownMenu>
-    </Dropdown>
-  );
-}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -92,23 +60,15 @@ export default function Navbar() {
                     {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                     {pages.map((page) =>
                       pathname === page.href ? (
-                        <Button
-                          key={page.name}
-                          href={page.href}
-                        >
+                        <Button key={page.name} href={page.href}>
                           {page.name}
                         </Button>
                       ) : (
-                        <Button
-                          key={page.name}
-                          href={page.href}
-                          outline
-                        >
+                        <Button key={page.name} href={page.href} outline>
                           {page.name}
                         </Button>
                       )
                     )}
-                    <ProductDropdown />
                   </div>
                 </div>
               </div>
@@ -137,75 +97,6 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="hidden lg:ml-4 lg:block">
-                <div className="flex items-center">
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative flex-shrink-0">
-                    <div>
-                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
-                    >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Your Profile
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Sign out
-                            </a>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -217,7 +108,7 @@ export default function Navbar() {
                   key={page.name}
                   href={page.href}
                   className={
-                      pathname === page.href
+                    pathname === page.href
                       ? selectedMobilePage
                       : unselectedMobilePage
                   }
@@ -225,50 +116,6 @@ export default function Navbar() {
                   {page.name}
                 </Link>
               ))}
-              <ProductDropdown />
-            </div>
-            <div className="border-t border-gray-700 pb-3 pt-4">
-              <div className="flex items-center px-5">
-                <div className="flex-shrink-0">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="ml-3">
-                  <div className="text-base font-medium text-white">
-                    Tom Cook
-                  </div>
-                  <div className="text-sm font-medium text-gray-400">
-                    tom@example.com
-                  </div>
-                </div>
-
-              </div>
-              <div className="mt-3 space-y-1 px-2">
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                >
-                  Your Profile
-                </Disclosure.Button>
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                >
-                  Settings
-                </Disclosure.Button>
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                >
-                  Sign out
-                </Disclosure.Button>
-              </div>
             </div>
           </Disclosure.Panel>
         </>
