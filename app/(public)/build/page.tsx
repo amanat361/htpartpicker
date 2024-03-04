@@ -1,5 +1,4 @@
 "use client";
-import { Roboto_Slab } from "next/font/google";
 
 import {
   Table,
