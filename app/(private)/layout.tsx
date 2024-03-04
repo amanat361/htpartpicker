@@ -33,7 +33,7 @@ function AdminAlert() {
   );
 }
 
-export default async function DashboardLayout({
+export default async function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;
