@@ -1,6 +1,7 @@
 import { clsx } from "clsx";
 import { BsDiscord, BsReddit, BsLink, BsYoutube } from "react-icons/bs";
 import Testimonials from "@/components/testimonials";
+import InvitationsPanel from "./invitations";
 
 type IconType = typeof BsDiscord | typeof BsReddit;
 
@@ -61,47 +62,13 @@ function Invite({
 export default function CommunityPage() {
   return (
     <div className="max-w-6xl w-full space-y-4 md:space-y-6 lg:space-y-8 flex flex-col items-center">
-      <Invite
-        title="Home Theater Enthusiasts"
-        description="You've been invited to join a server"
-        image_url="https://cdn.discordapp.com/icons/724144086625550347/a_1d933c44aa957d3a2cf17c0e527939f6.webp?size=240"
-        redirect_url="https://discord.gg/n76Gz4Mu5s"
-        Icon={BsDiscord}
-        className="bg-[#5865F2] hover:bg-[#454FBF]"
-      />
-      <Invite
-        title="r/HomeTheater"
-        description="The main subreddit for Home Theaters"
-        image_url="https://styles.redditmedia.com/t5_2rof6/styles/communityIcon_tg187l1m8xs21.png?width=256&s=8bc24bad23153469022c5b33a2ffe90bb13bb3f4"
-        redirect_url="https://www.reddit.com/r/hometheater/"
-        Icon={BsReddit}
-        className="bg-[#FF5700] hover:bg-[#FF4500]"
-      />
-      <Invite
-        title="r/TVTooHigh"
-        description="TVs that are too high"
-        image_url="https://a.thumbs.redditmedia.com/IWvUdrzk_smpcQfDw7QjshkBY4SWcJ5FcQGJl8tTA30.png"
-        redirect_url="https://www.reddit.com/r/TVTooHigh/"
-        Icon={BsReddit}
-        className="bg-[#FF5700] hover:bg-[#FF4500]"
-      />
-      <Invite
-        title="rtings.com"
-        description="TV Reviews and Ratings"
-        image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIhLOg15fetlXRFtNyvA3t6IfePiDFgXXdt-zTeydHEw&s"
-        redirect_url="https://www.rtings.com/"
-        Icon={BsLink}
-        className="bg-blue-500 hover:bg-blue-600"
-      />
-      <Invite
-        title="Official Home Theater Channel"
-        description="YouTube Channel for Home Theaters"
-        image_url="https://www.mydomaine.com/thmb/I5UQtJB13nCvUQb2ygbao5QbRN8=/1630x0/filters:no_upscale():strip_icc()/art-deco-f48cf28f73904a60ade1c30626130f0f.png"
-        redirect_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        Icon={BsYoutube}
-        className="bg-[#FF0000] hover:bg-[#CC0000]"
-      />
+      {/* <div className="mx-auto max-w-xl text-center">
+        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+          Hear what the community has to say about HT Part Picker
+        </p>
+      </div> */}
       <Testimonials />
+      <InvitationsPanel />
     </div>
   );
 }
