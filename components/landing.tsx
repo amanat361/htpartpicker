@@ -12,6 +12,8 @@ import {
   CalendarDaysIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { TypewriterEffectSmooth } from "./effects/typewriter-effect";
+import { Button } from "./primitives/button";
 
 const primaryFeatures = [
   {
@@ -170,9 +172,43 @@ const footerNavigation = {
   ],
 };
 
-export default function Example() {
+function SectionHeadingPartOne() {
   return (
-    <div className="bg-gray-900">
+    <TypewriterEffectSmooth
+      className=""
+      cursorClassName="hidden"
+      words={[{ text: "Welcome" }, { text: "to" }]}
+    />
+  );
+}
+
+function SectionHeadingPartTwo() {
+  return (
+    <TypewriterEffectSmooth
+      className=""
+      cursorClassName="hidden"
+      words={[
+        {
+          text: "HT",
+          className: "text-blue-700 dark:text-blue-800",
+        },
+        {
+          text: "Part",
+          className: "text-indigo-700 dark:text-indigo-800",
+        },
+        {
+          text: "Picker",
+          className: "text-violet-700 dark:text-violet-800",
+        },
+      ]}
+    />
+  );
+}
+
+export default function LandingPage() {
+  return (
+    <div className="bg-gray-950">
+      {/* <SectionHeading /> */}
       <main>
         {/* Hero section */}
         <div className="relative isolate overflow-hidden">
@@ -219,11 +255,6 @@ export default function Example() {
           </div>
           <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40">
             <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-              <img
-                className="h-11"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
               <div className="mt-24 sm:mt-32 lg:mt-16">
                 <a href="#" className="inline-flex space-x-6">
                   <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
@@ -238,34 +269,25 @@ export default function Example() {
                   </span>
                 </a>
               </div>
-              <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                Deploy to the cloud with confidence
-              </h1>
+              <div className="flex flex-col gap-4 mt-6">
+                <SectionHeadingPartOne />
+                <SectionHeadingPartTwo />
+              </div>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                The world’s only one stop shop for all your Home Theater needs.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
-                <a
-                  href="#"
-                  className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-                >
-                  Get started
-                </a>
-                <a
-                  href="#"
-                  className="text-sm font-semibold leading-6 text-white"
-                >
-                  Live demo <span aria-hidden="true">→</span>
-                </a>
+                <Button color="blue">Get started</Button>
+                <Button outline>
+                  View Guides <span aria-hidden="true">→</span>
+                </Button>
               </div>
             </div>
             <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
               <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
                 <img
-                  src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
-                  alt="App screenshot"
+                  src="/buildPage.png"
+                  alt="App screenshot of HT Part Picker Build Page"
                   width={2432}
                   height={1442}
                   className="w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10"
@@ -278,40 +300,40 @@ export default function Example() {
         {/* Logo cloud */}
         <div className="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
           <h2 className="text-center text-lg font-semibold leading-8 text-white">
-            The world’s most innovative companies use our app
+            Products hand sourced from trusted retailers
           </h2>
           <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
             <img
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg"
-              alt="Transistor"
+              src="https://www.thesun.co.uk/wp-content/uploads/2022/02/Amazon-Logo-1024x426-1.png"
+              alt="Amazon"
               width={158}
               height={48}
             />
             <img
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/reform-logo-white.svg"
-              alt="Reform"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Best_Buy_Logo.svg/1280px-Best_Buy_Logo.svg.png"
+              alt="Best Buy"
               width={158}
               height={48}
             />
             <img
               className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg"
-              alt="Tuple"
+              src="https://images.crutchfieldonline.com/ImageBank/v20190322131200/social-media/og-meta.jpg"
+              alt="Crutchfield"
               width={158}
               height={48}
             />
             <img
               className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg"
+              src="https://upload.wikimedia.org/wikipedia/commons/4/48/EBay_logo.png"
               alt="SavvyCal"
               width={158}
               height={48}
             />
             <img
               className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-              src="https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg"
+              src="https://cdn.dribbble.com/users/13145/screenshots/2497508/bobbyjkane-bandh-logo.png"
               alt="Statamic"
               width={158}
               height={48}
@@ -496,12 +518,7 @@ export default function Example() {
               anim id veniam aliqua proident excepteur commodo do ea.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                Get started
-              </a>
+              <Button color="blue">Get started</Button>
               <a
                 href="#"
                 className="text-sm font-semibold leading-6 text-white"

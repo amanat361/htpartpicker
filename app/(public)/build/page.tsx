@@ -18,7 +18,7 @@ import {
 } from "@/components/primitives/dialog";
 import { useState } from "react";
 import { Button } from "@/components/primitives/button";
-import { ShareIcon, PlusIcon, WrenchIcon } from "@heroicons/react/16/solid";
+import { PlusIcon, WrenchIcon } from "@heroicons/react/16/solid";
 import { Badge } from "@/components/primitives/badge";
 import { Strong, Text, TextLink } from "@/components/primitives/text";
 import { Item, items } from "@/data/products";
@@ -48,8 +48,6 @@ const badgeColors = {
   single: "amber",
   pair: "purple",
 } as BadgeColors;
-
-const customFont = Roboto_Slab({ subsets: ["latin"] });
 
 function SectionHeading() {
   return (
