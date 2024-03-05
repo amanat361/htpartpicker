@@ -165,15 +165,15 @@ function SectionHeadingPartTwo() {
       words={[
         {
           text: "HT",
-          className: "text-sky-700 dark:text-sky-800",
+          className: "text-sky-700 dark:text-sky-600",
         },
         {
           text: "Part",
-          className: "text-sky-800 dark:text-sky-900",
+          className: "text-sky-800 dark:text-sky-700",
         },
         {
           text: "Picker",
-          className: "text-sky-900 dark:text-sky-950",
+          className: "text-sky-900 dark:text-sky-800",
         },
       ]}
     />
@@ -182,7 +182,7 @@ function SectionHeadingPartTwo() {
 
 export default function LandingPage() {
   return (
-    <div className="bg-gradient-to-b from-sky-50 via-white to-white dark:bg-gray-950">
+    <div className="bg-gradient-to-b from-sky-50 via-white to-white dark:from-gray-950 dark:via-gray-950 dark:to-gray-950">
       {/* <SectionHeading /> */}
       <main>
         {/* Hero section */}

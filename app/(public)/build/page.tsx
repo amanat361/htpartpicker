@@ -63,7 +63,7 @@ function SectionHeading() {
           },
           {
             text: "Theater",
-            className: "text-sky-800 dark:text-sku-900",
+            className: "text-sky-800 dark:text-sky-900",
           },
         ]}
       />
