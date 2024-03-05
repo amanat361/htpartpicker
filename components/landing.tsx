@@ -15,6 +15,7 @@ import {
 import { TypewriterEffectSmooth } from "./effects/typewriter-effect";
 import { Button } from "./primitives/button";
 import { Text, TextLink } from "./primitives/text";
+import { Badge } from "./primitives/badge";
 
 const primaryFeatures = [
   {
@@ -182,13 +183,13 @@ function SectionHeadingPartTwo() {
 
 export default function LandingPage() {
   return (
-    <div className="bg-gray-950">
+    <div className="bg-white dark:bg-gray-950">
       {/* <SectionHeading /> */}
       <main>
         {/* Hero section */}
         <div className="relative isolate overflow-hidden">
           <svg
-            className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+            className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
             aria-hidden="true"
           >
             <defs>
@@ -203,7 +204,11 @@ export default function LandingPage() {
                 <path d="M.5 200V.5H200" fill="none" />
               </pattern>
             </defs>
-            <svg x="50%" y={-1} className="overflow-visible fill-gray-800/20">
+            <svg
+              x="50%"
+              y={-1}
+              className="overflow-visible fill-gray-50 dark:fill-gray-800/20"
+            >
               <path
                 d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
                 strokeWidth={0}
@@ -232,13 +237,14 @@ export default function LandingPage() {
             <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
               <div className="mt-24 sm:mt-32 lg:mt-16">
                 <a href="#" className="inline-flex space-x-6">
-                  <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                  {/* <Badge color="indigo">Latest updates</Badge> */}
+                  <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 ring-1 ring-inset dark:ring-indigo-500/20">
                     Latest updates
                   </span>
-                  <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300">
+                  <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-600 dark:text-gray-300">
                     <span>Just shipped v1.0</span>
                     <ChevronRightIcon
-                      className="h-5 w-5 text-gray-500"
+                      className="h-5 w-5 text-gray-800 dark:text-gray-500"
                       aria-hidden="true"
                     />
                   </span>
@@ -248,7 +254,7 @@ export default function LandingPage() {
                 <SectionHeadingPartOne />
                 <SectionHeadingPartTwo />
               </div>
-              <p className="mt-6 text-lg leading-8 text-gray-300">
+              <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                 The world’s only one stop shop for all your Home Theater needs.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
@@ -276,7 +282,7 @@ export default function LandingPage() {
 
         {/* Logo cloud */}
         <div className="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
-          <h2 className="text-center text-lg font-semibold leading-8 text-white">
+          <h2 className="text-center text-lg font-semibold leading-8 text-black dark:text-white">
             Products hand sourced from trusted retailers
           </h2>
           <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
@@ -324,10 +330,10 @@ export default function LandingPage() {
             <h2 className="text-base font-semibold leading-7 text-indigo-400">
               Build Quickly
             </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <p className="mt-2 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
               Everything you need to create your dream home theater.
             </p>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
               Whether you&apos;re a seasoned professional or just starting out,
               HT Part Picker has everything you need to get started. From the
               latest products to the best deals, we&apos;ve got you covered.
@@ -337,16 +343,16 @@ export default function LandingPage() {
             <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
               {primaryFeatures.map((feature) => (
                 <div key={feature.name} className="flex flex-col">
-                  <dt className="text-base font-semibold leading-7 text-white">
+                  <dt className="text-base font-semibold leading-7 text-black dark:text-white">
                     <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500">
                       <feature.icon
-                        className="h-6 w-6 text-white"
+                        className="h-6 w-6 text-black dark:text-white"
                         aria-hidden="true"
                       />
                     </div>
                     {feature.name}
                   </dt>
-                  <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
+                  <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600 dark:text-gray-300">
                     <p className="flex-auto">{feature.description}</p>
                     <p className="mt-6">
                       <Button outline href={feature.href}>
@@ -367,10 +373,10 @@ export default function LandingPage() {
               <h2 className="text-base font-semibold leading-7 text-indigo-400">
                 Everything you need
               </h2>
-              <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <p className="mt-2 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
                 Don&apos;t know what to buy? No problem.
               </p>
-              <p className="mt-6 text-lg leading-8 text-gray-300">
+              <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
                 Home Theater Part Picker has meticulously crafted the most
                 comprehensive and up to date database of home theater
                 components. You can check out the supported categories and sort
@@ -390,10 +396,10 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
-            <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
+            <dl className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-600 dark:text-gray-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
               {secondaryFeatures.map((feature) => (
                 <div key={feature.name} className="relative pl-9">
-                  <dt className="inline font-semibold text-white">
+                  <dt className="inline font-semibold text-black dark:text-white">
                     <feature.icon
                       className="absolute left-1 top-1 h-5 w-5 text-indigo-500"
                       aria-hidden="true"
@@ -413,21 +419,21 @@ export default function LandingPage() {
             <h2 className="text-base font-semibold leading-8 text-indigo-400">
               HT Part Picker Stats
             </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <p className="mt-2 text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
               Trusted by hundreds* of enthusiasts&nbsp;worldwide
             </p>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
               *Okay well not hundreds yet, but we&apos;re working on it. You can
               help by sharing our app with your friends and family. We
               appreciate your support! (And yes the other stats are fake too
               here but hey we all got to start somewhere. Don&apos;t judge!)
             </p>
           </div>
-          <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+          <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-black dark:text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
             {stats.map((stat) => (
               <div
                 key={stat.id}
-                className="flex flex-col gap-y-3 border-l border-white/10 pl-6"
+                className="flex flex-col gap-y-3 border-l border-gray-200 dark:border-white/10 pl-6"
               >
                 <dt className="text-sm leading-6">{stat.name}</dt>
                 <dd className="order-first text-3xl font-semibold tracking-tight">
@@ -441,7 +447,7 @@ export default function LandingPage() {
         {/* CTA section */}
         <div className="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
           <svg
-            className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+            className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 dark:stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
             aria-hidden="true"
           >
             <defs>
@@ -456,7 +462,7 @@ export default function LandingPage() {
                 <path d="M.5 200V.5H200" fill="none" />
               </pattern>
             </defs>
-            <svg x="50%" y={0} className="overflow-visible fill-gray-800/20">
+            <svg x="50%" y={0} className="overflow-visible fill-gray-50 dark:fill-gray-800/20">
               <path
                 d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
                 strokeWidth={0}
@@ -482,12 +488,12 @@ export default function LandingPage() {
             />
           </div>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-black dark:text-white sm:text-4xl">
               Make your dream theater a reality.
               <br />
               We can&apos;t wait to see what you build!
             </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600 dark:text-gray-300">
               Seriously, just give it a try. It&apos;s free!
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
