@@ -57,7 +57,8 @@ export default function InvitationsPanel() {
                 className={classNames(
                   action.iconBackground,
                   action.iconForeground,
-                  "inline-flex rounded-lg p-3 ring-4 ring-white"
+                  "inline-flex rounded-lg p-3 ring-4 ring-white",
+                  action.iconBackground === "bg-indigo-50" ? "bg-indigo-50" : "",
                 )}
               >
                 <action.icon className="h-6 w-6" aria-hidden="true" />

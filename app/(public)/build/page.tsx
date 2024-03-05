@@ -59,11 +59,11 @@ function SectionHeading() {
           { text: "your" },
           {
             text: "Home",
-            className: "text-blue-700 dark:text-blue-800",
+            className: "text-sky-700 dark:text-sky-800",
           },
           {
             text: "Theater",
-            className: "text-indigo-700 dark:text-indigo-800",
+            className: "text-sky-800 dark:text-sky-900",
           },
         ]}
       />
