@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "HT Part Picker",
   description: "The simplest way to put together a Home Theater parts list.",
+  metadataBase: new URL("https://htpartpicker.com"),
 };
 
 export default function RootLayout({
