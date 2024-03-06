@@ -206,7 +206,7 @@ export default function LandingPage() {
             <svg
               x="50%"
               y={-1}
-              className="overflow-visible fill-sky-50 dark:fill-gray-800/20"
+              className="overflow-visible fill-sky-50 dark:fill-gray-950/20"
             >
               <path
                 d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
