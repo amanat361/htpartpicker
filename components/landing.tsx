@@ -150,9 +150,11 @@ const footerNavigation = {
 function SectionHeadingPartOne() {
   return (
     <TypewriterEffectSmooth
-      className=""
       cursorClassName="hidden"
-      words={[{ text: "Welcome" }, { text: "to" }]}
+      words={[
+        { text: "Welcome", className: "text-4xl sm:text-5xl", },
+        { text: "to", className: "text-4xl sm:text-5xl", },
+      ]}
     />
   );
 }
@@ -160,20 +162,19 @@ function SectionHeadingPartOne() {
 function SectionHeadingPartTwo() {
   return (
     <TypewriterEffectSmooth
-      className=""
       cursorClassName="hidden"
       words={[
         {
           text: "HT",
-          className: "text-sky-700 dark:text-sky-600",
+          className: "text-sky-700 dark:text-sky-600 text-4xl sm:text-5xl",
         },
         {
           text: "Part",
-          className: "text-sky-800 dark:text-sky-700",
+          className: "text-sky-800 dark:text-sky-700 text-4xl sm:text-5xl",
         },
         {
           text: "Picker",
-          className: "text-sky-900 dark:text-sky-800",
+          className: "text-sky-900 dark:text-sky-800 text-4xl sm:text-5xl",
         },
       ]}
     />
