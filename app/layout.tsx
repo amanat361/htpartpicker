@@ -8,8 +8,8 @@ import Navbar from "../components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "HT Part Picker",
-  description: "The simplest way to put together a Home Theater parts list.",
+  title: "Home Theater Part Picker",
+  description: "The simplest way to put together a Home Theater parts list, compare prices from multiple retailers, and share your build with the home theater community.",
   metadataBase: new URL("https://htpartpicker.com"),
 };
 
