@@ -1,13 +1,10 @@
-import ButtonWithError from "./buttonwitherror";
-import ButtonWithToast from "./buttonwithtoast";
+import TestingButtons from "./testingbuttons";
 
 export default function TestingPage() {
   return (
-    <div>
-      <h1>Testing Page</h1>
-      <p>Testing page content</p>
-      <ButtonWithError />
-      <ButtonWithToast />
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl">Testing Page</h1>
+      <TestingButtons />
     </div>
   );
 }
