@@ -1,11 +1,14 @@
-import ButtonWithError from "./buttonwitherror";
+import TestingButtons from "./testingbuttons";
+import ZodTesting from "./zodstuff";
+import TagForm from "./ProductFormTesting";
 
 export default function TestingPage() {
   return (
-    <div>
-      <h1>Testing Page</h1>
-      <p>Testing page content</p>
-      <ButtonWithError />
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl">Testing Page</h1>
+      <TagForm category="Testing" />
+      {/* <TestingButtons /> */}
+      {/* <ZodTesting /> */}
     </div>
   );
 }
