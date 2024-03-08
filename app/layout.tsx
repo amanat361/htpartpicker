@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children}
-        <Toaster richColors/>
+        <Toaster richColors visibleToasts={6}/>
       </body>
     </html>
   );

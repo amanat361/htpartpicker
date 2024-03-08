@@ -1,24 +1,63 @@
 "use client";
 
-import { Field, Label } from "@/components/primitives/fieldset";
+import {
+  Description,
+  Field,
+  FieldGroup,
+  Fieldset,
+  Label,
+} from "@/components/primitives/fieldset";
 import { Input } from "@/components/primitives/input";
-import { Text } from "@/components/primitives/text";
-import { Badge } from "@/components/primitives/badge";
 import { Button } from "@/components/primitives/button";
-import { insertTag } from "./actions";
+import { addProduct } from "./actions";
+import { toast } from "sonner";
+import { ValidationError } from "zod-validation-error";
 
 export default function TagForm({ category }: { category: string }) {
+  async function handleSubmit(formData: FormData) {
+    toast.promise(addProduct(formData), {
+      loading: "Adding product...",
+      success: (data) => `${data.product_name} added successfully!`,
+      error: (error: ValidationError) => error.message,
+    });
+  }
+
   return (
-    <form action={insertTag}>
-      <Field>
-        <Label>Name</Label>
-        <Input name="tag_name" placeholder="Dolby Vision&hellip;" autoFocus />
-      </Field>
-      <Text className="mt-4">
-        You are currently adding a tag to the{" "}
-        <Badge color="red">{category}</Badge> category.
-      </Text>
-      <Button type="submit">Add Tag</Button>
+    <form action={handleSubmit}>
+      <Fieldset>
+        <FieldGroup className="grid grid-cols-3 gap-4 items-end">
+          {/* name field */}
+          <Field>
+            <Label>Name</Label>
+            <Description>
+              Official name for this product without branding.
+            </Description>
+            <Input
+              name="product_name"
+              placeholder="Q350 Bookshelf Speakers&hellip;"
+            />
+          </Field>
+          {/* image field */}
+          <Field>
+            <Label>Image URL</Label>
+            <Description>Link to an image of this product.</Description>
+            <Input
+              name="image_url"
+              placeholder="https://example.com/image.jpg&hellip;"
+            />
+          </Field>
+          {/* brand field */}
+          <Field>
+            <Label>Brand</Label>
+            <Description>Who manufactures this product?</Description>
+            <Input
+              name="product_brand"
+              placeholder="KEF&hellip;"
+            />
+          </Field>
+          <Button type="submit">Add Product</Button>
+        </FieldGroup>
+      </Fieldset>
     </form>
   );
 }
