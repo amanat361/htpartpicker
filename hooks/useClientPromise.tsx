@@ -9,6 +9,7 @@ export function useClientPromise<T>(
       if (!foo.success) throw foo.error;
       return foo.data;
     } catch (error) {
+      if (typeof error === "string") throw error;
       throw "The server is not available. Please try again later.";
     }
   };
