@@ -11,14 +11,16 @@ import { Input } from "@/components/primitives/input";
 import { Button } from "@/components/primitives/button";
 import { addProduct } from "./actions";
 import { toast } from "sonner";
-import { ValidationError } from "zod-validation-error";
+import { useClientPromise } from "@/hooks/useClientPromise";
 
 export default function TagForm({ category }: { category: string }) {
+  const handleAddProduct = useClientPromise(addProduct);
+
   async function handleSubmit(formData: FormData) {
-    toast.promise(addProduct(formData), {
+    toast.promise(handleAddProduct(formData), {
       loading: "Adding product...",
       success: (data) => `${data.product_name} added successfully!`,
-      error: (error: ValidationError) => error.message,
+      error: (error: string) => error,
     });
   }
 
