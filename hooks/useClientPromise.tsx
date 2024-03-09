@@ -4,8 +4,12 @@ export function useClientPromise<T>(
   ) => Promise<{ success: true; data: T } | { success: false; error: string }>
 ) {
   return async (formData: FormData) => {
-    const foo = await fn(formData);
-    if (!foo.success) throw foo.error;
-    return foo.data;
+    try {
+      const foo = await fn(formData);
+      if (!foo.success) throw foo.error;
+      return foo.data;
+    } catch (error) {
+      throw "The server is not available. Please try again later.";
+    }
   };
 }
