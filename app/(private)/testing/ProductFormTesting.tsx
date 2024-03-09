@@ -15,11 +15,28 @@ import { ValidationError } from "zod-validation-error";
 
 export default function TagForm({ category }: { category: string }) {
   async function handleSubmit(formData: FormData) {
-    toast.promise(addProduct(formData), {
-      loading: "Adding product...",
-      success: (data) => `${data.product_name} added successfully!`,
-      error: (error: ValidationError) => error.message,
-    });
+    // toast.promise(addProduct(formData), {
+    //   loading: "Adding product...",
+    //   success: (data) => `${data.product_name} added successfully!`,
+    //   error: (error: ValidationError) => error.message,
+    // });
+
+    // same as above but pass a new promise to toast.promise that resolves with the data or rejects with the error based on if the success property is true or false
+    // toast.promise(
+    //   new Promise((resolve, reject) => {
+    //     addProduct(formData)
+    //       .then((data) => {
+    //         if (data.success) resolve(data.data);
+    //         if (!data.success) reject(data.error);
+    //       })
+    //       .catch((error) => reject(error));
+    //   }),
+    //   {
+    //     loading: "Adding product...",
+    //     success: (data) => `${data.product_name} added successfully!`,
+    //     error: (error: ValidationError) => error.message,
+    //   }
+    // );
   }
 
   return (

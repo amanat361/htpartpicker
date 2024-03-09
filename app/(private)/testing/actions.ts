@@ -9,10 +9,15 @@ const ProductSchema = z.object({
   product_brand: z.string().min(1),
 });
 
-type Product = z.infer<typeof ProductSchema>;
-
 export async function addProduct(formData: FormData) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const validation = ProductSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+  if (!validation.success)
+    return { ...validation, error: fromZodError(validation.error).toString() };
+  return { ...validation };
 
   // try {
   //   const data = ProductSchema.parse(Object.fromEntries(formData.entries()));
@@ -22,17 +27,17 @@ export async function addProduct(formData: FormData) {
   // }
 
   // same thing as above but return a promise that resolves with the data or rejects with the error
-  return new Promise(
-    (
-      resolve: (data: Product) => void,
-      reject: (reason: string) => void
-    ) => {
-      const data = ProductSchema.safeParse(
-        Object.fromEntries(formData.entries())
-      );
-      if (!data.success)
-        reject(fromZodError(data.error).toString() + " (from promise)");
-      if (data.success) resolve(data.data);
-    }
-  );
+  // return new Promise(
+  //   (
+  //     resolve: (data: Product) => void,
+  //     reject: (reason: string) => void
+  //   ) => {
+  //     const data = ProductSchema.safeParse(
+  //       Object.fromEntries(formData.entries())
+  //     );
+  //     if (!data.success)
+  //       reject(fromZodError(data.error).toString() + " (from promise)");
+  //     if (data.success) resolve(data.data);
+  //   }
+  // );
 }
