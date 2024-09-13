@@ -1,11 +1,36 @@
 {
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "deno.enablePaths": [
+    "supabase/functions"
+  ],
+  "deno.lint": true,
+  "deno.unstable": true,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.hg": true,
+    "**/.svn": true,
+    "**/CVS": true,
+    ".env.local": true,
+    ".eslintrc.json": true,
+    ".gitignore": true,
+    ".next/": true,
+    ".vercel/": true,
+    ".vscode/": true,
+    "next-env.d.ts": true,
+    "next.config.mjs": true,
+    "node_modules/": true,
+    "package-lock.json": true,
+    "postcss.config.js": true
+  },
   "hidefiles.configurationType": "local",
   "hidefiles.globalConfig": {
     "profiles": [
       {
-        "name": "Default",
-        "detail": "",
         "description": "Hide unnecessary files and folders that are almost never used",
+        "detail": "",
         "hidden": [
           ".vscode/",
           ".eslintrc.json",
@@ -19,10 +44,10 @@
           "node_modules/",
           ".vercel/",
           ".vercel/"
-        ]
+        ],
+        "name": "Default"
       },
       {
-        "name": "Strict",
         "detail": "Hide everything not immediately required",
         "hidden": [
           "$Default",
@@ -36,27 +61,10 @@
           "vercel.json",
           "app/favicon.ico",
           "app/globals.css"
-        ]
+        ],
+        "name": "Strict"
       }
     ]
-  },
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    ".vscode/": true,
-    ".eslintrc.json": true,
-    ".gitignore": true,
-    "next-env.d.ts": true,
-    "next.config.mjs": true,
-    "package-lock.json": true,
-    "postcss.config.js": true,
-    ".env.local": true,
-    ".next/": true,
-    "node_modules/": true,
-    ".vercel/": true
   },
   "hidefiles.selectedProfile": "Default"
 }
