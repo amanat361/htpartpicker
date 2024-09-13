@@ -33,7 +33,7 @@ function ProductGrid({
           <CardHeader>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={"https://images.crutchfieldonline.com/" + product.photo_url}
+              src={"https://images.crutchfieldonline.com/ImageHandler/trim/500/500" + product.photo_url}
               alt={product.title}
               className="w-full h-48 object-contain bg-white p-2 rounded-lg"
             />
