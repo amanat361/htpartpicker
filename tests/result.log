@@ -1,0 +1,24 @@
+bun test v1.1.10 (5102a944)
+
+tests/hash.test.ts:
+(pass) Hash Functions > Specific hash values > single digit numbers [1.86ms]
+(pass) Hash Functions > Specific hash values > double digit numbers [0.03ms]
+(pass) Hash Functions > Specific hash values > larger numbers [0.02ms]
+(pass) Hash Functions > Specific hash values > multiple numbers [0.02ms]
+(pass) Hash Functions > Specific hash values > duplicate numbers
+(pass) Hash Functions > encoding and decoding are reversible [0.94ms]
+(pass) Hash Functions > handles duplicate IDs [0.20ms]
+(pass) Hash Functions > sorts IDs [0.17ms]
+(pass) Hash Functions > throws error for negative IDs [0.32ms]
+(pass) Hash Functions > throws error for IDs exceeding maximum [0.02ms]
+(pass) Hash Functions > throws error for too many products [0.26ms]
+(pass) Hash Functions > throws error for invalid hash length [0.02ms]
+(pass) Hash Functions > throws error for invalid characters in hash [0.01ms]
+(pass) Hash Functions > getProductIds extracts IDs correctly [0.03ms]
+(pass) Hash Functions > end-to-end test with products [0.03ms]
+(pass) Hash Functions > decoding specific hashes [0.02ms]
+
+ 16 pass
+ 0 fail
+ 30 expect() calls
+Ran 16 tests across 1 files. [93.00ms]
