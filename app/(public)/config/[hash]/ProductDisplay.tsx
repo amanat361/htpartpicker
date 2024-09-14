@@ -23,7 +23,7 @@ export async function ProductDisplay({ id }: { id: number }) {
   return (
     <div className="flex items-center space-x-4 p-4 border rounded-lg">
       <img
-        src={`https://images.crutchfieldonline.com/ImageHandler/trim/500/500${product.photo_url}`}
+        src={`https://images.crutchfieldonline.com/ImageHandler/trim/150/150${product.photo_url}`}
         alt={product.title}
         className="w-24 h-24 object-contain bg-white p-2 rounded-lg"
       />
