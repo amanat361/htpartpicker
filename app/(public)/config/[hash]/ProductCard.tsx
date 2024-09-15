@@ -1,5 +1,4 @@
 import { Tables } from "@/database.types";
-import { supabase } from "@/database/server";
 import Link from "next/link";
 
 export function ProductCard({ product }: { product: Tables<"crutchfield"> }) {
@@ -36,26 +35,4 @@ export function ProductCard({ product }: { product: Tables<"crutchfield"> }) {
       </Link>
     </div>
   );
-}
-
-export async function ProductDisplay({ id }: { id: number }) {
-  const { data: product, error } = await supabase
-    .from("crutchfield")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    return (
-      <div>
-        Error loading product {id}: {error.message}
-      </div>
-    );
-  }
-
-  if (!product) {
-    return <div>Product {id} not found</div>;
-  }
-
-  return <ProductCard product={product} />;
 }

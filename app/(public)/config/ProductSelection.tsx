@@ -11,7 +11,7 @@ import { Button } from "@/components/primitives/button";
 import { Tables } from "@/database.types";
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
-import { ProductCard } from "./[hash]/ProductDisplay";
+import { ProductCard } from "./[hash]/ProductCard";
 
 interface ProductSelectionProps {
   products: Tables<"crutchfield">[];
