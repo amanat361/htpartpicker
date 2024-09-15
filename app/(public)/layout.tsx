@@ -8,7 +8,7 @@ export default async function PublicLayout({
   return (
     <>
       <ConstructionGreeting />
-      <main className="flex flex-col items-center justify-center p-4 md:p-8 lg:p-10 xl:p-12">
+      <main className="flex flex-col items-center justify-center p-4">
         {children}
       </main>
     </>

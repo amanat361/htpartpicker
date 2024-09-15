@@ -51,7 +51,7 @@ function classNames(...classes: string[]) {
 
 export default function Menu() {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-4 gap-4">
       {actions.map((action, actionIdx) => (
         <Button href={action.href} key={action.title} color="blue">
           <action.icon />
