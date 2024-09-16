@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { ProductCard } from "./ProductCard";
 import { Metadata, ResolvingMetadata } from "next";
 import { getProductsFromHash } from "../actions";
+import { TextLink } from "@/components/primitives/text";
 
 type Props = {
   params: { hash: string };
@@ -15,7 +16,7 @@ export async function generateMetadata(
   const products = await getProductsFromHash(params.hash);
   const previousImages = (await parent).openGraph?.images || [];
   const description =
-    products.length === 0
+    !products || products.length === 0
       ? "No products found."
       : `Someone has shared a custom configuration for their home theater with ${
           products.length
@@ -37,6 +38,17 @@ export default async function ProductsPage({
   params: { hash: string };
 }) {
   const products = await getProductsFromHash(params.hash);
+
+  if (!products) {
+    return (
+      <div className="p-4 w-full max-w-6xl mx-auto">
+        <h1 className="text-xl font-bold mb-4">
+          Invalid Configuration in the URL
+        </h1>
+        <TextLink href="/config">Go back to the configuration page</TextLink>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 w-full max-w-6xl mx-auto">
