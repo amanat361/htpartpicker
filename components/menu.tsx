@@ -4,7 +4,6 @@ import {
   MagnifyingGlassCircleIcon,
   CodeBracketIcon,
 } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { Button } from "./primitives/button";
 
 const actions = [

@@ -1,5 +1,4 @@
 import { Tables } from "@/database.types";
-import Link from "next/link";
 
 export function ProductCard({ product }: { product: Tables<"crutchfield"> }) {
   return (
@@ -27,12 +26,12 @@ export function ProductCard({ product }: { product: Tables<"crutchfield"> }) {
           </span>
         </div>
       </div>
-      <Link
+      <a
         href={product.product_url}
         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         View
-      </Link>
+      </a>
     </div>
   );
 }
