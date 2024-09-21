@@ -1,5 +1,4 @@
 import { supabase } from "@/database/server";
-import { ClientSideProductGrid } from "./ProductGrid";
 import { RandomProductHashLink } from "./RandomProduct";
 
 export default async function NewProductsPage() {
